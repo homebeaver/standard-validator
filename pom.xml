@@ -27,13 +27,14 @@
   </parent>
  -->
   <groupId>io.github.homebeaver</groupId> 
-  <artifactId>isoiec7064</artifactId>
+  <artifactId>isoiec7064</artifactId> <!-- TODO rename to standard-validator -->
   <version>1.10.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>IsoIec7064</name>
-  <description>A Java library to calculate and validate ISO/IEC 7064 System check digits.</description>
-  <url>https://github.com/homebeaver/isoiec7064</url>
+  <name>standard-validator</name>
+  <description>A Java library to calculate and validate standardized check digits. 
+ISO/IEC 7064 System, Luhn etc</description>
+  <url>https://github.com/homebeaver/standard-validator</url>
   <developers>
     <developer>
       <name>Daniel T. Wagner</name>
@@ -54,8 +55,8 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/homebeaver/isoiec7064</url>
-    <connection>scm:git:https://github.com/homebeaver/isoiec7064.git</connection>
+    <url>https://github.com/homebeaver/standard-validator</url>
+    <connection>scm:git:https://github.com/homebeaver/standard-validator.git</connection>
     <developerConnection>scm:git:https://github.com/homebeaver/</developerConnection>
   </scm>
 
@@ -64,14 +65,9 @@
   </properties>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
     <repository>
-      <id>ossrh</id>
-      <name>Central Repository OSSRH</name>
-      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>central</id>
+      <url>https://central.sonatype.com</url>
     </repository>
   </distributionManagement>
 
@@ -91,10 +87,11 @@
       </plugins>
     </pluginManagement>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -103,6 +100,39 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+               <goal>jar</goal>
+            </goals>
+         </execution>
+      </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+        <!-- Compile for the specified Java SE release. 
+           When changed adopte org.jdesktop.beans.JavaBeanProcessor
+           Supported releases: 7, 8, 9, 10, 11LTE, 12, 13, 14, 15, 16, 17LTE -->
+          <release>17</release>
+        <!-- Provide source compatibility with the specified Java SE release. 
+            Supported releases: 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17     
+          <source>8</source>  -->
+        <!-- Generate class files suitable for the specified Java SE release. 
+          <target>8</target> -->
+          <generatedSourcesDirectory>${project.generatedAnnotations}</generatedSourcesDirectory>
+          <showWarnings>true</showWarnings>
+        </configuration>
       </plugin>
 
 <!-- see https://stackoverflow.com/questions/49441049/junit-5-does-not-execute-method-annotated-with-beforeeach -->
@@ -120,44 +150,6 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-<!-- see https://maven.apache.org/plugins/maven-gpg-plugin/usage.html -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.2.7</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-compiler-plugin</artifactId>
-         <version>3.8.1</version> <!-- nicht notwendig wenn parent definiert ist -->
-         <configuration>
-           <source>8</source>
-           <target>8</target>
-         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>3.5.0</version>
         <configuration>
@@ -169,6 +161,7 @@
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
       </plugin>
+
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.24.0</version>
@@ -176,23 +169,46 @@
           <targetJdk>${maven.compiler.target}</targetJdk>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <version>0.16.1</version>
       </plugin>
-<!-- see https://central.sonatype.org/publish/publish-maven/#distribution-management-and-authentication -->
+
+<!-- see https://maven.apache.org/plugins/maven-gpg-plugin/usage.html -->
       <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.13</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <!-- signing files with key default (the first key in the keyring) -->
+            <configuration>
+            <!-- keyname maps to gpg option local-user and gpg takes another key: 
+              <keyname>0x90E058F7</keyname>
+              or use mvn verify -Dgpg.keyname=0x90E058F7
+              -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- this is the open source for org.sonatype.central:central-publishing-maven-plugin-->
+      <plugin>
+        <groupId>io.github.mavenplugins</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>1.1.1</version>
         <extensions>true</extensions>
         <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          <publishingServerId>central</publishingServerId>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
