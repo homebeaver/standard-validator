@@ -91,22 +91,6 @@ public final class IBANCheckDigit extends Modulus97CheckDigit {
         if (code == null || code.length() < MIN_CODE_LEN) {
             return false;
         }
-//        final String check = code.substring(2, 4); // CHECKSTYLE IGNORE MagicNumber
-//        if ("00".equals(check) || "01".equals(check) || "99".equals(check)) {
-//            return false;
-//        }
-//        final String c = code.substring(4) + code.substring(0, 4);  // CHECKSTYLE IGNORE MagicNumber
-//        try {
-//            final int cm = calculateModulus(c, true);
-//            final int cd = Integer.parseInt(check);
-//            return 1 == (cd + cm) % getModulus();
-//        } catch (final NumberFormatException ex) {
-//            System.out.println(code + " check digit=" + check + " ==> " + ex);
-//            return false;
-//        } catch (CheckDigitException e) {
-//            return false;
-//        }
-        // oder ganz einfach:
         return super.isValid(code.substring(4) + code.substring(0, 4)); // CHECKSTYLE IGNORE MagicNumber
     }
 

@@ -125,6 +125,7 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 "GR1601101250000000012300695", // Greece
                 "GT82TRAJ01020000001210029690", // Guatemala
                 "HR1210010051863000160", // Croatia
+                "HN88CABF00000000000250005469", // Honduras
                 "HU42117730161111101800000000", // Hungary
                 "IE29AIBK93115212345678", // Ireland
                 "IL620108000000099999999", // Israel

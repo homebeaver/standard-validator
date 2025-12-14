@@ -106,24 +106,11 @@ public class Modulus97CheckDigit extends IsoIec7064PureSystem implements IsoIecC
         if (code == null) {
             return false;
         }
-//        String check = null;
         try {
             if (code.length() < getCheckdigitLength()) {
                 throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
             }
-//            check = code.substring(code.length() - getCheckdigitLength());
-//         // without the leading "0" the following would be valid "+4"
-//            final int cd = Integer.parseInt("0" + check);
-//            if (cd==0 || cd==1 || cd==99) {
-//                return false;
-//            }
-//            final int cm = calculateModulus(code, true);
-//            return 1 == (cd + cm) % getModulus();
-            // oder kurz:
             return code.endsWith(INSTANCE.calculate(code.substring(0, code.length() - getCheckdigitLength())));
-//        } catch (final NumberFormatException ex) {
-//            System.out.println(code + " check digit=" + check + " ==> " + ex);
-//            return false;
         } catch (final CheckDigitException ex) {
             return false;
         }
