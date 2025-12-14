@@ -51,10 +51,10 @@ jobs:
 #        distribution: 'adopt'
 #        cache: maven
 #    - name: Build with Maven
-
-	steps:
-	- uses: actions/checkout@v4
-	- uses: actions/cache@v4
+#
+    steps:
+    - uses: actions/checkout@main
+	- uses: actions/cache@main
 	  with:
 	    path: ~/.m2/repository
 	    key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
