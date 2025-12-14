@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
@@ -40,7 +38,7 @@ import org.apache.commons.validator.GenericValidator;
 public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = -1297016213259512985L;
-    private static final Log LOG = LogFactory.getLog(VATidGBCheckDigit.class);
+//    private static final Log LOG = LogFactory.getLog(VATidGBCheckDigit.class);
 
     /** Singleton Check Digit instance */
     private static final VATidGBCheckDigit INSTANCE = new VATidGBCheckDigit();
@@ -54,10 +52,11 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
     }
 
     static final int LEN = 9; // with Check Digit
+    static final int CHECKDIGIT_LEN = 2;
 
     private static final int MODULUS97_55 = 55; // the modifier for Modulus 9755 algorithm
 
-    private final int checkdigitLength = 2;
+    private final int checkdigitLength = CHECKDIGIT_LEN;
     public int getCheckdigitLength() {
         return checkdigitLength;
     }
@@ -69,7 +68,9 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
         super(MODULUS_97);
     }
 
-//    @Override
+    /** Weighting given to digits depending on their left position */
+    private static final int[] POSITION_WEIGHT = { 8, 7, 6, 5, 4, 3, 2 };
+
     protected int getRadix() {
         return RADIX_10;
     }
@@ -91,11 +92,13 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
      */
     @Override
     protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        return charValue * rightPos;
-
+        if (leftPos > LEN - CHECKDIGIT_LEN) {
+            return 0;
+        }
+        final int weight = POSITION_WEIGHT[(leftPos - 1)];
+        return charValue * weight;
     }
 
-    @Override
     protected String toCheckDigit(final int checksum) throws CheckDigitException {
         String chars = getCharacterSet();
         if (getCheckdigitLength() == 2) {
@@ -118,32 +121,20 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
         if (GenericValidator.isBlankOrNull(code)) {
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
-        try {
-            long l = Long.parseLong(code); // throws NumberFormatException
-            if (l == 0) {
-                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-            }
-        } catch (final NumberFormatException ex) {
-            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
-            // Expected exception for high codes f.i. 99999999999999999999999
-            throw new CheckDigitException(CheckDigitException.invalidCode(code));
+        if (code.length() < LEN - CHECKDIGIT_LEN) {
+            throw new CheckDigitException("Invalid Code length=" + code.length());
         }
 
-        int modulusResult = calculateModulus(code, false);
-        if (LOG.isDebugEnabled()) {
-            int mr55 = (MODULUS97_55 + modulusResult) % MODULUS_97;
-            int newStyle = MODULUS_97 - mr55;
-            LOG.debug(code + " modulusResult=" + modulusResult + " - old style cd = " + (MODULUS_97 - modulusResult)
-                + " and MOD9755-style " + newStyle);
-        }
+        final int modulusResult = calculateModulus(code, false);
         // There are more than one possible VATIN check digits for a given code,
         // one old style MOD 97 and one new style MOD 9755
         // thus, it isn't possible to compute the right one.
         // here I return old style MOD 97 check digit
-        return ((Modulus97CheckDigit)Modulus97CheckDigit.getInstance()).toCheckDigit(modulusResult == 0 ? 0 : MODULUS_97 - modulusResult);
+        return toCheckDigit(modulusResult == 0 ? 0 : MODULUS_97 - modulusResult);
         // this retuens MOD 9755
         //return Modulus97CheckDigit.toCheckDigit(newStyle);
     }
+
 
     /**
      * {@inheritDoc}
@@ -155,6 +146,9 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
     public boolean isValid(final String ocode) {
         String code = ocode;
         if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        if (code.length() < LEN) {
             return false;
         }
         if (code.length() > LEN) {
@@ -170,14 +164,14 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
               throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
           }
             // without the leading "0" the following would be valid 8888502+4
-            Integer cd = GenericTypeValidator.formatInt("0" + code.substring(code.length() - getCheckdigitLength()));
+            final Integer cd = GenericTypeValidator.formatInt("0" + code.substring(code.length() - getCheckdigitLength()));
             if (cd == null) {
                 throw new CheckDigitException(CheckDigitException.invalidCode(code));
             }
             if (cd >= MODULUS_97) {
                 throw new CheckDigitException(CheckDigitException.invalidCode(code, "check digit >= " + MODULUS_97));
             }
-            int modulusResult = calculateModulus(code.substring(0, code.length() - getCheckdigitLength()), false);
+            final int modulusResult = calculateModulus(code.substring(0, code.length() - getCheckdigitLength()), false);
             if (0 == (modulusResult + cd) % MODULUS_97) {
                 return true; // old style MOD 97
             }

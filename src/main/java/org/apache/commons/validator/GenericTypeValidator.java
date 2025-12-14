@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,18 +90,18 @@ public class GenericTypeValidator implements Serializable {
         return result;
     }
 
-//    /**
-//     * Checks if the field is a valid credit card number.
-//     *
-//     * <p>Reference Sean M. Burke's <a href="http://www.ling.nwu.edu/~sburke/pub/luhn_lib.pl">
-//     * script</a>.</p>
-//     *
-//     * @param value The value validation is being performed on.
-//     * @return the converted Credit Card number.
-//     */
-//    public static Long formatCreditCard(final String value) {
-//        return GenericValidator.isCreditCard(value) ? Long.valueOf(value) : null;
-//    }
+    /**
+     * Checks if the field is a valid credit card number.
+     *
+     * <p>Reference Sean M. Burke's <a href="https://www.ling.nwu.edu/~sburke/pub/luhn_lib.pl">
+     * script</a>.</p>
+     *
+     * @param value The value validation is being performed on.
+     * @return the converted Credit Card number.
+     */
+    public static Long formatCreditCard(final String value) {
+        return GenericValidator.isCreditCard(value) ? Long.valueOf(value) : null;
+    }
 
     /**
      * Checks if the field is a valid date.
@@ -312,7 +312,7 @@ public class GenericTypeValidator implements Serializable {
     }
 
     /**
-     * Checks if the value can safely be converted to a int primitive.
+     * Checks if the value can safely be converted to an int primitive.
      *
      * @param value The value validation is being performed on.
      * @return the converted Integer value.
@@ -465,6 +465,16 @@ public class GenericTypeValidator implements Serializable {
         }
 
         return result;
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major version.
+     */
+    @Deprecated
+    public GenericTypeValidator() {
+        // empty
     }
 
 }

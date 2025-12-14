@@ -47,8 +47,11 @@ public class Modulus97CheckDigit extends IsoIec7064PureSystem implements IsoIecC
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
+    Modulus97CheckDigit(final int modulus) {
+        super(modulus, 2);
+    }
     Modulus97CheckDigit() {
-        super(MODULUS_97, 2);
+        this(MODULUS_97);
     }
 
     @Override

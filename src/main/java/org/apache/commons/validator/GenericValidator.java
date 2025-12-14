@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,13 @@
 package org.apache.commons.validator;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.regex.Pattern;
+
+import org.apache.commons.validator.routines.DateValidator;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * This class contains basic methods for performing validations.
@@ -27,19 +33,9 @@ public class GenericValidator implements Serializable {
     private static final long serialVersionUID = -7212095066891517618L;
 
     /**
-     * UrlValidator used in wrapper method.
-     */
-//    private static final UrlValidator URL_VALIDATOR = new UrlValidator();
-
-    /**
-     * CreditCardValidator used in wrapper method.
-     */
-//    private static final CreditCardValidator CREDIT_CARD_VALIDATOR = new CreditCardValidator();
-
-    /**
      * Calculate an adjustment amount for line endings.
      *
-     * See Bug 37962 for the rational behind this.
+     * See Bug 37962 for the rationale behind this.
      *
      * @param value The value validation is being performed on.
      * @param lineEndLength The length to use for line endings.
@@ -87,9 +83,9 @@ public class GenericValidator implements Serializable {
      * @param value The value validation is being performed on.
      * @return true if the value is valid Credit Card Number.
      */
-//    public static boolean isCreditCard(final String value) {
-//        return CREDIT_CARD_VALIDATOR.isValid(value);
-//    }
+    public static boolean isCreditCard(final String value) {
+        return Constants.CREDIT_CARD_VALIDATOR.isValid(value);
+    }
 
     /**
      * <p>Checks if the field is a valid date.  The {@link Locale} is
@@ -101,9 +97,9 @@ public class GenericValidator implements Serializable {
      * system default if null.
      * @return true if the value can be converted to a Date.
      */
-//    public static boolean isDate(final String value, final Locale locale) {
-//        return DateValidator.getInstance().isValid(value, locale);
-//    }
+    public static boolean isDate(final String value, final Locale locale) {
+        return DateValidator.getInstance().isValid(value, locale);
+    }
 
     /**
      * <p>Checks if the field is a valid date.  The pattern is used with
@@ -117,10 +113,10 @@ public class GenericValidator implements Serializable {
      * @param strict Whether or not to have an exact match of the datePattern.
      * @return true if the value can be converted to a Date.
      */
-//    public static boolean isDate(final String value, final String datePattern, final boolean strict) {
-//        // TODO method isValid() not yet supported in routines version
-//        return org.apache.commons.validator.DateValidator.getInstance().isValid(value, datePattern, strict);
-//    }
+    public static boolean isDate(final String value, final String datePattern, final boolean strict) {
+        // TODO method isValid() not yet supported in routines version
+        return org.apache.commons.validator.DateValidator.getInstance().isValid(value, datePattern, strict);
+    }
 
     /**
      * <p>Checks if the value can safely be converted to a double primitive.</p>
@@ -138,9 +134,9 @@ public class GenericValidator implements Serializable {
      * @param value The value validation is being performed on.
      * @return true if the value is valid Email Address.
      */
-//    public static boolean isEmail(final String value) {
-//        return EmailValidator.getInstance().isValid(value);
-//    }
+    public static boolean isEmail(final String value) {
+        return EmailValidator.getInstance().isValid(value);
+    }
 
     /**
      * <p>Checks if the value can safely be converted to a float primitive.</p>
@@ -231,7 +227,7 @@ public class GenericValidator implements Serializable {
     }
 
     /**
-     * <p>Checks if the value can safely be converted to a int primitive.</p>
+     * <p>Checks if the value can safely be converted to an int primitive.</p>
      *
      * @param value The value validation is being performed on.
      * @return true if the value can be converted to an Integer.
@@ -268,9 +264,9 @@ public class GenericValidator implements Serializable {
      * @param value The value validation is being performed on.
      * @return true if the value is valid Url.
      */
-//    public static boolean isUrl(final String value) {
-//        return URL_VALIDATOR.isValid(value);
-//    }
+    public static boolean isUrl(final String value) {
+        return Constants.URL_VALIDATOR.isValid(value);
+    }
 
     /**
      * <p>Checks if the value matches the regular expression.</p>
@@ -333,8 +329,6 @@ public class GenericValidator implements Serializable {
         return value <= max;
     }
 
-    // See https://issues.apache.org/bugzilla/show_bug.cgi?id=29015 WRT the "value" methods
-
     /**
      * <p>Checks if the value is less than or equal to the max.</p>
      *
@@ -345,6 +339,8 @@ public class GenericValidator implements Serializable {
     public static boolean maxValue(final int value, final int max) {
         return value <= max;
     }
+
+    // See https://issues.apache.org/bugzilla/show_bug.cgi?id=29015 regarding the "value" methods.
 
     /**
      * <p>Checks if the value is less than or equal to the max.</p>
@@ -423,6 +419,16 @@ public class GenericValidator implements Serializable {
      */
     public static boolean minValue(final long value, final long min) {
         return value >= min;
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major version.
+     */
+    @Deprecated
+    public GenericValidator() {
+        // empty
     }
 
 }
