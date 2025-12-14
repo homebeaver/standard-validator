@@ -15,7 +15,7 @@ run-name: Build package by @${{ github.actor }}
 
 # Triggered when code is pushed to any branch in a repository
 on:
-  push:
+  push
     branches: [ "master" ]
 
 # Triggers the workflow on push or pull request events
