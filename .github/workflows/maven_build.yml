@@ -72,7 +72,7 @@ jobs:
 # pre-integration-test, integration-test, post-integration-test, verify, install, deploy, 
 # pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. 
 #      run: mvn -V --batch-mode package
-      run: mvn -V --errors --show-version --batch-mode --no-transfer-progress -Ddoclint=all verify
+      run: mvn -X -V --errors --show-version --batch-mode --no-transfer-progress -Ddoclint=all verify
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
