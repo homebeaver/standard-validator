@@ -65,6 +65,7 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
+        gpg-private-key: ${{ secrets.SIGN_KEY }} # has to be read directly from secrets
     - name: Build with Maven
 # Available lifecycle phases are: validate, initialize, generate-sources, process-sources, generate-resources, 
 # process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, 
@@ -73,6 +74,8 @@ jobs:
 # pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. 
 #      run: mvn -V --batch-mode package
       run: mvn -X -V --errors --show-version --batch-mode --no-transfer-progress -Ddoclint=all verify
+      env:
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.SIGN_KEY_PASS }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
