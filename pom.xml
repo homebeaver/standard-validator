@@ -27,8 +27,8 @@
   </parent>
  -->
   <groupId>io.github.homebeaver</groupId> 
-  <artifactId>isoiec7064</artifactId> <!-- TODO rename to standard-validator -->
-  <version>1.10.3</version>
+  <artifactId>standard-validator</artifactId>
+  <version>0.10.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>standard-validator</name>
@@ -114,7 +114,7 @@ ISO/IEC 7064 System, Luhn etc</description>
         <configuration>
         <!-- Compile for the specified Java SE release. 
            When changed adopte org.jdesktop.beans.JavaBeanProcessor
-           Supported releases: 7, 8, 9, 10, 11LTE, 12, 13, 14, 15, 16, 17LTE -->
+           Supported releases: 7, 8, 9, 10, 11LTS, 12, 13, 14, 15, 16, 17LTS .. 21LTS .. 25LTS -->
           <release>17</release>
         <!-- Provide source compatibility with the specified Java SE release. 
             Supported releases: 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17     
