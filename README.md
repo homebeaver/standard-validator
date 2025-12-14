@@ -24,7 +24,7 @@ This is a full implementation of the ISO/IEC standard. Also **hybrid systems** a
 </dependency>
 ```
 
-The modules are planned to be part of [Apache commons-validator](https://commons.apache.org/proper/commons-validator/download_validator.cgi)
+The modules are originally planned to be part of [Apache commons-validator](https://commons.apache.org/proper/commons-validator/download_validator.cgi)
 
 Java example:
 
