@@ -152,7 +152,7 @@ public class VATINValidator {
             new Validator("HR", Modulus11TenCheckDigit.getInstance(), 13, "\\d{11}"),
             new Validator("HU", new ModulusTenCheckDigit(new int[] { 1, 3, 7, 9 }, true), 10, "\\d{8}"),
             new Validator("IE", VATidIECheckDigit.getInstance(), 11, "\\d{7}[A-W]([A-I])?"),
-            new Validator("IT", LuhnCheckDigit.LUHN_CHECK_DIGIT, 13, "\\d{11}"),
+            new Validator("IT", LuhnCheckDigit.getInstance(), 13, "\\d{11}"),
             // optional Group for Temporarily Registered Taxpayers with 12 digits, C11==1
             new Validator("LT", VATidLTCheckDigit.getInstance(), 14, "\\d{9}([0-9]1[0-9])?"),
             new Validator("LU", VATidLUCheckDigit.getInstance(), 13, "\\d{8}"),

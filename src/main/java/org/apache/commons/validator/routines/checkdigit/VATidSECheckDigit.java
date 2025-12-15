@@ -37,7 +37,7 @@ public final class VATidSECheckDigit extends ModulusCheckDigit {
 
     /** Singleton Check Digit instance */
     private static final VATidSECheckDigit INSTANCE = new VATidSECheckDigit();
-    private static final CheckDigit LUHN_CD_INSTANCE = LuhnCheckDigit.LUHN_CHECK_DIGIT;
+    private static final CheckDigit LUHN_CD_INSTANCE = LuhnCheckDigit.getInstance();
 
     /**
      * Gets the singleton instance of this validator.

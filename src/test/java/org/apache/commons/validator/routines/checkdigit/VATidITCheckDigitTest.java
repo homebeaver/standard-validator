@@ -40,7 +40,7 @@ public class VATidITCheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = LuhnCheckDigit.LUHN_CHECK_DIGIT;
+        routine = LuhnCheckDigit.getInstance();
         valid = new String[] {"01680870670"
             , "04536640404"
             , "00950501007"

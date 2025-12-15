@@ -115,13 +115,13 @@ public class SireneValidator {
             return false;
         }
         if (id.length() == SIREN_CODE_LEN) {
-            return LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(id);
+            return LuhnCheckDigit.getInstance().isValid(id);
         }
-        if (!LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(id.substring(0, SIREN_CODE_LEN))) {
+        if (!LuhnCheckDigit.getInstance().isValid(id.substring(0, SIREN_CODE_LEN))) {
             return false;
         }
         // check SIRET:
-        return LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(id);
+        return LuhnCheckDigit.getInstance().isValid(id);
     }
 
 }
