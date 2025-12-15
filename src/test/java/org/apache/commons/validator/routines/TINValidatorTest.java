@@ -1,0 +1,176 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.validator.routines;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Tests {@link TINValidator}.
+ */
+public class TINValidatorTest {
+
+    private static final Log LOG = LogFactory.getLog(TINValidatorTest.class);
+    private static final TINValidator VALIDATOR = TINValidator.getInstance();
+
+    public static class Tin {
+        final String countryCode;
+        final String code;
+        public Tin(final String cc, final String code) {
+            this.countryCode = cc;
+            this.code = code;
+        }
+        public String toString() {
+            return countryCode.toString() + ":" + code.toString();
+        }
+    }
+
+    // Eclipse 3.6 allows you to turn off formatting by placing a special comment, like
+    // @formatter:off
+    private static final Tin[] VALID_TIN_FIXTURES = {
+            new Tin("AT", "98-123/4560"), // FA-NNN/NNNP
+            new Tin("AT", "98 123/4560"), // FA NNN/NNNP
+            new Tin("AT", "98 1234560"), // FA NNNNNNP
+            new Tin("AT", "981234560"), // FANNNNNNP
+            new Tin("AT", "90-123/4567"),
+            new Tin("AT", "46-376/5321"),
+            new Tin("AT", "03-826/1574"),
+            new Tin("AT", "54-267/9451"),
+//            new Tin("AT", "35-353/5354"), // invalid until 2020 : 35 ist kein AT Finanzamt
+
+            new Tin("DE", "86095742719"), // doppelte Ziffer : 7
+            new Tin("DE", "47036892816"), // doppelte Ziffer : 8
+            new Tin("DE", "65929970489"), // keine doppelte Ziffer, dreifache Ziffer : 9
+            new Tin("DE", "57549285017"), // keine doppelte Ziffer, dreifache Ziffer : 5
+            new Tin("DE", "25768131411"), // keine doppelte Ziffer, dreifache Ziffer : 1
+    };
+    // @formatter:on
+
+    // @formatter:off
+    private static final Tin[] INVALID_TIN_FIXTURES = {
+            new Tin("", ""),                        // empty
+            new Tin("DE", "   "),                   // empty
+            new Tin("DE", "9"),                     // too short
+            new Tin("DE", "AB768131411"),           // letters
+            new Tin("??", "abc"),                   // non ISO country
+    };
+    // @formatter:on
+
+
+    @Test
+    public void testGetRegexValidatortPatterns() {
+        assertNotNull(VALIDATOR.getValidator("DE").getRegexValidator().getPatterns(), "DE");
+    }
+
+    @Test
+    public void testGetValidator() {
+        assertNotNull(VALIDATOR.getValidator("HR"), "HR");
+        assertNull(VALIDATOR.getValidator("hr"), "hr");
+    }
+
+    @Test
+    public void testHasValidator() {
+        assertTrue(VALIDATOR.hasValidator("HR"), "HR");
+        assertFalse(VALIDATOR.hasValidator("hr"), "hr");
+    }
+
+    @Test
+    public void testInValid() {
+        for (final Tin f : INVALID_TIN_FIXTURES) {
+            assertFalse(VALIDATOR.isValid(f.countryCode, f.code), f.toString());
+        }
+    }
+
+    @Test
+    public void testNull() {
+        assertFalse(VALIDATOR.isValid(null, null), "isValid(null)");
+    }
+
+    @Test
+    public void testSetDefaultValidator1() {
+        final IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> VALIDATOR.setValidator("GB", 15, "GB", null));
+        assertEquals("The singleton validator cannot be modified", thrown.getMessage());
+    }
+
+    @Test
+    public void testSetDefaultValidator2() {
+        final IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> VALIDATOR.setValidator("GB", -1, "GB", null));
+        assertEquals("The singleton validator cannot be modified", thrown.getMessage());
+    }
+
+    @Test
+    public void testSetValidatorLC() {
+        final TINValidator validator = new TINValidator();
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator("gb", 15, "GB", null));
+        assertEquals("Invalid country Code; must be exactly 2 upper-case characters", thrown.getMessage());
+    }
+
+    @Test
+    public void testSetValidatorLen1() {
+        final TINValidator validator = new TINValidator();
+        assertNotNull(validator.setValidator("DE", -1, "", null), "should be present");
+        assertNull(validator.setValidator("DE", -1, "", null), "no longer present");
+    }
+
+    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 10 to 16 inclusive:";
+
+    @Test
+    public void testSetValidatorLen35() {
+        final TINValidator validator = new TINValidator();
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator("DE", 35, "DE", null));
+//        System.out.println("thrown.getMessage():" + thrown.getMessage());
+        assertEquals(INVALID_LENGTH + " 35", thrown.getMessage());
+    }
+
+    @Test
+    public void testSetValidatorLen7() {
+        final TINValidator validator = new TINValidator();
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator("GB", 7, "GB", null));
+        assertEquals(INVALID_LENGTH + " 7", thrown.getMessage());
+    }
+
+    @Test
+    public void testSorted() {
+        final TINValidator validator = new TINValidator();
+        final TINValidator.Validator[] vals = validator.getDefaultValidators();
+        assertNotNull(vals);
+        for (int i = 1; i < vals.length; i++) {
+            if (vals[i].countryCode.compareTo(vals[i - 1].countryCode) <= 0) {
+                fail("Not sorted: " + vals[i].countryCode + " <= " + vals[i - 1].countryCode);
+            }
+        }
+    }
+
+    @Test
+    public void testValid() {
+        for (final Tin f : VALID_TIN_FIXTURES) {
+            LOG.info("testValid:" + f);
+            assertTrue(VALIDATOR.isValid(f.countryCode, f.code), "CheckDigit fail: " + f.toString());
+            assertTrue(VALIDATOR.hasValidator(f.countryCode), "Missing validator: " + f.toString());
+        }
+    }
+
+}
