@@ -198,9 +198,9 @@ public class TINValidator {
      * Finanzamtsnummern bis 2020
      * See <a href="https://de.wikipedia.org/wiki/Abgabenkontonummer#Finanzamtsnummern">Wikipedia</a>
      */
-    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
-        , "18", "22", "23", "29", "33", "38", "41", "46", "51", "52", "53", "54", "57", "59", "61", "65"
-        , "67", "68", "69", "71", "72", "81", "82", "83", "84", "90", "91", "93", "97", "98");
+//    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
+//        , "18", "22", "23", "29", "33", "38", "41", "46", "51", "52", "53", "54", "57", "59", "61", "65"
+//        , "67", "68", "69", "71", "72", "81", "82", "83", "84", "90", "91", "93", "97", "98");
 
     /**
      * Validate a TIN Code
@@ -219,8 +219,7 @@ public class TINValidator {
             return false;
         }
         if ("AT".equals(cc)) {
-            String fa = code.substring(0, 2);
-            return atFA.contains(fa) ? validator.routine.isValid(code.replaceAll("[^\\d]", "")) : false;
+            return validator.routine.isValid(code.replaceAll("[^\\d]", ""));
         }
         return validator.routine.isValid(code);
     }
