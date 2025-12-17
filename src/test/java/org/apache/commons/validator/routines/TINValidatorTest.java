@@ -66,6 +66,14 @@ public class TINValidatorTest {
             new Tin("DE", "65929970489"), // keine doppelte Ziffer, dreifache Ziffer : 9
             new Tin("DE", "57549285017"), // keine doppelte Ziffer, dreifache Ziffer : 5
             new Tin("DE", "25768131411"), // keine doppelte Ziffer, dreifache Ziffer : 1
+
+            new Tin("ES", "A60195278"), // LIDL SUPERMERCADOS, S.A.U.
+            new Tin("ES", "54362315K"), // Españoles con DNI
+            new Tin("ES", "B58378431"), // Sociedades de responsabilidad limitada
+            new Tin("ES", "X2482300W"), // Extranjeros residentes
+            new Tin("ES", "W8265365J"), // Establecimientos permanentes de entidades no residentes en España
+
+            new Tin("HR", "33392005961"), // NASTAVNI ZAVOD ZA JAVNO ZDRAVSTVO DR. ANDRIJA ŠTA, Zagreb
     };
     // @formatter:on
 

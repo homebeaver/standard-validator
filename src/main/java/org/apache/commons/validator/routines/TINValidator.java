@@ -26,6 +26,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -119,6 +120,7 @@ public class TINValidator {
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator("AT", LuhnCheckDigit.getInstance(), 11, "\\d{2}(-|\\s)?\\d{3}(/)?\\d{4}"),
             new Validator("DE", TidDECheckDigit.getInstance(), 11, "[1-9]\\d{10}"),
+            new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
             new Validator("HR", IsoIecHybrid1110System.getInstance(), 11, "[1-9]\\d{10}"),
     };
 
