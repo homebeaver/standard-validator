@@ -21,26 +21,15 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * EC Number Check Digit Tests.
  */
-class ECNumberCheckDigitTest extends AbstractCheckDigitTest {
+public class ECNumberCheckDigitTest extends AbstractCheckDigitTest {
 
-    private static final String MIN = "000-001-6"; // theoretical
-    private static final String FORMALDEHYDE = "200-001-8"; // this is the first entry in EINECS
-    private static final String DEXAMETHASONE = "200-003-9";
-    private static final String ARSENIC = "231-148-6";
-    private static final String ASBESTOS = "603-721-4";
-    private static final String MAX = "999-999-2"; // theoretical
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String removeCheckDigit(final String code) {
-        final String cde = (String) ECNumberCheckDigit.REGEX_VALIDATOR.validate(code);
-        if (cde == null || cde.length() <= checkDigitLth) {
-            return null;
-        }
-        return cde.substring(0, cde.length() - checkDigitLth);
-    }
+    // valid EC Number with dashes removed
+    private static final String MIN = "2000002"; // theoretical minimum
+    private static final String FORMALDEHYDE = "2000018";
+    private static final String DEXAMETHASONE = "2000039";
+    private static final String ARSENIC = "2311486";
+    private static final String ASBESTOS = "6037214";
+    private static final String MAX = "9999992"; // theoretical
 
     /**
      * Sets up routine & valid codes.
@@ -49,7 +38,9 @@ class ECNumberCheckDigitTest extends AbstractCheckDigitTest {
     protected void setUp() {
         routine = ECNumberCheckDigit.getInstance();
         valid = new String[] {MIN, FORMALDEHYDE, DEXAMETHASONE, ARSENIC, ASBESTOS, MAX};
-        invalid = new String[] {null, "", "abc", "999-999-Z"};
+        invalid = new String[] { "0000014", // wrong check
+                "200-001-8", // format chars
+                " 9999992", "9999992 ", " 9999992 ", };
     }
 
 }
