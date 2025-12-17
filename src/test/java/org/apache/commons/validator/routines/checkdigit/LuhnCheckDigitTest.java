@@ -42,7 +42,11 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
         routine = LuhnCheckDigit.getInstance();
 
         valid = new String[] { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, VALID_MASTERCARD, VALID_DISCOVER, VALID_DINERS
-            , VALID_IT_IVA_BANCA_ITALIA, VALID_SE_VATIN_OLLE_SVENSSONS
+            , VALID_IT_IVA_BANCA_ITALIA
+            // VATIN_SE:
+            , "0000000018", "9999999999", "5565102570" // theoretical minimum, maximum, checkdigit zero
+            , "1366959755", "1234567897", "5560528514", "5566801444", "5565102471", VALID_SE_VATIN_OLLE_SVENSSONS
+            // TIN_AT:
             , "981234560", "901234567", "463765321", "038261574", "542679451", VALID_LUHN_FOR_AT_TIN
             , "12345678903", "10215", "12345670017"};
     }

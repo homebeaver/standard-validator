@@ -100,6 +100,8 @@ public class VATINValidatorTest {
             "RO27825131",     // NUTRISOYA SRL
             "RO6255950",      // P L NORIS SRL
             "SE556680144401", // XLN Audio AB, STOCKHOLM
+            "SE999999999901", // SE theoretical maximum
+            "SE556510257001", // SE checkdigit zero
             "SI21649405",     // STANOVANJSKO PODJETJE KONJICE D.O.O.
             "SK2120567108",   // Markon s.r.o. Bratislava
             "XI366303068",    // donnellygroup.co.uk, old style cd
@@ -159,6 +161,7 @@ public class VATINValidatorTest {
             "LV18097230924",  // invalid century
             "NL004495445B00", // Suffix "00"
             "RO027825131",    // Must not start with 0
+            "SE000000001801", // Must not start with 0
             "SE136695975523", // Must not end with 23
             "SI00000019",     // Must not start with 0
             "SK0000000011",   // Must not start with 0
