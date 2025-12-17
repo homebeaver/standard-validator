@@ -20,7 +20,7 @@ This is a full implementation of the ISO/IEC standard. Also **hybrid systems** a
 <dependency>
     <groupId>io.github.homebeaver</groupId>
     <artifactId>isoiec7064</artifactId>
-    <version>1.10.2</version>
+    <version>1.10.3</version>
 </dependency>
 ```
 
