@@ -48,13 +48,6 @@ public final class VATidATCheckDigit extends ModulusCheckDigit {
 
     static final int LEN = 8; // without constant "U"
 
-    private static String omitU(final String code) throws CheckDigitException {
-        if (!code.startsWith("U")) {
-            throw new CheckDigitException("Invalid code, does not start with U");
-        }
-        return code.substring(1);
-    }
-
     /**
      * Constructs a Check Digit routine.
      */
@@ -100,7 +93,7 @@ public final class VATidATCheckDigit extends ModulusCheckDigit {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);
         }
 
-        final int modulusResult = INSTANCE.calculateModulus(omitU(code), false);
+        final int modulusResult = INSTANCE.calculateModulus(code, false);
         final int cdValue = (MODULUS_10 - modulusResult) % MODULUS_10;
         return toCheckDigit(cdValue);
     }
@@ -133,11 +126,11 @@ public final class VATidATCheckDigit extends ModulusCheckDigit {
         if (GenericValidator.isBlankOrNull(code)) {
             return false;
         }
-        if (code.length() != LEN + 1) {
+        if (code.length() != LEN) {
             return false;
         }
         try {
-            final int cd = (MODULUS_10 - INSTANCE.calculateModulus(omitU(code), true)) % MODULUS_10;
+            final int cd = (MODULUS_10 - INSTANCE.calculateModulus(code, true)) % MODULUS_10;
             return cd == Character.getNumericValue(code.charAt(code.length() - 1));
         } catch (final CheckDigitException ex) {
             return false;

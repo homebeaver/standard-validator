@@ -256,7 +256,9 @@ public class VATINValidator {
             // No CheckDigit routine or invalid country code
             return false;
         }
-        if (code.startsWith("SE")) {
+        if (code.startsWith("AT")) {
+            return validator.routine.isValid(code.substring(3));
+        } else if (code.startsWith("SE")) {
             return validator.routine.isValid(code.substring(2, code.length()-2));
         }
         return validator.routine.isValid(code.substring(2));

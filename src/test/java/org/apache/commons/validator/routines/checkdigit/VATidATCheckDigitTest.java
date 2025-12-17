@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * AT VAT Id Check Digit Tests.
+ * AT VAT Id Check Digit Tests. Without prefix "U".
  * <pre>
 
     AT U13585627 : valide, aber ungültig
@@ -36,10 +36,10 @@ public class VATidATCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = VATidATCheckDigit.getInstance();
-        valid = new String[] {"U10223006", "U13585627"
-           , "U54065602", "U26218303"
+        valid = new String[] {"10223006", "13585627"
+           , "54065602", "26218303"
            };
-        invalid = new String[] {"u10223006", "X13585627", "U00000000"};
+        invalid = new String[] {"00000000"};
     }
 
 }
