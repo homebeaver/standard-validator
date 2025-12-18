@@ -47,7 +47,7 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
     private static final int[] POSITION_WEIGHT = {2, 1};
 
     /**
-     * Gets the singleton instance of this validator.
+     * Gets the singleton instance of this class.
      * @return A singleton instance of the class.
      */
     public static CheckDigit getInstance() {
