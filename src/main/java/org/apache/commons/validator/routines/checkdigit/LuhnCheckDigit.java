@@ -41,10 +41,18 @@ public final class LuhnCheckDigit extends ModulusCheckDigit {
     private static final long serialVersionUID = -2976900113942875999L;
 
     /** Singleton Luhn Check Digit instance */
-    public static final CheckDigit LUHN_CHECK_DIGIT = new LuhnCheckDigit();
+    private static final CheckDigit INSTANCE = new LuhnCheckDigit();
 
     /** Weighting given to digits depending on their right position */
     private static final int[] POSITION_WEIGHT = {2, 1};
+
+    /**
+     * Gets the singleton instance of this validator.
+     * @return A singleton instance of the class.
+     */
+    public static CheckDigit getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * Constructs a modulus 10 Luhn Check Digit routine.

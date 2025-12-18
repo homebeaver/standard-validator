@@ -76,7 +76,7 @@ class IBANValidatorTest {
      * At present the code does not need the entries which are likely to contain non-ASCII characters, but a corrupt
      * file helps no-one.
      */
-    private static final String IBAN_REGISTRY = "iban_registry_v99.txt";
+    private static final String IBAN_REGISTRY = "iban-registry-v101.txt";
     private static final Charset IBAN_REGISTRY_CHARSET = Charset.forName("windows-1252");
     private static final int MS_PER_DAY = 1000 * 60 * 60 * 24;
     private static final long MAX_AGE_DAYS = 180; // how old registry can get (approx 6 months)
@@ -494,7 +494,7 @@ class IBANValidatorTest {
     @ParameterizedTest
     @FieldSource("VALID_IBAN_FIXTURES")
     void testValid(final String iban) {
-        assertTrue(IBANCheckDigit.IBAN_CHECK_DIGIT.isValid(iban), "Checksum fail: " + iban);
+        assertTrue(IBANCheckDigit.getInstance().isValid(iban), "Checksum fail: " + iban);
         assertTrue(VALIDATOR.hasValidator(iban), "Missing validator: " + iban);
         assertTrue(VALIDATOR.isValid(iban), iban);
     }

@@ -93,6 +93,10 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
         return toCheckDigit(charValue);
     }
 
+    protected int getCheckdigitLength() {
+        return 1;
+    }
+
     /**
      * Calculate the modulus for a code.
      *
@@ -105,14 +109,14 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
     protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         int total = 0;
         for (int i = 0; i < code.length(); i++) {
-            final int lth = code.length() + (includesCheckDigit ? 0 : 1);
+            final int lth = code.length() + (includesCheckDigit ? 0 : getCheckdigitLength());
             final int leftPos = i + 1;
             final int rightPos = lth - i;
             final int charValue = toInt(code.charAt(i), leftPos, rightPos);
             total += weightedValue(charValue, leftPos, rightPos);
         }
         if (total == 0) {
-            throw new CheckDigitException("Invalid code, sum is zero");
+            throw new CheckDigitException(CheckDigitException.ZERO_SUM);
         }
         return total % modulus;
     }
@@ -182,7 +186,7 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
         if (Character.isDigit(character)) {
             return Character.getNumericValue(character);
         }
-        throw new CheckDigitException("Invalid Character[" + leftPos + "] = '" + character + "'");
+        throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
     }
 
     /**
@@ -190,9 +194,9 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
      * code at a specified position.
      * <p>
      * Some modulus routines weight the value of a character
-     * depending on its position in the code (for example, ISBN-10), while
+     * depending on its position in the code (e.g. ISBN-10), while
      * others use different weighting factors for odd/even positions
-     * (for example, EAN or Luhn). Implement the appropriate mechanism
+     * (e.g. EAN or Luhn). Implement the appropriate mechanism
      * required by overriding this method.
      *
      * @param charValue The numeric value of the character

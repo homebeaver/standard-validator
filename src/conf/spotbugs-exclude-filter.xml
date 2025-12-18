@@ -7,7 +7,7 @@
    (the "License"); you may not use this file except in compliance with
    the License.  You may obtain a copy of the License at
 
-       https://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,17 +47,5 @@
     <!-- Doesn't make sense and compatibility. -->
     <Class name="~.*" />
     <Bug pattern="SING_SINGLETON_IMPLEMENTS_SERIALIZABLE" />
-  </Match>
-  <Match>
-    <!-- Can't break BC -->
-    <!-- TODO Change in the next major release? -->
-    <Class name="org.apache.commons.validator.routines.CurrencyValidator" />
-    <Bug pattern="HSM_HIDING_METHOD" />
-  </Match>
-  <Match>
-    <!-- Can't break BC -->
-    <!-- TODO Change in the next major release? -->
-    <Class name="org.apache.commons.validator.routines.PercentValidator" />
-    <Bug pattern="HSM_HIDING_METHOD" />
   </Match>
 </FindBugsFilter>

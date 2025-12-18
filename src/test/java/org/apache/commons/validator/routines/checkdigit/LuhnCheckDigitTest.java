@@ -29,6 +29,9 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
     private static final String VALID_MASTERCARD = "5105105105105100";
     private static final String VALID_DISCOVER = "6011000990139424";
     private static final String VALID_DINERS = "30569309025904";
+    private static final String VALID_IT_IVA_BANCA_ITALIA = "950501007"; // without leading "00"
+    private static final String VALID_SE_VATIN_OLLE_SVENSSONS = "5561888404"; // without Trailing "01"
+    private static final String VALID_LUHN_FOR_AT_TIN = "353535354"; // ABER 35 ist kein AT Finanzamt!
 
     /**
      * Sets up routine & valid codes.
@@ -36,8 +39,15 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
 
-        routine = LuhnCheckDigit.LUHN_CHECK_DIGIT;
+        routine = LuhnCheckDigit.getInstance();
 
-        valid = new String[] { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, VALID_MASTERCARD, VALID_DISCOVER, VALID_DINERS };
+        valid = new String[] { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, VALID_MASTERCARD, VALID_DISCOVER, VALID_DINERS
+            , VALID_IT_IVA_BANCA_ITALIA
+            // VATIN_SE:
+            , "0000000018", "9999999999", "5565102570" // theoretical minimum, maximum, checkdigit zero
+            , "1366959755", "1234567897", "5560528514", "5566801444", "5565102471", VALID_SE_VATIN_OLLE_SVENSSONS
+            // TIN_AT:
+            , "981234560", "901234567", "463765321", "038261574", "542679451", VALID_LUHN_FOR_AT_TIN
+            , "12345678903", "10215", "12345670017"};
     }
 }

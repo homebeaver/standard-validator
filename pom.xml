@@ -7,7 +7,7 @@
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
 
-    https://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,157 +16,207 @@
  limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+<!--
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>93</version>
+    <version>78</version>
   </parent>
-  <groupId>commons-validator</groupId>
-  <artifactId>commons-validator</artifactId>
-  <version>1.10.2-SNAPSHOT</version>
-  <name>Apache Commons Validator</name>
-  <description>
-    Apache Commons Validator provides the building blocks for both client-side and server-side data validation.
-    It may be used standalone or with a framework like Struts.
-  </description>
-  <url>https://commons.apache.org/proper/commons-validator/</url>
-  <inceptionYear>2002</inceptionYear>
+ -->
+  <groupId>io.github.homebeaver</groupId> 
+  <artifactId>standard-validator</artifactId>
+  <version>0.10.4-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>standard-validator</name>
+  <description>A Java library to calculate and validate standardized check digits. 
+ISO/IEC 7064 System, Luhn etc</description>
+  <url>https://github.com/homebeaver/standard-validator</url>
+  <inceptionYear>2002</inceptionYear> <!-- apache commons-validator -->
+  <!-- <inceptionYear>2012</inceptionYear> iso7064 by danieltwagner -->
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/homebeaver/standard-validator</url>
+    <connection>scm:git:https://github.com/homebeaver/standard-validator.git</connection>
+    <developerConnection>scm:git:https://github.com/homebeaver/</developerConnection>
+  </scm>
+
   <properties>
-    <commons.componentid>validator</commons.componentid>
-    <commons.module.name>org.apache.commons.validator</commons.module.name>
-    <!-- Re-generate the download page using: mvn commons:download-page -->
-    <commons.release.version>1.10.2</commons.release.version>
-    <commons.release.next>1.10.3</commons.release.next>
-    <commons.rc.version>RC1</commons.rc.version>
-    <commons.release.desc>(requires JDK ${maven.compiler.target})</commons.release.desc>
-    <commons.bc.version>1.10.1</commons.bc.version>
-    <commons.jira.id>VALIDATOR</commons.jira.id>
-    <commons.jira.pid>12310494</commons.jira.pid>
-    <commons.encoding>UTF-8</commons.encoding>
-    <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-validator</commons.scmPubUrl>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2025-11-17T19:09:33Z</project.build.outputTimestamp>
-    <commons.release.isDistModule>true</commons.release.isDistModule>
-    <!-- JaCoCo: Don't make code coverage worse than: -->
-    <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
-    <commons.jacoco.classRatio>0.97</commons.jacoco.classRatio>
-    <commons.jacoco.instructionRatio>0.87</commons.jacoco.instructionRatio>
-    <commons.jacoco.methodRatio>0.81</commons.jacoco.methodRatio>
-    <commons.jacoco.branchRatio>0.74</commons.jacoco.branchRatio>
-    <commons.jacoco.lineRatio>0.78</commons.jacoco.lineRatio>
-    <commons.jacoco.complexityRatio>0.71</commons.jacoco.complexityRatio>
-    <!-- Checkstyle -->
-    <checkstyle.header.file>${basedir}/src/conf/checkstyle/checkstyle-header.txt</checkstyle.header.file>
-    <checkstyle.config.file>${basedir}/src/conf/checkstyle/checkstyle.xml</checkstyle.config.file>
-    <checkstyle.suppress.file>${basedir}/src/conf/checkstyle/checkstyle-suppressions.xml</checkstyle.suppress.file>
-    <checkstyle.resourceExcludes>LICENSE.txt, NOTICE.txt, **/maven-archiver/pom.properties</checkstyle.resourceExcludes>
   </properties>
-  <issueManagement>
-    <url>https://issues.apache.org/jira/browse/${commons.jira.id}</url>
-  </issueManagement>
+
   <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <name>Apache Commons Site</name>
-      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-validator/</url>
-    </site>
+    <repository>
+      <id>central</id>
+      <url>https://central.sonatype.com</url>
+    </repository>
   </distributionManagement>
-  <ciManagement>
-    <system>GitHub</system>
-    <url>https://github.com/apache/commons-validator/actions</url>
-  </ciManagement>
+
   <build>
-    <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check spotbugs:check pmd:check javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.rat</groupId>
-          <artifactId>apache-rat-plugin</artifactId>
-          <configuration>
-            <inputExcludes combine.children="append">
-              <inputExclude>src/test/resources/org/apache/commons/validator/routines/iban_registry_v*.txt</inputExclude>
-              <inputExclude>site-content/**</inputExclude>
-            </inputExcludes>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>4.8.6.4</version>
           <configuration>
             <threshold>Normal</threshold>
             <effort>Default</effort>
             <excludeFilterFile>${basedir}/src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
          </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${commons.checkstyle-plugin.version}</version>
-          <configuration>
-            <configLocation>${checkstyle.config.file}</configLocation>
-            <enableRulesSummary>false</enableRulesSummary>
-            <suppressionsLocation>${checkstyle.suppress.file}</suppressionsLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          </configuration>
-        </plugin>
       </plugins>
-	</pluginManagement>
-    <resources>
-      <resource>
-        <directory>${basedir}</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>NOTICE.txt</include>
-          <include>LICENSE.txt</include>
-        </includes>
-       </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-      </resource>
-    </resources>
+    </pluginManagement>
     <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>${basedir}/src/assembly/bin.xml</descriptor>
-            <descriptor>${basedir}/src/assembly/src.xml</descriptor>
-          </descriptors>
-          <tarLongFileMode>gnu</tarLongFileMode>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-publish-plugin</artifactId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+               <goal>jar</goal>
+            </goals>
+         </execution>
+      </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
         <configuration>
-          <ignorePathsToDelete>
-            <ignorePathToDelete>javadocs</ignorePathToDelete>
-          </ignorePathsToDelete>
+        <!-- Compile for the specified Java SE release. 
+           When changed adopte org.jdesktop.beans.JavaBeanProcessor
+           Supported releases: 7, 8, 9, 10, 11LTS, 12, 13, 14, 15, 16, 17LTS .. 21LTS .. 25LTS -->
+          <release>17</release>
+        <!-- Provide source compatibility with the specified Java SE release. 
+            Supported releases: 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17     
+          <source>8</source>  -->
+        <!-- Generate class files suitable for the specified Java SE release. 
+          <target>8</target> -->
+          <generatedSourcesDirectory>${project.generatedAnnotations}</generatedSourcesDirectory>
+          <showWarnings>true</showWarnings>
         </configuration>
       </plugin>
+
+<!-- see https://stackoverflow.com/questions/49441049/junit-5-does-not-execute-method-annotated-with-beforeeach -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.11.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
+          <!-- TODO <includeTestSourceDirectory>true</includeTestSourceDirectory> -->
+          <!-- Needed to define config_loc -->
+          <propertyExpansion>config_loc=${basedir}/src/conf</propertyExpansion>
+          <enableRulesSummary>false</enableRulesSummary>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+        </configuration>
       </plugin>
+
       <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.24.0</version>
+        <configuration>
+          <targetJdk>${maven.compiler.target}</targetJdk>
+        </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>0.16.1</version>
+      </plugin>
+
+<!-- see https://maven.apache.org/plugins/maven-gpg-plugin/usage.html -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <!-- signing files with key default (the first key in the keyring) -->
+            <configuration>
+            <!-- keyname maps to gpg option local-user and gpg takes another key: 
+              <keyname>0x90E058F7</keyname>
+              or use mvn verify -Dgpg.keyname=0x90E058F7
+              -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- this is the open source for org.sonatype.central:central-publishing-maven-plugin-->
+      <plugin>
+        <groupId>io.github.mavenplugins</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>1.1.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
+
   <dependencies>
+
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.11.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.2</version>
+    </dependency>
+
     <dependency>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
@@ -183,16 +233,13 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.3.5</version>
     </dependency>
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2.2</version>
-    </dependency>
+
     <!-- Needed for IBANValidatorTest -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -200,35 +247,28 @@
       <version>1.14.1</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <version>5.11.2</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.junit-pioneer</groupId>
-      <artifactId>junit-pioneer</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <!-- For testing DomainValidatorStartup -->
-      <groupId>org.bitstrings.test</groupId>
-      <artifactId>junit-clptr</artifactId>
-      <version>1.2.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.20.0</version>
-      <scope>test</scope>
-    </dependency>
+
   </dependencies>
+
   <reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
+          <!-- Needed to define config_loc -->
+          <propertyExpansion>config_loc=${basedir}/src/conf</propertyExpansion>
+          <enableRulesSummary>false</enableRulesSummary>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+        </configuration>
         <reportSets>
           <reportSet>
             <reports>
@@ -252,102 +292,23 @@
         </reportSets>
       </plugin>
       <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>site-content/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
-  <profiles>
-    <profile>
-      <id>setup-checkout</id>
-      <activation>
-        <file>
-          <missing>site-content</missing>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>prepare-checkout</id>
-                <phase>pre-site</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
-                    </exec>
-                    <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
-                    </exec>
-                    <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
-                    </pathconvert>
-                    <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}" />
-                    </exec>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <!--
-        Easily run DomainValidatorTest:
-        mvn -PDomainValidatorTest
-      -->
-      <id>DomainValidatorTest</id>
-      <properties>
-        <!-- No need for these here -->
-        <rat.skip>true</rat.skip>
-        <enforcer.skip>true</enforcer.skip>
-      </properties>
-      <build>
-        <defaultGoal>exec:java</defaultGoal>
-        <plugins>
-          <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>exec-maven-plugin</artifactId>
-              <executions>
-                  <execution>
-                      <goals>
-                          <goal>java</goal>
-                      </goals>
-                  </execution>
-              </executions>
-              <configuration>
-                <mainClass>org.apache.commons.validator.routines.DomainValidatorTest</mainClass>
-                <classpathScope>test</classpathScope>
-              </configuration>
-          </plugin>
-          <!-- Also suppress the build plan check -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-artifact-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>check-buildplan</id>
-                <!-- This won't be run -->
-                <phase>deploy</phase>
-                <goals>
-                  <goal>check-buildplan</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-       </build>
-    </profile>
-  </profiles>
+
   <developers>
+    <!-- org.apache.commons.validator developer: -->
     <developer>
       <name>Don Brown</name>
       <id>mrdon</id>
@@ -433,10 +394,21 @@
         <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
       </properties>
     </developer>
+    <!-- isoiec7064 developer -->
+    <developer>
+      <name>Daniel T. Wagner</name>
+      <id>danieltwagner</id>
+    </developer>
+    <developer>
+      <name>Eugen H</name>
+      <id>homebeaver</id>
+    </developer>
   </developers>
+
   <contributors>
     <contributor>
       <name>Makoto Uchino</name>
     </contributor>
   </contributors>
+
 </project>

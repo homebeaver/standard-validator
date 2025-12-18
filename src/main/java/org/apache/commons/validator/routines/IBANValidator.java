@@ -416,6 +416,6 @@ public class IBANValidator {
             return IBANValidatorStatus.INVALID_PATTERN;
         }
 
-        return IBANCheckDigit.IBAN_CHECK_DIGIT.isValid(code) ? IBANValidatorStatus.VALID : IBANValidatorStatus.INVALID_CHECKSUM;
+        return IBANCheckDigit.getInstance().isValid(code) ? IBANValidatorStatus.VALID : IBANValidatorStatus.INVALID_CHECKSUM;
     }
 }

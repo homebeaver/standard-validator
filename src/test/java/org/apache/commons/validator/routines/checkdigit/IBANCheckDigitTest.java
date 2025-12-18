@@ -30,9 +30,9 @@ import org.junit.jupiter.api.Test;
 /**
  * IBAN Check Digit Test.
  */
-class IBANCheckDigitTest extends AbstractCheckDigitTest {
+public class IBANCheckDigitTest extends AbstractCheckDigitTest {
 
-    IBANCheckDigitTest() {
+    public IBANCheckDigitTest() {
         checkDigitLth = 2;
     }
 
@@ -91,7 +91,7 @@ class IBANCheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = IBANCheckDigit.IBAN_CHECK_DIGIT;
+        routine = IBANCheckDigit.getInstance();
         valid = new String[] { "AD1200012030200359100100", // Andorra
                 "AE070331234567890123456", // United Arab Emirates
                 "AL47212110090000000235698741", // Albania
@@ -125,6 +125,7 @@ class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 "GR1601101250000000012300695", // Greece
                 "GT82TRAJ01020000001210029690", // Guatemala
                 "HR1210010051863000160", // Croatia
+                "HN88CABF00000000000250005469", // Honduras
                 "HU42117730161111101800000000", // Hungary
                 "IE29AIBK93115212345678", // Ireland
                 "IL620108000000099999999", // Israel
@@ -181,7 +182,7 @@ class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 // add some dummy calculated codes to test the limits
                 // Current minimum length is Norway = 15
                 // Current maximum length is Malta = 31
-                // These codes will fail online checkers which validate the IBAN format
+                // N.B. These codes will fail online checkers which validate the IBAN format
                 // 234567890123456789012345678901
                 "AA0200000000053", "AA9700000000089", "AA9800000000071", "ZZ02ZZZZZZZZZZZZZZZZZZZZZZZZZ04", "ZZ97ZZZZZZZZZZZZZZZZZZZZZZZZZ40",
                 "ZZ98ZZZZZZZZZZZZZZZZZZZZZZZZZ22", };
@@ -189,14 +190,15 @@ class IBANCheckDigitTest extends AbstractCheckDigitTest {
          * sources https://intranet.birmingham.ac.uk/finance/documents/public/IBAN.pdf
          * http://www.paymentscouncil.org.uk/resources_and_publications/ibans_in_europe/
          */
-        invalid = new String[] { "510007+47061BE63", "IE01AIBK93118702569045", "AA0000000000089", "AA9900000000053", };
+        invalid = new String[] { "BEBE510007547061", "510007+47061BE63", "IE01AIBK93118702569045"
+                , "AA0000000000089", "AA9900000000053", };
         zeroSum = null;
-        missingMessage = "Invalid Code length=0";
+//        missingMessage = "Invalid Code length=0";
 
     }
 
     @Test
-    void testOther() throws Exception {
+    public void testOther() throws Exception {
         try (BufferedReader rdr = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("IBANtests.txt"), "ASCII"))) {
             String line;
             while ((line = rdr.readLine()) != null) {
@@ -217,7 +219,7 @@ class IBANCheckDigitTest extends AbstractCheckDigitTest {
      */
     @Override
     @Test
-    void testZeroSum() {
+    public void testZeroSum() {
         // ignore, don't run this test
 
         // example code used to create dummy IBANs

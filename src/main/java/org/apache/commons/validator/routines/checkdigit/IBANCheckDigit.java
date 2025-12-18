@@ -16,7 +16,7 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import java.io.Serializable;
+import org.apache.commons.validator.GenericValidator;
 
 /**
  * <strong>IBAN</strong> (International Bank Account Number) Check Digit calculation/validation.
@@ -28,8 +28,8 @@ import java.io.Serializable;
  * to the end of the code.
  *  So {@code CCDDnnnnnnn} becomes {@code nnnnnnnCCDD} (where
  *  {@code CC} is the country code and {@code DD} is the check digit). For
- *  check digit calculation the check digit value should be set to zero (such as
- *  {@code CC00nnnnnnn} in this example).
+ *  check digit calculation the check digit value should be set to zero (i.e.
+ *  {@code CC00nnnnnnn} in this example.
  * <p>
  * Note: the class does not check the format of the IBAN number, only the check digits.
  * <p>
@@ -39,25 +39,21 @@ import java.io.Serializable;
  *
  * @since 1.4
  */
-public final class IBANCheckDigit extends AbstractCheckDigit implements Serializable {
+public final class IBANCheckDigit extends Modulus97CheckDigit {
 
     private static final int MIN_CODE_LEN = 5;
 
     private static final long serialVersionUID = -3600191725934382801L;
 
-    private static final int MAX_ALPHANUMERIC_VALUE = 35; // Character.getNumericValue('Z')
-
-    /** Singleton IBAN Number Check Digit instance */
-    public static final CheckDigit IBAN_CHECK_DIGIT = new IBANCheckDigit();
-
-    private static final long MAX = 999999999;
-
-    private static final long MODULUS = 97;
+    /** Singleton Check Digit instance */
+    private static final IBANCheckDigit INSTANCE = new IBANCheckDigit();
 
     /**
-     * Constructs Check Digit routine for IBAN Numbers.
+     * Gets the singleton instance of this validator.
+     * @return A singleton instance of the class.
      */
-    public IBANCheckDigit() {
+    public static CheckDigit getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -67,44 +63,20 @@ public final class IBANCheckDigit extends AbstractCheckDigit implements Serializ
      * characters and is set to the value "{@code 00}".
      *
      * @param code The code to calculate the Check Digit for
-     * @return The calculated Check Digit as 2 numeric decimal characters, for example, "42"
+     * @return The calculated Check Digit as 2 numeric decimal characters, e.g. "42"
      * @throws CheckDigitException if an error occurs calculating
      * the check digit for the specified code
      */
     @Override
     public String calculate(String code) throws CheckDigitException {
-        if (code == null || code.length() < MIN_CODE_LEN) {
-            throw new CheckDigitException("Invalid Code length=" + (code == null ? 0 : code.length()));
+        if (GenericValidator.isBlankOrNull(code)) {
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
-        code = code.substring(0, 2) + "00" + code.substring(4); // CHECKSTYLE IGNORE MagicNumber
-        final int modulusResult = calculateModulus(code);
-        final int charValue = 98 - modulusResult; // CHECKSTYLE IGNORE MagicNumber
-        final String checkDigit = Integer.toString(charValue);
-        return charValue > 9 ? checkDigit : "0" + checkDigit; // CHECKSTYLE IGNORE MagicNumber
-    }
-
-    /**
-     * Calculate the modulus for a code.
-     *
-     * @param code The code to calculate the modulus for.
-     * @return The modulus value
-     * @throws CheckDigitException if an error occurs calculating the modulus
-     * for the specified code
-     */
-    private int calculateModulus(final String code) throws CheckDigitException {
-        final String reformattedCode = code.substring(4) + code.substring(0, 4); // CHECKSTYLE IGNORE MagicNumber
-        long total = 0;
-        for (int i = 0; i < reformattedCode.length(); i++) {
-            final int charValue = Character.getNumericValue(reformattedCode.charAt(i));
-            if (charValue < 0 || charValue > MAX_ALPHANUMERIC_VALUE) {
-                throw new CheckDigitException("Invalid Character[" + i + "] = '" + charValue + "'");
-            }
-            total = (charValue > 9 ? total * 100 : total * 10) + charValue; // CHECKSTYLE IGNORE MagicNumber
-            if (total > MAX) {
-                total %= MODULUS;
-            }
+        if (code.length() < MIN_CODE_LEN) {
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "Code length=" + code.length()));
         }
-        return (int) (total % MODULUS);
+        code = code.substring(4) + code.substring(0, 2); // CHECKSTYLE IGNORE MagicNumber
+        return super.calculate(code);
     }
 
     /**
@@ -119,15 +91,7 @@ public final class IBANCheckDigit extends AbstractCheckDigit implements Serializ
         if (code == null || code.length() < MIN_CODE_LEN) {
             return false;
         }
-        final String check = code.substring(2, 4); // CHECKSTYLE IGNORE MagicNumber
-        if ("00".equals(check) || "01".equals(check) || "99".equals(check)) {
-            return false;
-        }
-        try {
-            return calculateModulus(code) == 1;
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
+        return super.isValid(code.substring(4) + code.substring(0, 4)); // CHECKSTYLE IGNORE MagicNumber
     }
 
 }

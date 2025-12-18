@@ -416,7 +416,7 @@ class CreditCardValidatorTest {
     void testMastercardUsingSeparators() {
 
         final String masterCardRegExSep = "^(5[1-5]\\d{2})(?:[- ])?(\\d{4})(?:[- ])?(\\d{4})(?:[- ])?(\\d{4})$";
-        final CodeValidator validator = new CodeValidator(masterCardRegExSep, LuhnCheckDigit.LUHN_CHECK_DIGIT);
+        final CodeValidator validator = new CodeValidator(masterCardRegExSep, LuhnCheckDigit.getInstance());
         final RegexValidator regex = validator.getRegexValidator();
 
         // ****** Test Regular Expression ******

@@ -206,7 +206,7 @@ public class CreditCardValidator implements Serializable {
     /**
      * Luhn checkdigit validator for the card numbers.
      */
-    private static final CheckDigit LUHN_VALIDATOR = LuhnCheckDigit.LUHN_CHECK_DIGIT;
+    private static final CheckDigit LUHN_VALIDATOR = LuhnCheckDigit.getInstance();
 
     /**
      * American Express (Amex) Card Validator
