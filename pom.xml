@@ -255,6 +255,30 @@ ISO/IEC 7064 System, Luhn etc</description>
       <scope>test</scope>
     </dependency>
 
+    <!-- Needed for AbstractNumberValidatorTest -->
+    <dependency>
+      <groupId>org.junit-pioneer</groupId>
+      <artifactId>junit-pioneer</artifactId>
+      <version>2.3.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <!-- For testing DomainValidatorStartup -->
+      <groupId>org.bitstrings.test</groupId>
+      <artifactId>junit-clptr</artifactId>
+      <version>1.2.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Needed for CalendarValidatorTest -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.20.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <reporting>
