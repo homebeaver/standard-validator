@@ -51,7 +51,15 @@ public final class ISSNCheckDigit extends ModulusCheckXDigit {
     private static final long serialVersionUID = 1L;
 
     /** Singleton ISSN Check Digit instance */
-    public static final CheckDigit ISSN_CHECK_DIGIT = new ISSNCheckDigit();
+    private static final CheckDigit INSTANCE = new ISSNCheckDigit();
+
+    /**
+     * Gets the singleton instance of this class.
+     * @return A singleton instance of the class.
+     */
+    public static CheckDigit getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * Creates the instance using a checkdigit modulus of 11.

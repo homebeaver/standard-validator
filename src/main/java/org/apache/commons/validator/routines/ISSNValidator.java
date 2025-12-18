@@ -75,7 +75,7 @@ public class ISSNValidator implements Serializable {
 
     private static final int EAN_ISSN_LEN = 13;
 
-    private static final CodeValidator VALIDATOR = new CodeValidator(ISSN_REGEX, ISSN_LEN, ISSNCheckDigit.ISSN_CHECK_DIGIT);
+    private static final CodeValidator VALIDATOR = new CodeValidator(ISSN_REGEX, ISSN_LEN, ISSNCheckDigit.getInstance());
 
     private static final CodeValidator EAN_VALIDATOR = new CodeValidator(EAN_ISSN_REGEX, EAN_ISSN_LEN, EAN13CheckDigit.EAN13_CHECK_DIGIT);
 
@@ -163,7 +163,7 @@ public class ISSNValidator implements Serializable {
             //CHECKSTYLE:OFF: MagicNumber
             final String issnBase = input.substring(3, 10); // TODO: how to derive these
             //CHECKSTYLE:ON: MagicNumber
-            final String checkDigit = ISSNCheckDigit.ISSN_CHECK_DIGIT.calculate(issnBase);
+            final String checkDigit = ISSNCheckDigit.getInstance().calculate(issnBase);
             return issnBase + checkDigit;
         } catch (final CheckDigitException e) { // Should not happen
             throw new IllegalArgumentException("Check digit error for '" + ean13 + "' - " + e.getMessage());
