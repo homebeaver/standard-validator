@@ -29,7 +29,7 @@ class ISBN10CheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
 //        routine = ISBN10CheckDigit.ISBN10_CHECK_DIGIT;
-        routine = Mod11XISBN10CheckDigit.ISBN10_CHECK_DIGIT;
+        routine = Mod11XISBN10CheckDigit.getInstance();
         valid = new String[] { "1930110995", "020163385X", "1932394354", "1590596277" };
     }
 

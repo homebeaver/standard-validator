@@ -46,7 +46,15 @@ public final class Mod11XISBN10CheckDigit extends Modulus11XCheckDigit {
     private static final long serialVersionUID = 8000855044504864964L;
 
     /** Singleton ISBN-10 Check Digit instance */
-    public static final CheckDigit ISBN10_CHECK_DIGIT = new Mod11XISBN10CheckDigit();
+    public static final CheckDigit INSTANCE = new Mod11XISBN10CheckDigit();
+
+    /**
+     * Gets the singleton instance of this class.
+     * @return A singleton instance of the class.
+     */
+    public static CheckDigit getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * <p>Convert a character at a specified position to an
