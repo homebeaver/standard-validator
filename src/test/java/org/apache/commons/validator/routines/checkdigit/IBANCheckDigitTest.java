@@ -157,6 +157,12 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 "PS92PALS000000000400123456702", // Palestine, State of
                 "PT50000201231234567890154", // Portugal
                 "QA58DOHB00001234567890ABCDEFG", // Qatar
+
+                // Creditor Reference looks like IBAN for RF, which is not a country code
+                "RF18539007547034", // valid Creditor Reference
+                "RF18000000000539007547034", // valid Creditor Reference with maximu lenght
+                "RF28000000000539007547034X", // invalid Creditor Reference (too long) with valid check digit
+
                 "RO49AAAA1B31007593840000", // Romania
                 "RS35260005601001611379", // Serbia
                 "RU0204452560040702810412345678901", // Russia
