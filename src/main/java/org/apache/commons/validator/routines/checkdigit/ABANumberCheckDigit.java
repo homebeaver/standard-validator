@@ -48,7 +48,15 @@ public final class ABANumberCheckDigit extends ModulusCheckDigit {
     private static final long serialVersionUID = -8255937433810380145L;
 
     /** Singleton Routing Transit Number Check Digit instance */
-    public static final CheckDigit ABAN_CHECK_DIGIT = new ABANumberCheckDigit();
+    private static final CheckDigit INSTANCE = new ABANumberCheckDigit();
+
+    /**
+     * Gets the singleton instance of this class.
+     * @return A singleton instance of the class.
+     */
+    public static CheckDigit getInstance() {
+        return INSTANCE;
+    }
 
     /** Weighting given to digits depending on their right position */
     private static final int[] POSITION_WEIGHT = {3, 1, 7};

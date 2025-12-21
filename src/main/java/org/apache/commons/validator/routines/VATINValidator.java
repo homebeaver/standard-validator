@@ -143,7 +143,7 @@ public class VATINValidator {
             new Validator("CZ", VATidCZCheckDigit.getInstance(), 12, "(\\d)?(\\d)?\\d{8}"),
             new Validator("DE", Modulus11TenCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("DK", VATidDKCheckDigit.getInstance(), 10, "[1-9]\\d{7}"),
-            new Validator("EE", ABANumberCheckDigit.ABAN_CHECK_DIGIT, 11, "\\d{9}"),
+            new Validator("EE", ABANumberCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("EL", VATidELCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
             new Validator("FI", VATidFICheckDigit.getInstance(), 10, "\\d{8}"),

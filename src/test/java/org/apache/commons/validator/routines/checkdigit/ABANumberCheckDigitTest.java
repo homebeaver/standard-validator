@@ -28,7 +28,7 @@ class ABANumberCheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = ABANumberCheckDigit.ABAN_CHECK_DIGIT;
+        routine = ABANumberCheckDigit.getInstance();
         valid = new String[] { "123456780", "123123123", "011000015", "111000038", "231381116", "121181976" };
     }
 

@@ -49,7 +49,7 @@ public class VATidEECheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = ABANumberCheckDigit.ABAN_CHECK_DIGIT;
+        routine = ABANumberCheckDigit.getInstance();
 //        same to:
 //        routine = new ModulusTenCheckDigit(new int[] { 1, 7, 3 }, true);
         valid = new String[] {"100594102", "101571629", "100825871", "101295701", "102264744"
