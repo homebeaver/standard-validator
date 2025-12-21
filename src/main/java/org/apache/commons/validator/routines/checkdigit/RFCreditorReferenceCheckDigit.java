@@ -16,6 +16,8 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericValidator;
+
 /**
  * <strong>Creditor Reference</strong> Check Digit calculation/validation.
  * <p>
@@ -28,6 +30,8 @@ package org.apache.commons.validator.routines.checkdigit;
  * @since 2.10.4
  */
 public final class RFCreditorReferenceCheckDigit extends AbstractCheckDigit {
+
+    private static final int MAX_CODE_LEN = 25; // with "RF" and check digits
 
     /** Singleton Check Digit instance */
     private static final RFCreditorReferenceCheckDigit INSTANCE = new RFCreditorReferenceCheckDigit();
@@ -48,11 +52,20 @@ public final class RFCreditorReferenceCheckDigit extends AbstractCheckDigit {
 
     @Override
     public String calculate(String code) throws CheckDigitException {
+        if (GenericValidator.isBlankOrNull(code)) {
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
+        }
+        if (code.length() > MAX_CODE_LEN) {
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "Code length=" + code.length()));
+        }
         return delegate.calculate(code.toUpperCase());
     }
 
     @Override
     public boolean isValid(String code) {
+        if (code == null || code.length() > MAX_CODE_LEN) {
+            return false;
+        }
         return delegate.isValid(code.toUpperCase());
     }
 

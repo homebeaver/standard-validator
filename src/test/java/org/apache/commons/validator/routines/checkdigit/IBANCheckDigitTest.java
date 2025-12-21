@@ -158,9 +158,9 @@ public class IBANCheckDigitTest extends AbstractCheckDigitTest {
                 "PT50000201231234567890154", // Portugal
                 "QA58DOHB00001234567890ABCDEFG", // Qatar
 
-                // Creditor Reference looks like IBAN for RF, which is not a country code
+                // Creditor Reference looks like IBAN for RF, which is not a valid alpha-2 country code
                 "RF18539007547034", // valid Creditor Reference
-                "RF18000000000539007547034", // valid Creditor Reference with maximu lenght
+                "RF18000000000539007547034", // valid Creditor Reference with maximum lenght
                 "RF28000000000539007547034X", // invalid Creditor Reference (too long) with valid check digit
 
                 "RO49AAAA1B31007593840000", // Romania
