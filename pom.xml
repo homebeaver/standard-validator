@@ -20,15 +20,13 @@
   <modelVersion>4.0.0</modelVersion>
 
 <!--
-  <parent>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-parent</artifactId>
-    <version>78</version>
-  </parent>
+  The first versions until 1.10.3 are artefacts io.github.homebeaver:isoiec7064
+  The project isoiec7064 is discontinued. It is merged to standard-validator
+  where we start with artefact io.github.homebeaver:standard-validator:2.10.4
  -->
   <groupId>io.github.homebeaver</groupId> 
   <artifactId>standard-validator</artifactId>
-  <version>0.10.4-SNAPSHOT</version>
+  <version>2.10.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>standard-validator</name>
