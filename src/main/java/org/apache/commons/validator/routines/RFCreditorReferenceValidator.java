@@ -76,7 +76,6 @@ public class RFCreditorReferenceValidator {
      */
     public boolean isValid(String id) {
         if (!FORMAT_VALIDATOR.isValid(id)) {
-//            System.out.println("id="+id+">>> FORMAT_VALIDATOR is not valid");
             return false;
         }
         return VALIDATOR.isValid(id);

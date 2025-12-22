@@ -64,9 +64,9 @@ public class LeitwegValidator {
 • 16 DE-TH Thüringen 
 • 99 DE Bund
  */
-    private static final String STARTWITHREGION = "^(01|02|03|04|05|06|07|08|09|10|11|12|13|14|16|99)"; 
+    private static final String STARTWITHREGION = "(01|02|03|04|05|06|07|08|09|10|11|12|13|14|16|99)"; 
     private static final String OPTIONAL_DETAIL = MINUS + "([A-Za-z0-9]{1,30})?"; // optional alphanumeric detail
-    private static final String MD_CHECK_DIGITS = MINUS + "(\\d{2})$";            // two mandatory check digits
+    private static final String MD_CHECK_DIGITS = MINUS + "(\\d{2})";            // two mandatory check digits
     // Regierungsbezirk (\\d) + Landkreis (\\d{2}) + Gemeinde (3, 4 oder 7 Stellen)
     private static final String FORMAT1 = STARTWITHREGION + "(\\d)?(\\d{2})?"
         + OPTIONAL_DETAIL + MD_CHECK_DIGITS;
@@ -77,6 +77,8 @@ public class LeitwegValidator {
     private static final String FORMAT4 = STARTWITHREGION + "(\\d\\d{2}\\d{3})"
         + OPTIONAL_DETAIL + MD_CHECK_DIGITS;
     private static final String[] FORMAT = new String[] {FORMAT1, FORMAT2, FORMAT3, FORMAT4};
+
+    static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
 
     /*
      * in theory the shortest Leitweg-ID has a minimal general part and check digits
@@ -113,6 +115,9 @@ public class LeitwegValidator {
      * @return <code>true</code> if the value is valid
      */
     public boolean isValid(String id) {
+        if (!FORMAT_VALIDATOR.isValid(id)) {
+          return false;
+      }
         return VALIDATOR.isValid(id);
     }
 
