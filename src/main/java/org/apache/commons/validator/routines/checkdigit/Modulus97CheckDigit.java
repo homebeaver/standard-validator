@@ -87,12 +87,16 @@ public class Modulus97CheckDigit extends IsoIec7064PureSystem implements IsoIecC
         for (int i = 0; i < l; i++) {
             final int leftPos = i + 1;
             final int rightPos = l - i;
-            final int charValue = toInt(code.charAt(i), leftPos, rightPos);
-            if (charValue >= NUMERIC.length()) {
-                p = (p + charValue / r) * r % m;
-                p = (p + charValue % r) * r % m;
-            } else {
-                p = (p + charValue) * r % m;
+            try {
+                final int charValue = toInt(code.charAt(i), leftPos, rightPos);
+                if (charValue >= NUMERIC.length()) {
+                    p = (p + charValue / r) * r % m;
+                    p = (p + charValue % r) * r % m;
+                } else {
+                    p = (p + charValue) * r % m;
+                }
+            } catch (final CheckDigitException ex) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code, ex.getMessage()));
             }
         }
         // if we want a double check digit we perform one additional pass with charValue = 0
