@@ -51,3 +51,32 @@ CheckDigit numericCheck = IsoIecPure11System.getInstance();
 String checkDigit = numericCheck.calculate("123456");
 boolean isValid = numericCheck.isValid("123456X");
 ```
+
+A more practical example (create a valid Structured Creditor Reference and check it):
+
+```java
+String createRFCreditorReference(final String cr) {
+    System.out.println("createRFCreditorReference from [" + cr + "]");
+    CheckDigit checkDigit = RFCreditorReferenceCheckDigit.getInstance();
+
+    String cd = "00"; // check digit to start with
+    try {
+        cd = checkDigit.calculate(RFCreditorReferenceCheckDigit.RF + cd + cr);
+        return RFCreditorReferenceCheckDigit.RF + cd + cr;
+    } catch (CheckDigitException ex) {
+        System.out.println("failed to create RFCreditorReference : " + ex.getMessage());
+    }
+    return null;
+}
+
+    final String cr = "InvNo4711date25DEC31"; //Maximum is 21 chars
+    String validRFcr = createRFCreditorReference(cr);
+    boolean isValid = RFCreditorReferenceValidator.getInstance().isValid(validRFcr);
+    System.out.println("created RFCreditorReference " + validRFcr + " is " + (isValid ? "OK" : "NOT valid"));
+
+/* result is:
+createRFCreditorReference from [InvNo4711date25DEC31]
+created RFCreditorReference RF07InvNo4711date25DEC31 is OK
+ */
+```
+
