@@ -96,12 +96,8 @@ public class RFCreditorReferenceCheckDigitTest extends AbstractCheckDigitTest {
                 "RF45abc",
 
                 };
-        /*
-         * sources https://intranet.birmingham.ac.uk/finance/documents/public/IBAN.pdf
-         * http://www.paymentscouncil.org.uk/resources_and_publications/ibans_in_europe/
-         */
         invalid = new String[] { "RF28000000000539007547034X" // invalid Creditor Reference (too long) with valid check digit
-                , "RF00" // RF is "" Blank
+                , "RF04" // empty RFCreditorReference
                 , "BEBE510007547061", "510007+47061BE63", "IE01AIBK93118702569045"
                 , "AA0000000000089", "AA9900000000053", };
         zeroSum = null;
