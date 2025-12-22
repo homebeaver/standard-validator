@@ -1,7 +1,24 @@
+This Java library extends commons-validator and implements algorithms specified in [ISO/IEC 7064](https://en.wikipedia.org/wiki/ISO/IEC_7064) and [LUHN](https://en.wikipedia.org/wiki/Luhn_algorithm) which is defined in [ISO/IEC 7812-1 Annex B](https://en.wikipedia.org/wiki/ISO%2FIEC_7812).
+
+The standard-validator jar calculates/validates
+
+- credit card numbers ([LUHN](https://github.com/homebeaver/ungueltig/wiki/LUHN))
+- all [IBAN](https://en.wikipedia.org/wiki/International_Bank_Account_Number)s (ISO/IEC 7064:MOD 97-10)
+- [US Routing transit number](https://en.wikipedia.org/wiki/Routing_transit_number) ([MOD-10](https://github.com/homebeaver/ungueltig/wiki/MOD-10#371))
+- [Creditor Reference](https://en.wikipedia.org/wiki/Creditor_Reference) (ISO-11649)
+- [ISIN](https://en.wikipedia.org/wiki/International_Securities_Identification_Number) (US-CUSIP and GB-SEDOL)
+- EAN/UPC, ISBNs and ISSNs (MOD-10)
+- all european [VAT ID numbers](https://en.wikipedia.org/wiki/VAT_identification_number) and Tax numbers 
+- french [SIREN](https://en.wikipedia.org/wiki/SIREN_code) and SIRET numbers (LUHN)
+- chemical numbers [CAS](https://en.wikipedia.org/wiki/CAS_Registry_Number), EC index and [EC-number](https://en.wikipedia.org/wiki/European_Community_number)
+- [IMO vessel number](https://en.wikipedia.org/wiki/IMO_number) ([MOD-10](https://github.com/homebeaver/ungueltig/wiki/MOD-10))
+- german [Leitweg-ID](https://de.wikipedia.org/wiki/Leitweg-ID) (ISO/IEC 7064:MOD 97-10)
+- [Legal Entity Identifier](https://en.wikipedia.org/wiki/Legal_Entity_Identifier) (ISO-17442)
+
 ISO/IEC 7064
 ============
 
-A Java library that calculates/validates [ISO/IEC 7064](https://github.com/homebeaver/ungueltig/wiki/ISO-IEC_7064) check characters.
+calculates/validates [ISO/IEC 7064](https://github.com/homebeaver/ungueltig/wiki/ISO-IEC_7064) check characters.
 
 The algorithms include all **pure systems** plus the pure polynomial implementations of:
 * [ISO/IEC 7064, MOD 11-2](https://github.com/homebeaver/ungueltig/wiki/MOD-11-2) for numeric strings with one check digit or the supplementary check character "X"
@@ -16,11 +33,11 @@ This is a full implementation of the ISO/IEC standard. Also **hybrid systems** a
 * [ISO/IEC 7064, MOD 37,36](https://github.com/homebeaver/ungueltig/wiki/MOD-37%2C36) for alphanumeric strings with one check digit or letter
 
 ```xml
-<!-- https://mvnrepository.com/artifact/io.github.homebeaver/isoiec7064 -->
+<!-- https://mvnrepository.com/artifact/io.github.homebeaver/standard-validator -->
 <dependency>
     <groupId>io.github.homebeaver</groupId>
-    <artifactId>isoiec7064</artifactId>
-    <version>1.10.3</version>
+    <artifactId>standard-validator</artifactId>
+    <version>2.10.4</version>
 </dependency>
 ```
 
