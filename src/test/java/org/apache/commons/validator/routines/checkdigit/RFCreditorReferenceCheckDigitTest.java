@@ -16,9 +16,13 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.validator.routines.RFCreditorReferenceValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -103,6 +107,33 @@ public class RFCreditorReferenceCheckDigitTest extends AbstractCheckDigitTest {
         zeroSum = null;
 //        missingMessage = "Invalid Code length=0";
 
+    }
+
+    String createRFCreditorReference(final String cr) {
+        System.out.println("createRFCreditorReference from [" + cr + "]");
+        CheckDigit checkDigit = RFCreditorReferenceCheckDigit.getInstance();
+
+        String cd = "00"; // check digit to start with
+        try {
+            cd = checkDigit.calculate(RFCreditorReferenceCheckDigit.RF + cd + cr);
+            return RFCreditorReferenceCheckDigit.RF + cd + cr;
+        } catch (CheckDigitException ex) {
+            System.out.println("failed to create RFCreditorReference : " + ex.getMessage());
+        }
+        return null;
+    }
+
+    @Test
+    public void createRFCreditorReference() {
+        final String cr = "InvNo4711date25DEC31";
+        //                0123456789012345678901 Maximum is 21 chars
+        String validRFcr = createRFCreditorReference(cr);
+        boolean isValid = RFCreditorReferenceValidator.getInstance().isValid(validRFcr);
+        System.out.println("created RFCreditorReference " + validRFcr + " is " + (isValid ? "OK" : "NOT valid"));
+        assertTrue(isValid);
+        
+        final String tooLong = "InvNo4711date25DEC31TooLong";
+        assertNull(createRFCreditorReference(tooLong));
     }
 
     /**

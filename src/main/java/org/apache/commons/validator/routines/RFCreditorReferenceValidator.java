@@ -31,6 +31,7 @@ import org.apache.commons.validator.routines.checkdigit.RFCreditorReferenceCheck
  */
 public class RFCreditorReferenceValidator {
 
+    static final String RF = RFCreditorReferenceCheckDigit.RF;
     /**
      * The Format of the RF Creditor Reference is 2!a2!n21c :
      * - the first two letters shall always be "RF".
@@ -39,7 +40,7 @@ public class RFCreditorReferenceValidator {
      * - the remaining part of the RF Creditor Reference (up to 21c), creditor reference, 
      *   shall only contain upper and lower case letters and numeric characters.
      */
-    static final String FORMAT = "(RF)(\\d{2})([A-Za-z0-9]+)";
+    static final String FORMAT = "(" + RF + ")(\\d{2})([A-Za-z0-9]+)";
 
     static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
 

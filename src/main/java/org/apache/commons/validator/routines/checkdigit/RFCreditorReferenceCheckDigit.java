@@ -21,7 +21,8 @@ import org.apache.commons.validator.GenericValidator;
 /**
  * <strong>Creditor Reference</strong> Check Digit calculation/validation.
  * <p>
- * RFCreditorReferenceCheckDigit is very equal to IBAN Check Digit.
+ * RFCreditorReferenceCheckDigit is very equal to IBAN Check Digit with Prefix RF,
+ * which is not an alpha-2 country code.
  * The only difference is that it accepts lower case letter, but handles them as upper case.
  * Implemented as <A HREF="https://en.wikipedia.org/wiki/Delegation_pattern">Delegation</A>.
  * <p>
@@ -31,6 +32,7 @@ import org.apache.commons.validator.GenericValidator;
  */
 public final class RFCreditorReferenceCheckDigit extends AbstractCheckDigit {
 
+    public static final String RF = "RF";
     private static final int MAX_CODE_LEN = 25; // with "RF" and check digits
 
     /** Singleton Check Digit instance */
