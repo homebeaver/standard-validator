@@ -74,7 +74,7 @@ public final class ISBNCheckDigit extends AbstractCheckDigit implements Serializ
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("ISBN Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         if (code.length() == 9) { // CHECKSTYLE IGNORE MagicNumber
             return ISBN10_CHECK_DIGIT.calculate(code);

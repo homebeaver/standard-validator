@@ -95,7 +95,7 @@ public final class VATidCZCheckDigit extends ModulusCheckDigit {
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         if (code.length() < LEN) { // legal entity
             if (code.startsWith(INVALID_START_WITH)) {
