@@ -32,6 +32,17 @@ This is a full implementation of the ISO/IEC standard. Also **hybrid systems** a
 * ISO/IEC 7064, MOD 27,26 for alphabetic strings with one check letter
 * [ISO/IEC 7064, MOD 37,36](https://github.com/homebeaver/ungueltig/wiki/MOD-37%2C36) for alphanumeric strings with one check digit or letter
 
+
+LUHN
+====
+
+There is no standard for the [Luhn algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm). It is specified in Annex of ISO/IEC 7812 for Identification cards. Here a screenshot:
+
+![](https://raw.githubusercontent.com/wiki/homebeaver/ungueltig/image/LUHN.png)
+
+How to use
+==========
+
 ```xml
 <!-- https://mvnrepository.com/artifact/io.github.homebeaver/standard-validator -->
 <dependency>
