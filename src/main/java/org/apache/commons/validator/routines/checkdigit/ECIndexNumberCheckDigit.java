@@ -83,7 +83,7 @@ public final class ECIndexNumberCheckDigit extends ModulusCheckXDigit {
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         int modulusResult = INSTANCE.calculateModulus(code, false);
         return toCheckDigit(modulusResult);

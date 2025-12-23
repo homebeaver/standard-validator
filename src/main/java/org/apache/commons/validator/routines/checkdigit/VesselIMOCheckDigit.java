@@ -99,7 +99,7 @@ public final class VesselIMOCheckDigit extends ModulusCheckDigit {
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         return toCheckDigit(INSTANCE.calculateModulus(code, false));
     }

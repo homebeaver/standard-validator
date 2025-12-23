@@ -84,7 +84,7 @@ public final class VerhoeffCheckDigit extends AbstractCheckDigit implements Seri
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         final int checksum = calculateChecksum(code, false);
         return Integer.toString(INV_TABLE[checksum]);

@@ -86,7 +86,7 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException("Code is missing");
+            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         final int modulusResult = calculateModulus(code, false);
         final int charValue = (modulus - modulusResult) % modulus;
