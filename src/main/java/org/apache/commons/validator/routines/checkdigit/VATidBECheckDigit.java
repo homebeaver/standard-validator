@@ -64,6 +64,7 @@ public final class VATidBECheckDigit extends IsoIecPure97System {
         }
         try {
             //anders als in simplified procedure berechne ich value von code und nicht von (code + "00")
+        	//so ist es in AT_BMF-2020 beschrieben
             long l = Long.parseLong(code); // throws NumberFormatException
             if (l == 0) {
                 throw new CheckDigitException(CheckDigitException.ZERO_SUM);
