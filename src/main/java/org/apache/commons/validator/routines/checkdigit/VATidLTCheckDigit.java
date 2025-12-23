@@ -64,7 +64,7 @@ public final class VATidLTCheckDigit extends Modulus11XCheckDigit {
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         if (code.length() < POS9 - 1) {
-            throw new CheckDigitException("Invalid code " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         if (code.length() >= LEN && GenericTypeValidator.formatLong(code) == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);

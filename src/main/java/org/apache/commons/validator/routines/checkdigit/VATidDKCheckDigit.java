@@ -83,7 +83,7 @@ public final class VATidDKCheckDigit extends Modulus11XCheckDigit {
         // Satisfy testZeroSum
         final Long l = GenericTypeValidator.formatLong(code);
         if (l == null) {
-            throw new CheckDigitException("Invalid code " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         if (l == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);

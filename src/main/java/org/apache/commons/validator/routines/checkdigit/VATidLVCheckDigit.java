@@ -53,7 +53,7 @@ public final class VATidLVCheckDigit extends ModulusCheckDigit {
      * Codes starting with x > THREE are given to legal persons.
      */
     private static final int THREE = 3;
-    private static final String INVALID_CODE_NEGATIVE = "Invalid code, check digit cannot be negative";
+    private static final String INVALID_CODE_NEGATIVE = "Invalid code, calculated check digit cannot be negative";
 
     /** Weighting given to digits depending on their left position */
     private static final int[] POSITION_WEIGHT = { 9, 1, 4, 8, 3, 10, 2, 5, 7, 6 };
@@ -98,7 +98,7 @@ public final class VATidLVCheckDigit extends ModulusCheckDigit {
         }
         final Long l = GenericTypeValidator.formatLong(code);
         if (l == null) {
-            throw new CheckDigitException("Invalid VAT number " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         if (l == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);
@@ -127,7 +127,7 @@ public final class VATidLVCheckDigit extends ModulusCheckDigit {
      */
     private int calculateNMIN(final String code, boolean invalidDateException) throws CheckDigitException {
         if (code.length() != LEN - 1) {
-            throw new CheckDigitException("Invalid code, code.length()=" + code.length());
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "Length="+code.length()));
         }
         final int c1 = toInt(code.charAt(0), 1, -1);
         final int c2 = toInt(code.charAt(1), 2, -1);

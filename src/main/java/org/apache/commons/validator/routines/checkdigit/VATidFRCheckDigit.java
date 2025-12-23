@@ -98,7 +98,7 @@ public final class VATidFRCheckDigit extends ModulusCheckDigit {
         }
         // all French VATIN codes contain a valid SIREN number
         if (!SIRENE_VALIDATOR.isValid(code)) {
-            throw new CheckDigitException("Invalid code, " + code + " is not valid SIREN");
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "Invalid SIREN"));
         }
         // There are more than one possible VATIN check digit C(1-2) for a given SIREN,
         // thus, it isn't possible to compute it.
@@ -116,7 +116,7 @@ public final class VATidFRCheckDigit extends ModulusCheckDigit {
     private int calcOldStyle(final String code) throws CheckDigitException {
         final Long cde12 = GenericTypeValidator.formatLong(code + "12");
         if (cde12 == null) {
-            throw new CheckDigitException("Invalid code, '" + code + "'");
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         return (int) (cde12 % MODULUS_97);
     }
@@ -125,7 +125,7 @@ public final class VATidFRCheckDigit extends ModulusCheckDigit {
         final int cd = GenericTypeValidator.formatInt(code.substring(0, CHECKDIGIT_LEN));
         final Long cde = GenericTypeValidator.formatLong((code + "12").substring(CHECKDIGIT_LEN));
         if (cde == null) {
-            throw new CheckDigitException("Invalid code " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         return cd == cde % MODULUS_97;
     }

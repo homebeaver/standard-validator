@@ -79,7 +79,7 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
         if (leftPos == POS9) {
             return 1 + LETTER9TONUMBER.indexOf(character);
         }
-        throw new CheckDigitException("Invalid Character[" + leftPos + "] = '" + character + "'");
+        throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
     }
 
 

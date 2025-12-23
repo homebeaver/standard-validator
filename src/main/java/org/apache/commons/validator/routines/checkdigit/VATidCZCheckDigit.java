@@ -166,7 +166,7 @@ public final class VATidCZCheckDigit extends ModulusCheckDigit {
 
     private int calculateModulus6(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         if (code.charAt(0) != '6') {
-            throw new CheckDigitException("Invalid code, first char not '6' :" + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "First char not '6'"));
         }
         int total = 0;
         for (int i = 1; i < code.length(); i++) {

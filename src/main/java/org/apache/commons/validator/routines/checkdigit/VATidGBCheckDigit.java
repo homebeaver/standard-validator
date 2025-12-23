@@ -122,7 +122,7 @@ public final class VATidGBCheckDigit extends ModulusCheckDigit implements IsoIec
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         if (code.length() < LEN - CHECKDIGIT_LEN) {
-            throw new CheckDigitException("Invalid Code length=" + code.length());
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "Length=" + code.length()));
         }
 
         final int modulusResult = calculateModulus(code, false);

@@ -105,7 +105,7 @@ public final class VATidLUCheckDigit extends ModulusCheckDigit implements IsoIec
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         if (code.length() < CHECKDIGIT_LEN) {
-            throw new CheckDigitException("Invalid Code length=" + code.length());
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
         }
         final int mr = calculateModulus(code, false);
         // Modulus result mr can be 0 - the CheckDigit is "00"

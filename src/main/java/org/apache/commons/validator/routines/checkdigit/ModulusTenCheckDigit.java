@@ -208,7 +208,7 @@ public final class ModulusTenCheckDigit extends ModulusCheckDigit {
     protected int toInt(final char character, final int leftPos, final int rightPos) throws CheckDigitException {
         final int num = Character.getNumericValue(character);
         if (num < 0) {
-            throw new CheckDigitException("Invalid Character[" + leftPos + "] = '" + character + "'");
+            throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
         }
         return num;
     }

@@ -68,7 +68,7 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
     @Override
     protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         if (code.length() > POSITION_WEIGHT.length) {
-            throw new CheckDigitException("Invalid Code Length = " + code.length());
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "too long. Length = " + code.length()));
         }
         return super.calculateModulus(code, includesCheckDigit);
     }
@@ -88,7 +88,7 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
         // the check digit is only allowed to reach 9
         final int charMax = rightPos == 1 ? 9 : MAX_ALPHANUMERIC_VALUE; // CHECKSTYLE IGNORE MagicNumber
         if (charValue < 0 || charValue > charMax) {
-            throw new CheckDigitException("Invalid Character[" + leftPos + "," + rightPos + "] = '" + charValue + "' out of range 0 to " + charMax);
+            throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
         }
         return charValue;
     }

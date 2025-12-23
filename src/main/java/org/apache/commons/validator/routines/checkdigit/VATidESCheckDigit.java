@@ -96,7 +96,7 @@ public final class VATidESCheckDigit extends ModulusCheckDigit {
     private char calculateNIFletter(final String code) throws CheckDigitException {
         final Long l = GenericTypeValidator.formatLong(code);
         if (l == null) {
-            throw new CheckDigitException("Invalid VAT number " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         if (l == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);
