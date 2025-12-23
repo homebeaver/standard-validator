@@ -64,12 +64,16 @@ public final class VATidSKCheckDigit extends Modulus11XCheckDigit {
         // Satisfy testZeroSum
         final Long l = GenericTypeValidator.formatLong(code);
         if (l == null) {
-            throw new CheckDigitException("Invalid code " + code);
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
         if (l == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);
         }
-        return toCheckDigit((int) (l % MODULUS_11));
+        try {
+            return toCheckDigit((int) (l % MODULUS_11));
+        } catch (final CheckDigitException ex) {
+            throw new CheckDigitException(CheckDigitException.invalidCode(code, "is not multiple of 11"));
+        }
     }
 
     /**
@@ -99,7 +103,7 @@ public final class VATidSKCheckDigit extends Modulus11XCheckDigit {
         if (charValue == 0) {
             return super.toCheckDigit(charValue);
         }
-        throw new CheckDigitException("Invalid Check Digit Value =" + +charValue);
+        throw new CheckDigitException("Invalid Check Digit Value = " + +charValue);
     }
 
 }
