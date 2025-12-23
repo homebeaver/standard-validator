@@ -17,7 +17,7 @@
 package org.apache.commons.validator.routines.checkdigit;
 
 /**
- * Implements ISO/IEC 7064, MOD 97-10 check digit calculation/validation.
+ * Implements ISO/IEC 7064, MOD 97-10 check digit simplified procedure for calculation.
  * <p>
  * MOD 97-10 applies to numeric strings, the check digit is numeric.
  * See <a href="https://de.wikipedia.org/wiki/ISO/IEC_7064">Wikipedia - ISO/IEC_7064 (de)</a>
@@ -62,6 +62,12 @@ public class IsoIecPure97System extends IsoIec7064PureSystem implements IsoIecCo
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
         try {
+        /*
+         * simplified procedure:
+         * - Append two zeros to the string
+         * - divide by 97 (the Modulus)
+         * - Subtract the remainder r from 98 (Modulus+1)
+         */
             long l = Long.parseLong(code + "00"); // throws NumberFormatException
             int r = (int) (l % getModulus());
             return toCheckDigit((getModulus() + 1 - r) % getModulus());
