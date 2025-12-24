@@ -43,6 +43,8 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
 
         valid = new String[] { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, VALID_MASTERCARD, VALID_DISCOVER, VALID_DINERS
             , VALID_IT_IVA_BANCA_ITALIA
+            // Miles & More:
+            , "999956789012347", "992056789012343", "992256789012349", "222000000000002", "333000000000008"
             // VATIN_SE:
             , "0000000018", "9999999999", "5565102570" // theoretical minimum, maximum, checkdigit zero
             , "1366959755", "1234567897", "5560528514", "5566801444", "5565102471", VALID_SE_VATIN_OLLE_SVENSSONS
