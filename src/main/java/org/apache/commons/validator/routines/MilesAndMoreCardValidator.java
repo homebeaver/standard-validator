@@ -94,18 +94,4 @@ public final class MilesAndMoreCardValidator implements Serializable {
         return VALIDATOR.isValid(code);
     }
 
-    /**
-     * Checks the code is valid IMO number.
-     *
-     * @param code The code to validate.
-     * @return A IMO number code with prefix removed if valid, otherwise {@code null}.
-     */
-    public Object validate(final String code) {
-        final Object validate = VALIDATOR.validate(code);
-        if (validate != null) {
-            return VALIDATOR.isValid(code) ? validate : null;
-        }
-        return validate;
-    }
-
 }
