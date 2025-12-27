@@ -56,7 +56,7 @@ public final class BahnCardValidator implements Serializable {
     private static final String FORMAT = "(7081)(\\d{12})";
 
     static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
-    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, 15, LuhnCheckDigit.getInstance());
+    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, 16, LuhnCheckDigit.getInstance());
 
     /**
      * Constructs a validator.
