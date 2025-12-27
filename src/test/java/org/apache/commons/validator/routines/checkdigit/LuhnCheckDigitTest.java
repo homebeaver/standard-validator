@@ -45,6 +45,7 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
             , VALID_IT_IVA_BANCA_ITALIA
             // Bahncard:
             , "7081410043891603", "7081411000000006", "7081420000000007"
+            , "5047000000000004" // ÖBB (Österreich) – Vorteilscard
             // Miles & More:
             , "999956789012347", "992056789012343", "992256789012349", "222000000000002", "333000000000008"
             // VATIN_SE:
