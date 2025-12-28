@@ -54,9 +54,10 @@ public final class BahnCardValidator implements Serializable {
     }
 
     private static final String FORMAT = "(7081)(\\d{12})";
+    private static final int LEN = 16;
 
     static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
-    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, 16, LuhnCheckDigit.getInstance());
+    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, LEN, LuhnCheckDigit.getInstance());
 
     /**
      * Constructs a validator.
@@ -66,11 +67,18 @@ public final class BahnCardValidator implements Serializable {
     /**
      * Tests whether the code is a valid card number.
      *
-     * @param code The code to validate.
+     * @param code The card number to validate.
      * @return {@code true} if a card number, otherwise {@code false}.
      */
+    /* <code>code.length()==LEN</code> sorgt dafür, dass FORMAT pur angewendet wird
+     * whitespaces (TAB, NewLine) als Präfix oder Suffix der nummer liefern invalid.
+     * Der &&-Operand darf nicht vorne stehen, bei code==null führt es zu NPE!
+     */
     public boolean isValid(final String code) {
-        return VALIDATOR.isValid(code);
+    	/**
+    	 * <code>code.length()==LEN</code> sorgt
+    	 */
+        return VALIDATOR.isValid(code) && code.length()==LEN;
     }
 
 }
