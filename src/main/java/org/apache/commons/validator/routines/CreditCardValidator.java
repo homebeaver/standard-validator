@@ -196,12 +196,13 @@ public class CreditCardValidator implements Serializable {
      */
     public static final long VPAY = 1 << 5; // CHECKSTYLE IGNORE MagicNumber
 
-    /**
-     * Option specifying that Mastercard cards (pre Oct 2016 only) are allowed.
-     * @deprecated for use until Oct 2016 only
-     */
-    @Deprecated
-    public static final long MASTERCARD_PRE_OCT2016 = 1 << 6; // CHECKSTYLE IGNORE MagicNumber
+//    /**
+//     * Option specifying that Mastercard cards (pre Oct 2016 only) are allowed.
+//     * @deprecated for use until Oct 2016 only
+//     */
+//    @Deprecated
+//    public static final long MASTERCARD_PRE_OCT2016 = 1 << 6; // CHECKSTYLE IGNORE MagicNumber
+
 
     /**
      * Luhn checkdigit validator for the card numbers.
@@ -262,12 +263,12 @@ public class CreditCardValidator implements Serializable {
     /** Mastercard Card Validator */
     public static final CodeValidator MASTERCARD_VALIDATOR = new CodeValidator(MASTERCARD_REGEX, LUHN_VALIDATOR);
 
-    /**
-     * Mastercard Card Validator (pre Oct 2016)
-     * @deprecated for use until Oct 2016 only
-     */
-    @Deprecated
-    public static final CodeValidator MASTERCARD_VALIDATOR_PRE_OCT2016 = new CodeValidator("^(5[1-5]\\d{14})$", LUHN_VALIDATOR);
+//    /**
+//     * Mastercard Card Validator (pre Oct 2016)
+//     * @deprecated for use until Oct 2016 only
+//     */
+//    @Deprecated
+//    public static final CodeValidator MASTERCARD_VALIDATOR_PRE_OCT2016 = new CodeValidator("^(5[1-5]\\d{14})$", LUHN_VALIDATOR);
 
     /**
      * Visa Card Validator
@@ -459,9 +460,9 @@ public class CreditCardValidator implements Serializable {
             cardTypes.add(MASTERCARD_VALIDATOR);
         }
 
-        if (isOn(options, MASTERCARD_PRE_OCT2016)) {
-            cardTypes.add(MASTERCARD_VALIDATOR_PRE_OCT2016);
-        }
+//        if (isOn(options, MASTERCARD_PRE_OCT2016)) {
+//            cardTypes.add(MASTERCARD_VALIDATOR_PRE_OCT2016);
+//        }
 
         if (isOn(options, DISCOVER)) {
             cardTypes.add(DISCOVER_VALIDATOR);
