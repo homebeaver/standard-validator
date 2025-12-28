@@ -39,6 +39,7 @@ class CreditCardValidatorTest {
     private static final String VALID_AMEX = "378282246310005"; // 15
     private static final String ERROR_AMEX = "378282246310001";
     private static final String VALID_MASTERCARD = "5105105105105100";
+    private static final String VALID_MASTERLHMM = "5310000314865928"; // Kreditkarte_(MasterCard_Gold)_mit_Miles_%26_More,_um_2022.jpg
     private static final String ERROR_MASTERCARD = "5105105105105105";
     private static final String VALID_DISCOVER = "6011000990139424";
     private static final String ERROR_DISCOVER = "6011000990139421";
@@ -50,8 +51,10 @@ class CreditCardValidatorTest {
     private static final String VALID_VPAY2 = "4370000000000012";
     private static final String ERROR_VPAY = "4370000000000069";
 
-    private static final String[] VALID_CARDS = { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, VALID_MASTERCARD, VALID_DISCOVER, VALID_DISCOVER65, VALID_DINERS,
-            VALID_VPAY, VALID_VPAY2, "60115564485789458", // VALIDATOR-403
+    private static final String[] VALID_CARDS = { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, 
+        VALID_MASTERCARD, VALID_MASTERLHMM, 
+        VALID_DISCOVER, VALID_DISCOVER65, VALID_DINERS,
+        VALID_VPAY, VALID_VPAY2, "60115564485789458", // VALIDATOR-403
     };
 
     private static final String[] ERROR_CARDS = { ERROR_VISA, ERROR_SHORT_VISA, ERROR_AMEX, ERROR_MASTERCARD, ERROR_DISCOVER, ERROR_DISCOVER65, ERROR_DINERS,

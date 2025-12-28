@@ -75,9 +75,10 @@ public final class MilesAndMoreCardValidator implements Serializable {
     private static final String FORMAT1 = "(9999|9920|9922)(\\d{11})";
     private static final String FORMAT2 = "(222|333)(\\d{12})";
     private static final String[] FORMAT = new String[] {FORMAT1, FORMAT2};
+    private static final int LEN = 15;
 
     static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
-    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, 15, LuhnCheckDigit.getInstance());
+    static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, LEN, LuhnCheckDigit.getInstance());
 
     /**
      * Constructs a validator.
@@ -91,7 +92,7 @@ public final class MilesAndMoreCardValidator implements Serializable {
      * @return {@code true} if a service card number, otherwise {@code false}.
      */
     public boolean isValid(final String code) {
-        return VALIDATOR.isValid(code);
+        return VALIDATOR.isValid(code) && code.length()==LEN;
     }
 
 }
