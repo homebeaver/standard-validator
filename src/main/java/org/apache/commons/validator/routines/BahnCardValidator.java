@@ -70,14 +70,11 @@ public final class BahnCardValidator implements Serializable {
      * @param code The card number to validate.
      * @return {@code true} if a card number, otherwise {@code false}.
      */
-    /* <code>code.length()==LEN</code> sorgt dafür, dass FORMAT pur angewendet wird
-     * whitespaces (TAB, NewLine) als Präfix oder Suffix der nummer liefern invalid.
-     * Der &&-Operand darf nicht vorne stehen, bei code==null führt es zu NPE!
-     */
     public boolean isValid(final String code) {
-    	/**
-    	 * <code>code.length()==LEN</code> sorgt
-    	 */
+        /* <code>code.length()==LEN</code> sorgt dafür, dass FORMAT pur angewendet wird,
+         * whitespaces (TAB, NewLine) als Präfix oder Suffix der nummer liefern invalid.
+         * Der &&-Operand darf nicht vorne stehen, bei code==null führt es zu NPE!
+         */
         return VALIDATOR.isValid(code) && code.length()==LEN;
     }
 
