@@ -38,18 +38,18 @@ import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
  *
  * @since 2.10.5
  */
-public final class VorteilscardValidator implements Serializable {
+public final class VorteilsCardValidator implements Serializable {
 
     private static final long serialVersionUID = 5459084341193160754L;
 
 	/** Singleton instance */
-    private static final VorteilscardValidator INSTANCE = new VorteilscardValidator();
+    private static final VorteilsCardValidator INSTANCE = new VorteilsCardValidator();
 
     /**
      * Gets the singleton instance of this validator.
      * @return A singleton instance of the card validator.
      */
-    public static VorteilscardValidator getInstance() {
+    public static VorteilsCardValidator getInstance() {
         return INSTANCE;
     }
 
@@ -61,7 +61,7 @@ public final class VorteilscardValidator implements Serializable {
     /**
      * Constructs a validator.
      */
-    private VorteilscardValidator() { }
+    private VorteilsCardValidator() { }
 
     /**
      * Tests whether the code is a valid card number.
