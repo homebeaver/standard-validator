@@ -50,19 +50,24 @@ class CreditCardValidatorTest {
     private static final String VALID_VPAY = "4370000000000061"; // 16
     private static final String VALID_VPAY2 = "4370000000000012";
     private static final String ERROR_VPAY = "4370000000000069";
+    private static final String VALID_JCB38 = "3538000000000005"; // 16
+    private static final String VALID_JCB73 = "3573000000000001";
+    private static final String ERROR_JCB = "3538000000000000";
 
     private static final String[] VALID_CARDS = { VALID_VISA, VALID_SHORT_VISA, VALID_AMEX, 
         VALID_MASTERCARD, VALID_MASTERLHMM, 
         VALID_DISCOVER, VALID_DISCOVER65, VALID_DINERS,
         VALID_VPAY, VALID_VPAY2, "60115564485789458", // VALIDATOR-403
+        VALID_JCB38, VALID_JCB73,
     };
 
-    private static final String[] ERROR_CARDS = { ERROR_VISA, ERROR_SHORT_VISA, ERROR_AMEX, ERROR_MASTERCARD, ERROR_DISCOVER, ERROR_DISCOVER65, ERROR_DINERS,
-            ERROR_VPAY,
-//        ERROR_VPAY2,
-            "", "12345678901", // too short (11)
-            "12345678901234567890", // too long (20)
-            "4417123456789112", // invalid check digit
+    private static final String[] ERROR_CARDS = { ERROR_VISA, ERROR_SHORT_VISA, ERROR_AMEX,
+        ERROR_MASTERCARD, ERROR_DISCOVER, ERROR_DISCOVER65, ERROR_DINERS,
+        ERROR_VPAY,
+        ERROR_JCB,
+        "", "12345678901", // too short (11)
+        "12345678901234567890", // too long (20)
+        "4417123456789112", // invalid check digit
     };
 
     @Test
@@ -145,7 +150,8 @@ class CreditCardValidatorTest {
      */
     @Test
     void testArrayConstructor() {
-        final CreditCardValidator ccv = new CreditCardValidator(new CodeValidator[] { CreditCardValidator.VISA_VALIDATOR, CreditCardValidator.AMEX_VALIDATOR });
+        final CreditCardValidator ccv = new CreditCardValidator(new CodeValidator[] { 
+            CreditCardValidator.VISA_VALIDATOR, CreditCardValidator.AMEX_VALIDATOR });
 
         assertTrue(ccv.isValid(VALID_VISA));
         assertTrue(ccv.isValid(VALID_SHORT_VISA));
@@ -504,11 +510,14 @@ class CreditCardValidatorTest {
     @Test
     void testRangeGenerator() {
         final CreditCardValidator ccv = new CreditCardValidator(
-                new CodeValidator[] { CreditCardValidator.AMEX_VALIDATOR, CreditCardValidator.VISA_VALIDATOR, CreditCardValidator.MASTERCARD_VALIDATOR,
+                new CodeValidator[] { CreditCardValidator.AMEX_VALIDATOR, CreditCardValidator.VISA_VALIDATOR,
+                        CreditCardValidator.MASTERCARD_VALIDATOR,
+                        CreditCardValidator.JCB_VALIDATOR,
                         CreditCardValidator.DISCOVER_VALIDATOR, },
                 // Add missing validator
                 new CreditCardRange[] { new CreditCardRange("300", "305", 14, 14), // Diners
                         new CreditCardRange("3095", null, 14, 14), // Diners
+                        new CreditCardRange("3528", "3589", 16, 16), // JCB
                         new CreditCardRange("36", null, 14, 14), // Diners
                         new CreditCardRange("38", "39", 14, 14), // Diners
                 }

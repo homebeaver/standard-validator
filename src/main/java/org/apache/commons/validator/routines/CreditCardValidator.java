@@ -99,7 +99,7 @@ public class CreditCardValidator implements Serializable {
          * of the number syntax including the IIN range.
          * <p>
          * The low and high parameters may be shorter than the length
-         * of an IIN (currently 6 digits) in which case subsequent digits
+         * of an IIN (currently 8 digits) in which case subsequent digits
          * are ignored and may range from 0-9.
          * </p>
          * <p>
@@ -203,6 +203,11 @@ public class CreditCardValidator implements Serializable {
 //    @Deprecated
 //    public static final long MASTERCARD_PRE_OCT2016 = 1 << 6; // CHECKSTYLE IGNORE MagicNumber
 
+    /**
+     * Option specifying that JCB cards are allowed.
+     * @since 2.10.5
+     */
+    public static final long JCB = 1 << 7; // CHECKSTYLE IGNORE MagicNumber
 
     /**
      * Luhn checkdigit validator for the card numbers.
@@ -241,6 +246,19 @@ public class CreditCardValidator implements Serializable {
 
     /** Discover Card Validator */
     public static final CodeValidator DISCOVER_VALIDATOR = new CodeValidator(DISCOVER_REGEX, LUHN_VALIDATOR);
+
+    /**
+     * JCB Card regular expressions, prefix range 3528 - 3589
+     * <ul>
+     * <li>3528xx - 3589xx (16)</li>
+     * </ul>
+     */
+    private static final RegexValidator JCB_REGEX = new RegexValidator(
+            "^(352[8-9]\\d{12})$", 
+            "^(35[3-8]\\d{13})$");
+
+    /** JCB Card Validator */
+    public static final CodeValidator JCB_VALIDATOR = new CodeValidator(JCB_REGEX, LUHN_VALIDATOR);
 
     /**
      * Mastercard regular expressions
