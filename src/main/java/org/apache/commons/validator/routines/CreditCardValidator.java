@@ -254,7 +254,7 @@ public class CreditCardValidator implements Serializable {
      * </ul>
      */
     private static final RegexValidator JCB_REGEX = new RegexValidator(
-            "^(352[8-9]\\d{12})$", 
+            "^(352[8-9]\\d{12})$",
             "^(35[3-8]\\d{13})$");
 
     /** JCB Card Validator */
@@ -488,6 +488,10 @@ public class CreditCardValidator implements Serializable {
 
         if (isOn(options, DINERS)) {
             cardTypes.add(DINERS_VALIDATOR);
+        }
+
+        if (isOn(options, JCB)) {
+            cardTypes.add(JCB_VALIDATOR);
         }
     }
 

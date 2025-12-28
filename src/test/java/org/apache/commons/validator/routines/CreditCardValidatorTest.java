@@ -507,6 +507,81 @@ class CreditCardValidatorTest {
         assertFalse(rev.isValid("272100" + pad), "272100");
     }
 
+    /**
+     * Test the JCB Card option
+     */
+    @Test
+    void testJCBcardOption() {
+        final CreditCardValidator validator = new CreditCardValidator(CreditCardValidator.JCB);
+        assertFalse(validator.isValid(ERROR_JCB), "Invalid");
+        assertNull(validator.validate(ERROR_JCB), "validate()");
+        assertEquals(VALID_JCB38, validator.validate(VALID_JCB38));
+
+        assertFalse(validator.isValid(VALID_AMEX), "Amex");
+        assertFalse(validator.isValid(VALID_DINERS), "Diners");
+        assertFalse(validator.isValid(VALID_DISCOVER), "Discover");
+        assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
+        assertTrue(validator.isValid(VALID_JCB38), "JCB");
+        assertFalse(validator.isValid(VALID_VISA), "Visa");
+        assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+    }
+
+    /**
+     * Test the JCB Card validator
+     */
+    @Test
+    void testJCBcardValidator() {
+
+        final CodeValidator validator = CreditCardValidator.JCB_VALIDATOR;
+        final RegexValidator regex = validator.getRegexValidator();
+
+        // ****** Test Regular Expression ******
+        // length 16 and start with a "3528-3589"
+        assertFalse(regex.isValid("352856789012"), "Length 12");
+        assertFalse(regex.isValid("3528567890123"), "Length 13");
+        assertFalse(regex.isValid("35285678901234"), "Length 14");
+        assertFalse(regex.isValid("352856789012345"), "Length 15");
+        assertTrue(regex.isValid("3528567890123456"), "Length 16");
+        assertFalse(regex.isValid("35285678901234567"), "Length 17");
+        assertFalse(regex.isValid("352856789012345678"), "Length 18");
+        assertFalse(regex.isValid("4134567890123456"), "Prefix 41");
+        assertFalse(regex.isValid("5034567890123456"), "Prefix 50");
+        assertTrue(regex.isValid("3528567890123456"), "Prefix 3528");
+        assertTrue(regex.isValid("3529567890123456"), "Prefix 3529");
+        assertTrue(regex.isValid("3530567890123456"), "Prefix 3530");
+        assertTrue(regex.isValid("3580567890123456"), "Prefix 3580");
+        assertTrue(regex.isValid("3589567890123456"), "Prefix 3589");
+        assertFalse(regex.isValid("3590567890123456"), "Prefix 3590");
+        assertFalse(regex.isValid("3689567890123456"), "Prefix 3689");
+        assertFalse(regex.isValid("3589567x90123456"), "Invalid Char");
+
+        // *********** Test Validator **********
+        assertTrue(regex.isValid(ERROR_JCB), "Valid regex");
+        assertFalse(validator.isValid(ERROR_JCB), "Invalid");
+        assertNull(validator.validate(ERROR_JCB), "validate()");
+        assertEquals(VALID_JCB38, validator.validate(VALID_JCB38));
+
+        assertFalse(validator.isValid(VALID_AMEX), "Amex");
+        assertFalse(validator.isValid(VALID_DINERS), "Diners");
+        assertFalse(validator.isValid(VALID_DISCOVER), "Discover");
+        assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
+        assertTrue(validator.isValid(VALID_JCB38), "JCB");
+        assertFalse(validator.isValid(VALID_VISA), "Visa");
+        assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+
+        assertTrue(validator.isValid("3528000000000007"), "Valid-A");
+        assertTrue(validator.isValid("3589000000000011"), "Valid-B");
+
+        final RegexValidator rev = validator.getRegexValidator();
+        final String pad = "000000000000";
+        assertFalse(rev.isValid("3527" + pad), "3527");
+        for (int i = 3528; i <= 3589; i++) {
+            final String j = Integer.toString(i) + pad;
+            assertTrue(rev.isValid(j), j);
+        }
+        assertFalse(rev.isValid("3590" + pad), "3590");
+    }
+
     @Test
     void testRangeGenerator() {
         final CreditCardValidator ccv = new CreditCardValidator(
