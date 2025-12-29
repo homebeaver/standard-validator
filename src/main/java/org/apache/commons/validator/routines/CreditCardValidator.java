@@ -405,10 +405,10 @@ public class CreditCardValidator implements Serializable {
     /**
      * Constructs a new CreditCardValidator with default options.
      * The default options are:
-     * AMEX, VISA, MASTERCARD and DISCOVER
+     * AMEX, VISA, MASTERCARD, DISCOVER and JCB
      */
     public CreditCardValidator() {
-        this(AMEX + VISA + MASTERCARD + DISCOVER);
+        this(AMEX + VISA + MASTERCARD + DISCOVER + JCB);
     }
 
     /**
