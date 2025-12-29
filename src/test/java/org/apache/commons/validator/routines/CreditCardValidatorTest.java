@@ -79,6 +79,7 @@ class CreditCardValidatorTest {
         assertFalse(ccv.isValid(VALID_MASTERCARD));
         assertFalse(ccv.isValid(VALID_DISCOVER));
         assertFalse(ccv.isValid(VALID_DINERS));
+        assertFalse(ccv.isValid(VALID_JCB38));
     }
 
     /**
@@ -97,6 +98,7 @@ class CreditCardValidatorTest {
         assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertFalse(validator.isValid(VALID_VISA), "Visa");
         assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 
     /**
@@ -158,12 +160,14 @@ class CreditCardValidatorTest {
         assertTrue(ccv.isValid(VALID_AMEX));
         assertFalse(ccv.isValid(VALID_MASTERCARD));
         assertFalse(ccv.isValid(VALID_DISCOVER));
+        assertFalse(ccv.isValid(VALID_JCB38));
 
         assertFalse(ccv.isValid(ERROR_VISA));
         assertFalse(ccv.isValid(ERROR_SHORT_VISA));
         assertFalse(ccv.isValid(ERROR_AMEX));
         assertFalse(ccv.isValid(ERROR_MASTERCARD));
         assertFalse(ccv.isValid(ERROR_DISCOVER));
+        assertFalse(ccv.isValid(ERROR_JCB));
 
         assertThrows(IllegalArgumentException.class, () -> new CreditCardValidator((CodeValidator[]) null));
     }
@@ -184,6 +188,7 @@ class CreditCardValidatorTest {
         assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertFalse(validator.isValid(VALID_VISA), "Visa");
         assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 
     /**
@@ -269,6 +274,7 @@ class CreditCardValidatorTest {
         assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertFalse(validator.isValid(VALID_VISA), "Visa");
         assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 
     /**
@@ -335,10 +341,13 @@ class CreditCardValidatorTest {
         assertEquals(13, VALID_SHORT_VISA.length());
         assertEquals(16, VALID_VISA.length());
         assertEquals(14, VALID_DINERS.length());
+        assertEquals(16, VALID_JCB38.length());
         assertTrue(ccv.isValid(VALID_SHORT_VISA));
         assertTrue(ccv.isValid(VALID_VISA));
+        assertTrue(ccv.isValid(VALID_JCB38));
         assertFalse(ccv.isValid(ERROR_SHORT_VISA));
         assertFalse(ccv.isValid(ERROR_VISA));
+        assertFalse(ccv.isValid(ERROR_JCB));
         assertFalse(ccv.isValid(VALID_DINERS));
         ccv = new CreditCardValidator(new CreditCardRange[] {
                 // add 14 as a valid length
@@ -387,6 +396,8 @@ class CreditCardValidatorTest {
         assertTrue(ccv.isValid(VALID_MASTERCARD));
         assertTrue(ccv.isValid(VALID_DISCOVER));
         assertTrue(ccv.isValid(VALID_DISCOVER65));
+        assertTrue(ccv.isValid(VALID_JCB38));
+        assertTrue(ccv.isValid(VALID_JCB73));
 
         assertFalse(ccv.isValid(ERROR_VISA));
         assertFalse(ccv.isValid(ERROR_SHORT_VISA));
@@ -394,6 +405,7 @@ class CreditCardValidatorTest {
         assertFalse(ccv.isValid(ERROR_MASTERCARD));
         assertFalse(ccv.isValid(ERROR_DISCOVER));
         assertFalse(ccv.isValid(ERROR_DISCOVER65));
+        assertFalse(ccv.isValid(ERROR_JCB));
 
         // disallow Visa so it should fail even with good number
         ccv = new CreditCardValidator(CreditCardValidator.AMEX);
@@ -416,6 +428,7 @@ class CreditCardValidatorTest {
         assertTrue(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertFalse(validator.isValid(VALID_VISA), "Visa");
         assertFalse(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 
     /**
@@ -661,6 +674,7 @@ class CreditCardValidatorTest {
         assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertTrue(validator.isValid(VALID_VISA), "Visa");
         assertTrue(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 
     /**
@@ -724,5 +738,6 @@ class CreditCardValidatorTest {
         assertFalse(validator.isValid(VALID_MASTERCARD), "Mastercard");
         assertTrue(validator.isValid(VALID_VISA), "Visa");
         assertTrue(validator.isValid(VALID_SHORT_VISA), "Visa Short");
+        assertFalse(validator.isValid(VALID_JCB38), "JCB");
     }
 }
