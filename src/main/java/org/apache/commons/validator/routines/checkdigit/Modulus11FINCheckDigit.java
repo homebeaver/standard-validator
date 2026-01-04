@@ -28,8 +28,8 @@ import org.apache.commons.validator.GenericValidator;
  * </p>
  * <p>
  * Check digit calculation is based on <em>modulus 11</em> with digits being weighted
- * based by their position, from right to left with the first digit being weighted  1,
- * the second 2 and so on. If the check digit is calculated as "10" it is converted to "X".
+ * based by their position, from right to left.
+ * If the check digit is calculated as "10" it is converted to "X".
  * </p>
  * <p>
  * See <a href="https://de.wikipedia.org/wiki/F%C3%BChrerscheinnummer">Wikipedia (de)</a>
@@ -47,7 +47,7 @@ public class Modulus11FINCheckDigit extends Modulus11XCheckDigit {
     private static final Modulus11FINCheckDigit INSTANCE = new Modulus11FINCheckDigit();
 
     /**
-     * Gets the singleton instance of this validator.
+     * Gets the singleton instance of this class.
      * @return A singleton instance of the class.
      */
     public static CheckDigit getInstance() {
@@ -94,13 +94,17 @@ public class Modulus11FINCheckDigit extends Modulus11XCheckDigit {
         new AbstractMap.SimpleEntry<Character, Integer>('Z', 9)
         );
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle character FIN mapping.
+     * </p>
+     */
     protected int toInt(final char character, final int leftPos, final int rightPos) throws CheckDigitException {
         if (Character.isDigit(character)) {
-//        	System.out.println(">>>"+character+"> at leftPos="+leftPos+">>>"+Character.getNumericValue(character));
             return Character.getNumericValue(character);
         }
         Integer i =  FINMAP.get(character);
-//    	System.out.println(">>>"+character+"> at leftPos="+leftPos+">>>"+i);
         if (i == null) {
             throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
         }
@@ -115,14 +119,7 @@ public class Modulus11FINCheckDigit extends Modulus11XCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-// rightPos ohne PZ => 1 in doku 2 => w= 3
-//                     2         3       4
-//                     7         8       9
-//                     8         9       10
-//                     9        10       0
-//        int w = rightPos < 9 ? rightPos + 2: ((rightPos+1) % 10 + 2);
         int w = (rightPos+1) % 10 + 1;
-//    	System.out.println("W=="+charValue+"> at leftPos="+leftPos+">>> W="+w);
         return charValue * w;
     }
 

@@ -28,8 +28,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus11FINCheckDigit;
  * </p>
  *
  * <p>
- * Check digit calculation is based on <i>modulus 11</i> with digits being weighted
- * and can have a value of "X".
+ * Check digit calculation is based on <i>modulus 11</i> and can have a value of "X".
  * </p>
  *
  * <p>
@@ -63,7 +62,7 @@ public final class DriverLicenseDEValidator implements Serializable {
      * - a sequence number or alpha A for 10 ... (not used in check digit calculation)
      * Example with spaces for the parts: B 072 RRE2I 5 5
      */
-    /* first char designate the individual German state, here with ISO 3166-2 country subdivision code
+    /* the prefix designate the individual German state, here with ISO 3166-2 country subdivision code
 A 08 DE-BW Baden-Württemberg 
 B 09 DE-BY Bayern 
 C 11 DE-BE Berlin 
@@ -85,7 +84,7 @@ P 16 DE-TH Thüringen
      * NOTE: the last group is non-capturing (?: ... )
      */
     private static final String FORMAT = "([A-P])(\\d{3})([A-Z0-9]{5})([0-9X])(?:[A-Z0-9])";
-    private static final int LEN = 10;
+    private static final int LEN = 10; // without the non-capturing group
 
     static RegexValidator FORMAT_VALIDATOR = new RegexValidator(FORMAT);
     static final CodeValidator VALIDATOR = new CodeValidator(FORMAT_VALIDATOR, LEN, Modulus11FINCheckDigit.getInstance());

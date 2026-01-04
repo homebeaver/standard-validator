@@ -34,8 +34,9 @@ class Modulus11FINCheckDigitTest extends AbstractCheckDigitTest {
     /*
      * Die Beispiele aus https://de.wikipedia.org/wiki/F%C3%BChrerscheinnummer liefern invalid
      * weil das Erste nur ein Layout mit falscher Nr ist. 
-     * Ersetzt man das führende "Z" mit "E" so ist die Nummer valide.
-     * Die zweite Nummer enthält eine Ausfertigungsziffer, die nicht in die Prüfzifferberechnung einfließt.
+     * Ersetzt man das führende "Z" durch "E" so ist die Nummer valide.
+     * Die zweite Nummer enthält eine Ausfertigungsziffer am Ende, 
+     * die nicht in die Prüfzifferberechnung einfließt.
      */
     private static final String DL_DE_LAYOUT_2021 = "Z021AB37X1"; // File:DE Licence 2021 Front.jpg
     private static final String DRIVER_LICENSE_DE = "B072RRE2I55"; // mit Ausfertigungsziffer
