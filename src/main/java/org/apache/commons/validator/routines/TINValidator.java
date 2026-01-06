@@ -42,7 +42,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
  * For example:
  * </p>
  * <pre>
- * INValidator v = new TINValidator();
+ * TINValidator v = new TINValidator();
  * v.setValidator("AT", 9, "\\d{9}", TidATCheckDigit.getInstance());
  * </pre>
  * <p>
@@ -128,7 +128,7 @@ public class TINValidator {
     public static final TINValidator DEFAULT_TIN_VALIDATOR = new TINValidator();
 
     /**
-     * Gets the singleton instance of the IBAN validator using the default formats
+     * Gets the singleton instance of the validator using the default formats
      *
      * @return A singleton instance of the validator
      */
