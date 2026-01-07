@@ -59,6 +59,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "BEL", "GA00078050"), // File:Belgian_passport_-_2022_update.png
         new TreavelDocument(Type.P , "HRV", "0070070071"), // File:Croatian_passport_data_page.jpg
         new TreavelDocument(Type.P , "CZE", "990090544"), // File:Czech_passport_2006_MRZ_data.jpg
+        new TreavelDocument(Type.P , "ESP", "ZAB0002549"), // File:ESPpassportdatapage.png
         new TreavelDocument(Type.P , "EST", "KS12345672"), // File:Eesti_biodata_2021.jpg
         new TreavelDocument(Type.ID, "EST", "AS00022619"), // https://en.wikipedia.org/wiki/Estonian_identity_card
         new TreavelDocument(Type.P , "FIN", "FX12345672"), // File:Finland_biodata.png
@@ -67,6 +68,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.ID, "D", "LZ6311T475"), // File:Personalausweis_(2024).png
         new TreavelDocument(Type.ID, "D", "1220011933"), // File:Mustermann_nPA_Sicherheitsmerkmale.jpg
         new TreavelDocument(Type.P , "HUN", "BD00020282"), // File:Hungarian_passport_biodata_page.png
+        new TreavelDocument(Type.P , "ITA", "KK60005333"), // File:Itpassportbiodata.jpg
         new TreavelDocument(Type.P , "LUX", "JC3L7T2H4"), // File:Luxembourgish_Passport_Biodata.jpg
         new TreavelDocument(Type.P , "NLD", "SPECI20142"), // File:Dutch_passport_specimen_issued_9_March_2014.jpg
         new TreavelDocument(Type.PS, "POL", "ZC39917886"), // File:PL_Passport_data_page_2018_series.jpg
@@ -83,6 +85,10 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "CHE", "S0A00A006"),
         new TreavelDocument(Type.ID, "CHE", "F08033995"),
         new TreavelDocument(Type.P , "SYR", "N000000001"), // File:Syria_passport_2022_data_page.jpg
+        new TreavelDocument(Type.PP, "JPN", "ZZ10000012"), // File:2025_Passport_of_Japan.png
+        new TreavelDocument(Type.P , "IND", "T43541679"),
+        new TreavelDocument(Type.P , "AUS", "RA01234564"),
+        new TreavelDocument(Type.P , "CAN", "BA1518622"),
         new TreavelDocument(Type.P , "USA", "E000093499"), // File:United_States_Next_Generation_Passport_signature_and_biodata_page.jpg
 
         new TreavelDocument(Type.P , "TWN", "8888008505"), // File:ROC_National_Without_Registration_Passport_Datapage.jpg

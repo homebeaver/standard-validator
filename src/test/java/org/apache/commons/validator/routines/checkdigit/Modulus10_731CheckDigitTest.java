@@ -72,6 +72,8 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
             , "P000000005", "P009542643" // XK-Pass
             , "S0A00A006", "F08033995" // CH-Pass : Die Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet.
             , "N000000001" // SYR-Pass
+            , "T43541679"  // IND-Pass
+            , "BA1518622"  // CAN-Pass
             , "01EY738902"  // FRA-Pass
             , "9102392482" // US-Pass
             , "8888008505" // TWN-Pass

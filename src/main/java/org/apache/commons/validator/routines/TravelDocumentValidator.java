@@ -159,10 +159,12 @@ public class TravelDocumentValidator {
         new Validator(Type.ID, "D", Modulus10_731CheckDigit.getInstance(),  10, "[C-HJ-NP-RT-Z0-9]{9}\\d"),
         
         new Validator(Type.P , "CZE", Modulus10_731CheckDigit.getInstance(),  9, "\\d{8}\\d"),
+        new Validator(Type.P , "ESP", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{3}\\d{6}\\d"),
         new Validator(Type.P , "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.ID, "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.P , "FIN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.P , "FRA", Modulus10_731CheckDigit.getInstance(), 10, "\\d{2}[A-Z]{2}\\d{5}\\d"),
+        new Validator(Type.P , "ITA", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{2}\\d{7}\\d"),
         new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
         new Validator(Type.P , "HUN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.P , "LUX", Modulus10_731CheckDigit.getInstance(),  9, "[A-Z0-9]{8}\\d"),
@@ -179,9 +181,13 @@ public class TravelDocumentValidator {
         new Validator(Type.P , "ARG", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ICAO9303),
         new Validator(Type.PS, "BIH", Modulus10_731CheckDigit.getInstance(),  8, "[A-Z0-9]{7}\\d"),
         new Validator(Type.P , "RKS", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+        new Validator(Type.PP, "JPN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{2}\\d{7}\\d"),
+        new Validator(Type.P , "CAN", Modulus10_731CheckDigit.getInstance(),  9, "[A-Z]{2}\\d{6}\\d"),
+        new Validator(Type.P , "IND", Modulus10_731CheckDigit.getInstance(),  9, "[A-Z]\\d{7}\\d"),
+        new Validator(Type.P , "AUS", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{2}\\d{7}\\d"),
 
         // Die Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet
-        new Validator(Type.P , "CHE", Modulus10_731CheckDigit.getInstance(), 10, "[A-HJ-NP-Z0-9]{8}\\d"),
+        new Validator(Type.P , "CHE", Modulus10_731CheckDigit.getInstance(),  9, "[A-HJ-NP-Z0-9]{8}\\d"),
         new Validator(Type.ID, "CHE", Modulus10_731CheckDigit.getInstance(),  9, "[A-HJ-NP-Z0-9]{8}\\d"),
 
         // im Specimen model ist Type.PN (?)
