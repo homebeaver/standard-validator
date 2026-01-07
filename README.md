@@ -3,6 +3,9 @@ This Java library extends commons-validator and implements algorithms specified 
 The standard-validator jar calculates/validates
 
 - credit card numbers ([LUHN](https://github.com/homebeaver/ungueltig/wiki/LUHN))
+- travel document numbers (passports and ID-Cards, miles&more)
+- driver license numbers
+- rail card numbers
 - all [IBAN](https://en.wikipedia.org/wiki/International_Bank_Account_Number)s (ISO/IEC 7064:MOD 97-10)
 - [US Routing transit number](https://en.wikipedia.org/wiki/Routing_transit_number) ([MOD-10](https://github.com/homebeaver/ungueltig/wiki/MOD-10#371))
 - [Creditor Reference](https://en.wikipedia.org/wiki/Creditor_Reference) (ISO-11649)
@@ -31,6 +34,12 @@ This is a full implementation of the ISO/IEC standard. Also **hybrid systems** a
 * [ISO/IEC 7064, MOD 11,10](https://github.com/homebeaver/ungueltig/wiki/MOD-11%2C10) for numeric strings with one check digit
 * ISO/IEC 7064, MOD 27,26 for alphabetic strings with one check letter
 * [ISO/IEC 7064, MOD 37,36](https://github.com/homebeaver/ungueltig/wiki/MOD-37%2C36) for alphanumeric strings with one check digit or letter
+
+
+ICAO MOD 10 standard
+====================
+
+As defined in [ICAO Doc9003](https://www2023.icao.int/publications/Documents/9303_p3_cons_en.pdf) for travel documents like passports and ID-Cards.
 
 
 LUHN
