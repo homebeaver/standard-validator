@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,9 +58,19 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.PP, "AUT", "AP12345673"), // File:Passport_of_Austria_(2024)_data_page.jpg
         new TreavelDocument(Type.P , "BEL", "GA00078050"), // File:Belgian_passport_-_2022_update.png
         new TreavelDocument(Type.P , "HRV", "0070070071"), // File:Croatian_passport_data_page.jpg
-        
+        new TreavelDocument(Type.P , "CZE", "990090544"), // File:Czech_passport_2006_MRZ_data.jpg
+        new TreavelDocument(Type.P , "EST", "KS12345672"), // File:Eesti_biodata_2021.jpg
+        new TreavelDocument(Type.ID, "EST", "AS00022619"), // https://en.wikipedia.org/wiki/Estonian_identity_card
+        new TreavelDocument(Type.P , "FIN", "FX12345672"), // File:Finland_biodata.png
+        new TreavelDocument(Type.P , "D", "CZ6311T472"), // File:Deutscher_Reisepass_(2024)_-_Passkartendatenseite.jpg
+        new TreavelDocument(Type.ID, "D", "L01X00T471"), // File:Personalausweis_(2021).png
+        new TreavelDocument(Type.ID, "D", "LZ6311T475"), // File:Personalausweis_(2024).png
+        new TreavelDocument(Type.ID, "D", "1220011933"), // File:Mustermann_nPA_Sicherheitsmerkmale.jpg
+
         new TreavelDocument(Type.P , "USA", "9102392482"), // old style
         new TreavelDocument(Type.P , "USA", "E000093499"), // File:United_States_Next_Generation_Passport_signature_and_biodata_page.jpg
+
+        new TreavelDocument(Type.P , "TWN", "8888008505"), // File:ROC_National_Without_Registration_Passport_Datapage.jpg
     };
     // @formatter:on
 
@@ -71,6 +80,7 @@ public class TravelDocumentValidatorTest {
             new TreavelDocument(null, "D", "   "),              // empty
             new TreavelDocument(Type.P, "D", "9"),              // too short
             new TreavelDocument(Type.P, "??", "abc"),           // non country
+            new TreavelDocument(Type.P , "USA", "\n9102392482"), // nl  TODO wird nicht erkannt
     };
     // @formatter:on
 
@@ -106,11 +116,9 @@ public class TravelDocumentValidatorTest {
 
     @Test
     public void testSetNewValidator() {
-//        final IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> VALIDATOR.setValidator(Type.ID, "GB", 15, "GB", null));
-//        assertEquals("The singleton validator cannot be modified", thrown.getMessage());
         TravelDocumentValidator v = new TravelDocumentValidator();
-        v.setValidator(Type.P, "TWN", 10, "\\d{10}", Modulus10_731CheckDigit.getInstance());
-        TreavelDocument f = new TreavelDocument(Type.P , "TWN", "8888008505");
+        v.setValidator(Type.PP, "UTO", 10, TravelDocumentValidator.REGEX_ICAO9303, Modulus10_731CheckDigit.getInstance());
+        TreavelDocument f = new TreavelDocument(Type.PP , "UTO", "L898902C36");
         LOG.info("testValid:" + f);
         assertTrue(v.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
         assertTrue(v.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
@@ -148,7 +156,6 @@ public class TravelDocumentValidatorTest {
     public void testSetValidatorLen35() {
         final TravelDocumentValidator validator = new TravelDocumentValidator();
         final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "XYZ", 35, "XYZ", null));
-//        System.out.println("thrown.getMessage():" + thrown.getMessage());
         assertEquals(INVALID_LENGTH + " 35", thrown.getMessage());
     }
 

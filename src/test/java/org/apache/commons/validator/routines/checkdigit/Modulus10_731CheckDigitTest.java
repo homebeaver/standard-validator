@@ -56,6 +56,7 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
             , "0070070071" // HR-Pass
             , "990090544"  // CZ-Pass
             , "KS12345672" // EE-Pass
+            , "AS00022619" // EE-ID
             , "FX12345672" // FI-Pass
             , "CZ6311T472" // DE-Pass
             , "BD00020282" // HU-Pass
@@ -71,6 +72,7 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
             , "N000000001" // SYR-Pass
             , "9102392482" // US-Pass
             , "8888008505" // TWN-Pass
+            , "0203104802" // File:Egypt_visa_in_Czech_passport.jpg
             };
         invalid = new String[] { "0000", "0", "", null
             , "123456780", "123123123", "011000015", "111000038", "231381116", "121181976" // ABA

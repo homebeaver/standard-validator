@@ -60,6 +60,12 @@ public class TravelDocumentValidator {
 
     public enum Type 
     { ID // Personalausweis
+    , IR // Residence permit
+    , PD // Diplomatenpass
+    , PO // Dienstpass
+    , PT // Reiseausweis für Ausländer
+    , PR // Reiseausweis Konvention 1951
+    , PS // Reiseausweis Konvention 1954
     , PP // Reisepass (ab November 2025)
     , P {
            @Override
@@ -68,13 +74,8 @@ public class TravelDocumentValidator {
            }
        }
     ;
-//        @Override
-//        public String toString() {
-//            if ("P".equals(name())) return "P<";
-//            return super.toString();
-//        }
-
     }
+
     /**
      * The validation class
      */
@@ -141,6 +142,8 @@ public class TravelDocumentValidator {
 
     private static final String INVALID_COUNTRY_CODE = "No CheckDigit routine or invalid country, code=";
     private static final String CANNOT_MODIFY_SINGLETON = "The singleton validator cannot be modified";
+    static final String REGEX_ICAO9303 = "[A-Z0-9]{9}\\d";
+    private static final String REGEX_ALLNUMERIC = "\\d{9}\\d";
 
     private static final Validator[] DEFAULT_VALIDATORS = {
         // ohne Beleg: sieht so aus als ob der neue Pass PP eine Stelle  mehr hat
@@ -151,10 +154,19 @@ public class TravelDocumentValidator {
         // https://en.wikipedia.org/wiki/Belgian_identity_card ==> 12 digits in the form xxx-xxxxxxx-yy
 //        new Validator(Type.ID, "BEL", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
 
-        new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), 10, "\\d{9}\\d"),
+        new Validator(Type.P , "D", Modulus10_731CheckDigit.getInstance(),  10, "[C-HJ-NP-RT-Z0-9]{9}\\d"),
+        new Validator(Type.ID, "D", Modulus10_731CheckDigit.getInstance(),  10, "[C-HJ-NP-RT-Z0-9]{9}\\d"),
         
+        new Validator(Type.P , "CZE", Modulus10_731CheckDigit.getInstance(),  9, "\\d{8}\\d"),
+        new Validator(Type.P , "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.ID, "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.P , "FIN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+
         // bis 2021 nur Ziffern; NGP Next Generation Passport: Alpha am Anfang, meist A, C für PassCard
         new Validator(Type.P, "USA", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+
+        new Validator(Type.P, "TWN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
     };
 
     /** The singleton instance which uses the default formats */
@@ -216,12 +228,6 @@ public class TravelDocumentValidator {
         if (t == null || cc == null || cc.isEmpty()) { // ensure we can extract the key
             return null;
         }
-//        System.out.println("   suchen " + t.toString()+cc);
-//        if (cc.equals("TWN")) {
-//        	validatorMap.forEach( (k,v) -> {
-//        		System.out.println(k);
-//        	});
-//        }
         return validatorMap.get(t.toString()+cc);
     }
 
