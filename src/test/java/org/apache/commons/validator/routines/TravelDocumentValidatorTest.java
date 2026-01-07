@@ -67,6 +67,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.ID, "D", "L01X00T471"), // File:Personalausweis_(2021).png
         new TreavelDocument(Type.ID, "D", "LZ6311T475"), // File:Personalausweis_(2024).png
         new TreavelDocument(Type.ID, "D", "1220011933"), // File:Mustermann_nPA_Sicherheitsmerkmale.jpg
+        new TreavelDocument(Type.PP, "GBR", "9992371442"), // File:British_passport_biographical_data.jpg
         new TreavelDocument(Type.P , "HUN", "BD00020282"), // File:Hungarian_passport_biodata_page.png
         new TreavelDocument(Type.P , "ITA", "KK60005333"), // File:Itpassportbiodata.jpg
         new TreavelDocument(Type.P , "LUX", "JC3L7T2H4"), // File:Luxembourgish_Passport_Biodata.jpg
