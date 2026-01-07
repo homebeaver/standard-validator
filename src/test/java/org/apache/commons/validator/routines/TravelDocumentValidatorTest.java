@@ -66,8 +66,23 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.ID, "D", "L01X00T471"), // File:Personalausweis_(2021).png
         new TreavelDocument(Type.ID, "D", "LZ6311T475"), // File:Personalausweis_(2024).png
         new TreavelDocument(Type.ID, "D", "1220011933"), // File:Mustermann_nPA_Sicherheitsmerkmale.jpg
+        new TreavelDocument(Type.P , "HUN", "BD00020282"), // File:Hungarian_passport_biodata_page.png
+        new TreavelDocument(Type.P , "LUX", "JC3L7T2H4"), // File:Luxembourgish_Passport_Biodata.jpg
+        new TreavelDocument(Type.P , "NLD", "SPECI20142"), // File:Dutch_passport_specimen_issued_9_March_2014.jpg
+        new TreavelDocument(Type.PS, "POL", "ZC39917886"), // File:PL_Passport_data_page_2018_series.jpg
+        new TreavelDocument(Type.P , "ROU", "0400210397"), // File:Romanian_passport_2024_model_datapage.jpg
+        new TreavelDocument(Type.ID, "ROU", "SP12352370"), // File:CEI_Romania_2025.jpg
+        new TreavelDocument(Type.P , "SWE", "XA00000012"), // File:Svensk_pass_biodatakort.png
+        new TreavelDocument(Type.ID, "SWE", "XA00000023"), // File:Nya_svensk_ID_backsidan.png
 
-        new TreavelDocument(Type.P , "USA", "9102392482"), // old style
+        new TreavelDocument(Type.P , "ARG", "ZZZ0001105"), // File:Argentine_Passport_for_Argentinian-Foreigners_citizens.png
+        new TreavelDocument(Type.PS, "BIH", "20000028"), // File:Bosnia_passport.jpg
+        new TreavelDocument(Type.P , "RKS", "P000000005"), // File:Kosovo_passport_data_page.jpg
+        new TreavelDocument(Type.P , "RKS", "P009542643"),
+        new TreavelDocument(Type.P , "FRA", "01EY738902"), // File:Passeport_français_avant_2000_pp8-9_visa_Chine_F_2011_tampons_Chine.png
+        new TreavelDocument(Type.P , "CHE", "S0A00A006"),
+        new TreavelDocument(Type.ID, "CHE", "F08033995"),
+        new TreavelDocument(Type.P , "SYR", "N000000001"), // File:Syria_passport_2022_data_page.jpg
         new TreavelDocument(Type.P , "USA", "E000093499"), // File:United_States_Next_Generation_Passport_signature_and_biodata_page.jpg
 
         new TreavelDocument(Type.P , "TWN", "8888008505"), // File:ROC_National_Without_Registration_Passport_Datapage.jpg
@@ -80,7 +95,7 @@ public class TravelDocumentValidatorTest {
             new TreavelDocument(null, "D", "   "),              // empty
             new TreavelDocument(Type.P, "D", "9"),              // too short
             new TreavelDocument(Type.P, "??", "abc"),           // non country
-            new TreavelDocument(Type.P , "USA", "\n9102392482"), // nl  TODO wird nicht erkannt
+            new TreavelDocument(Type.P, "USA", "\n9102392482"), // nl
     };
     // @formatter:on
 
@@ -150,7 +165,7 @@ public class TravelDocumentValidatorTest {
         assertNull(validator.setValidator(Type.P, "USA", -1, "", null), "no longer present");
     }
 
-    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 9 to 10 inclusive:";
+    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 8 to 10 inclusive:";
 
     @Test
     public void testSetValidatorLen35() {

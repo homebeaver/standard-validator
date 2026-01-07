@@ -64,12 +64,15 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
             , "SPECI20142" // NL-Pass
             , "ZC39917886" // PL-Pass
             , "0400210397" // RO-Pass
+            , "SP12352370", "SP12363389" // RO-ID
             , "XA00000012" // SE-Pass
+            , "XA00000023" // DE-ID
             , "ZZZ0001105" // ARG-Pass
             , "20000028"   // BIH-Pass
             , "P000000005", "P009542643" // XK-Pass
             , "S0A00A006", "F08033995" // CH-Pass : Die Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet.
             , "N000000001" // SYR-Pass
+            , "01EY738902"  // FRA-Pass
             , "9102392482" // US-Pass
             , "8888008505" // TWN-Pass
             , "0203104802" // File:Egypt_visa_in_Czech_passport.jpg

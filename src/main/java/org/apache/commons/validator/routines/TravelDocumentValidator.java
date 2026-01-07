@@ -61,6 +61,7 @@ public class TravelDocumentValidator {
     public enum Type 
     { ID // Personalausweis
     , IR // Residence permit
+    , VF // Visum F==>???
     , PD // Diplomatenpass
     , PO // Dienstpass
     , PT // Reiseausweis für Ausländer
@@ -82,9 +83,9 @@ public class TravelDocumentValidator {
     public static class Validator {
         /*
          * The minimum length does not appear to be defined.
-         * Switzerland, Luxembourg are currently the shortest (including checkdigit).
+         * Bosnia and Herzegovina are currently the shortest (including checkdigit).
          */
-        private static final int MIN_LEN = 9;
+        private static final int MIN_LEN = 8;
         private static final int MAX_LEN = 10;
 
         final Type type;
@@ -161,12 +162,35 @@ public class TravelDocumentValidator {
         new Validator(Type.P , "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.ID, "EST", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
         new Validator(Type.P , "FIN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.P , "FRA", Modulus10_731CheckDigit.getInstance(), 10, "\\d{2}[A-Z]{2}\\d{5}\\d"),
         new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+        new Validator(Type.P , "HUN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.P , "LUX", Modulus10_731CheckDigit.getInstance(),  9, "[A-Z0-9]{8}\\d"),
+        new Validator(Type.P , "NLD", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ICAO9303),
+        new Validator(Type.PS, "POL", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+
+        // im Specimen model ist Type.PE (?), bei ID passen die VIS und MRT nicht zueinander
+        new Validator(Type.P , "ROU", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+        new Validator(Type.ID, "ROU", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+
+        new Validator(Type.P , "SWE", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+        new Validator(Type.ID, "SWE", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{2}\\d{7}\\d"),
+
+        new Validator(Type.P , "ARG", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ICAO9303),
+        new Validator(Type.PS, "BIH", Modulus10_731CheckDigit.getInstance(),  8, "[A-Z0-9]{7}\\d"),
+        new Validator(Type.P , "RKS", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+
+        // Die Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet
+        new Validator(Type.P , "CHE", Modulus10_731CheckDigit.getInstance(), 10, "[A-HJ-NP-Z0-9]{8}\\d"),
+        new Validator(Type.ID, "CHE", Modulus10_731CheckDigit.getInstance(),  9, "[A-HJ-NP-Z0-9]{8}\\d"),
+
+        // im Specimen model ist Type.PN (?)
+        new Validator(Type.P , "SYR", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
 
         // bis 2021 nur Ziffern; NGP Next Generation Passport: Alpha am Anfang, meist A, C für PassCard
-        new Validator(Type.P, "USA", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+        new Validator(Type.P , "USA", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
 
-        new Validator(Type.P, "TWN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+        new Validator(Type.P , "TWN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
     };
 
     /** The singleton instance which uses the default formats */
