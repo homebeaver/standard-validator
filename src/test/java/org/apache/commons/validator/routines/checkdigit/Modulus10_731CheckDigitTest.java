@@ -50,8 +50,9 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
         valid = new String[] { BEISPIEL1 , BEISPIEL2, MUSTERMANN_1987, MUSTERMANN_1997, MUSTERMANN_2001
             , MUSTERMANN_2021, MUSTERMANN_2024, MUSTERMANN_NPA
             , UTOPIA, EXAMPLE_1, EXAMPLE_2, EXAMPLE_3A, EXAMPLE_3B, EXAMPLE_4A, EXAMPLE_5
-            , "AP12345673" // AT-Pass
-            , "GA00078050" // BE-Pass
+            , "U12345676", "AP12345673" // AT-Pass
+            , "GA00078050" // BE-Pass 
+            , "0000011157027", "0011157027" // BE ID: "000-0011157-02"+7
             , "0070070071" // HR-Pass
             , "990090544"  // CZ-Pass
             , "KS12345672" // EE-Pass
@@ -63,8 +64,17 @@ class Modulus10_731CheckDigitTest extends AbstractCheckDigitTest {
             , "ZC39917886" // PL-Pass
             , "0400210397" // RO-Pass
             , "XA00000012" // SE-Pass
+            , "ZZZ0001105" // ARG-Pass
+            , "20000028"   // BIH-Pass
+            , "P000000005", "P009542643" // XK-Pass
+            , "S0A00A006", "F08033995" // CH-Pass : Die Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet.
+            , "N000000001" // SYR-Pass
+            , "9102392482" // US-Pass
+            , "8888008505" // TWN-Pass
             };
-        invalid = new String[] { "0000", "0", "", null };
+        invalid = new String[] { "0000", "0", "", null
+            , "123456780", "123123123", "011000015", "111000038", "231381116", "121181976" // ABA
+            };
     }
 
 }
