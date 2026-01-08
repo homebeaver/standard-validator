@@ -58,22 +58,55 @@ public class TravelDocumentValidator {
 
     private static final Log LOG = LogFactory.getLog(TravelDocumentValidator.class);
 
+    /**
+     * The International Civil Aviation Organization (ICAO) defines travel document standards in Doc 9303. 
+     * These standards ensure that passports, visas, and ID cards can be read by automated systems worldwide.
+     * The "Type" and "Subtype" of a document are primarily identified by the first two characters 
+     * of the Machine Readable Zone (MRZ)—the lines of text at the bottom of a passport or ID.
+     */
     public enum Type 
-    { ID // Personalausweis
+    { ID // Identity card with Subtype D Personalausweis
     , IR // Residence permit
+    , IT // vorläufige Personalausweis (temporär)
     , VF // Visum F==>???
-    , PD // Diplomatenpass
-    , PO // Dienstpass
-    , PT // Reiseausweis für Ausländer
-    , PR // Reiseausweis Konvention 1951
-    , PS // Reiseausweis Konvention 1954
-    , PP // Reisepass (ab November 2025)
-    , P {
+    , PP // ordinary passport : Reisepass (ab November 2025)
+    , PE // emergency
+    , PD // diplomatic
+    , PO // official : Dienstpass
+    , PR // refugee   : Reiseausweis Konvention 1951
+    , PS // stateless : Reiseausweis Konvention 1954
+    , PT // alien, non-citizen : Reiseausweis für Ausländer
+    , PL // laissez-passer : herausgegeben von UN oder EU
+    , P {  // Passport
            @Override
            public String toString() {
                return "P<";
            }
        }
+    , I {  // Identity card
+           @Override
+           public String toString() {
+               return "I<";
+           }
+        }
+    , V {  // Visa
+           @Override
+           public String toString() {
+               return "V<";
+           }
+       }
+    , A {  // (Airline) crew
+           @Override
+           public String toString() {
+               return "A<";
+           }
+        }
+    , C {
+           @Override
+           public String toString() {
+               return "C<";
+           }
+        }
     ;
     }
 
