@@ -57,7 +57,7 @@ How to use
 <dependency>
     <groupId>io.github.homebeaver</groupId>
     <artifactId>standard-validator</artifactId>
-    <version>2.10.4</version>
+    <version>2.10.5</version>
 </dependency>
 ```
 
