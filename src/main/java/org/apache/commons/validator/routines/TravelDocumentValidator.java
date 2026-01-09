@@ -325,6 +325,10 @@ public class TravelDocumentValidator {
      * @return {@code true} if the value is valid
      */
     public boolean isValid(final Type t, final String cc, final String code) {
+        if (!hasValidator(t, cc) && ICAO.isIcaoCountry(cc) && code != null && t == Type.V) {
+            CheckDigit routine = Modulus10_731CheckDigit.getInstance();
+            return code.length() == 10 ? routine.isValid(code) : false;
+        }
         final Validator validator = getValidator(t, cc);
         if (validator == null || code.length() > validator.docLength || !validator.regexValidator.isValid(code)) {
             return false;

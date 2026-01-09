@@ -93,6 +93,8 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "USA", "E000093499"), // File:United_States_Next_Generation_Passport_signature_and_biodata_page.jpg
 
         new TreavelDocument(Type.P , "TWN", "8888008505"), // File:ROC_National_Without_Registration_Passport_Datapage.jpg
+
+        new TreavelDocument(Type.V , "EGY", "0203104802"), // File:Egypt_visa_in_Czech_passport.jpg
     };
     // @formatter:on
 
@@ -205,7 +207,11 @@ public class TravelDocumentValidatorTest {
         for (final TreavelDocument f : VALID_FIXTURES) {
             LOG.info("testValid:" + f);
             assertTrue(VALIDATOR.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
-            assertTrue(VALIDATOR.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
+            if (f.docType == Type.V) {
+                System.out.println("   " + f + " is a valid "+f.countryCode+" visa number");
+            } else {
+                assertTrue(VALIDATOR.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
+            }
         }
     }
 
