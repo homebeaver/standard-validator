@@ -26,6 +26,11 @@ public class ValidatorException extends Exception {
     private static final long serialVersionUID = 1025759372615616964L;
 
     /**
+     * Common prefix for messages, f.i. "Invalid Code ...", "Invalid Character ..."
+     */
+    public static final String START_WITH_INVALID = "Invalid ";
+
+    /**
      * Constructs an Exception with no specified detail message.
      */
     public ValidatorException() {
@@ -38,6 +43,25 @@ public class ValidatorException extends Exception {
      */
     public ValidatorException(final String message) {
         super(message);
+    }
+
+    /**
+     * Convenient message text "Invalid code [invalidCode]." with no additional information
+     * @param code the invalid code
+     * @return the message text
+     */
+    public static final String invalidCode(final String code) {
+        return invalidCode(code, null);
+    }
+    /**
+     * Convenient message text "Invalid code [invalidCode], additional information",
+     *  f.i. Invalid code "", too short
+     * @param code the invalid code
+     * @param detail optional additional information
+     * @return the message text
+     */
+    public static final String invalidCode(final String code, final String detail) {
+        return START_WITH_INVALID + "code \"" + code + "\"" + (detail == null ? "." : ", " + detail);
     }
 
 }

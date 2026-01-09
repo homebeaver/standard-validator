@@ -106,6 +106,18 @@ public class TravelDocumentValidatorTest {
     };
     // @formatter:on
 
+    @Test
+    public void testCountryCodes() {
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("ABW"));
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("ZWE"));
+        assertFalse(TravelDocumentValidator.ICAO.isIcaoCountry("DEU"));
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("D")); 
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("GBD"));
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("RKS"));
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("XXX"));
+        assertTrue(TravelDocumentValidator.ICAO.isIcaoCountry("UTO"));
+        assertFalse(TravelDocumentValidator.ICAO.isIcaoCountry("IAO"));
+    }
 
     @Test
     public void testGetRegexValidatortPatterns() {
@@ -162,7 +174,7 @@ public class TravelDocumentValidatorTest {
     public void testSetValidatorLC() {
         final TravelDocumentValidator validator = new TravelDocumentValidator();
         final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "gb", 15, "GB", null));
-        assertEquals("Invalid country Code; must be 3 upper-case characters", thrown.getMessage());
+        assertEquals("Invalid code \"gb\", Must be a valid ICAO alpha-3 country", thrown.getMessage());
     }
 
     @Test // -1 ==> remove
@@ -177,14 +189,14 @@ public class TravelDocumentValidatorTest {
     @Test
     public void testSetValidatorLen35() {
         final TravelDocumentValidator validator = new TravelDocumentValidator();
-        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "XYZ", 35, "XYZ", null));
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "UTO", 35, "UTO", null));
         assertEquals(INVALID_LENGTH + " 35", thrown.getMessage());
     }
 
     @Test
     public void testSetValidatorLen7() {
         final TravelDocumentValidator validator = new TravelDocumentValidator();
-        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "XYZ", 7, "XYZ", null));
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> validator.setValidator(Type.ID, "XXX", 7, "XXX", null));
         assertEquals(INVALID_LENGTH + " 7", thrown.getMessage());
     }
 

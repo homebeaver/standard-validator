@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.ValidatorException;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus10_731CheckDigit;
 
@@ -54,7 +55,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus10_731CheckDigit;
  * </p>
  * @since 2.10.5
  */
-public class TravelDocumentValidator implements Iso3166_1Alpha_3 {
+public class TravelDocumentValidator {
 
     private static final Log LOG = LogFactory.getLog(TravelDocumentValidator.class);
 
@@ -111,14 +112,17 @@ public class TravelDocumentValidator implements Iso3166_1Alpha_3 {
     ;
     }
 
-    private final String COUNTRY_CODES_REMOVE = "ALA,ANT,DEU,NTZ";
-    private final String COUNTRY_CODES_ADD = "GBD,GBN,GBO,GBS,GBP.RKS,EUE,UNO,UNA,UNK,XBA,XIM,XCC,XCE,XCO,XEC,XPO,XES,XMP,XOM,XDC,XXA,XXB,XXC,XXX,";
-    public boolean isIcaoCountry(final String code) {
-        if ("D".equals(code)) return true;
-        if (code == null || code.length() != 3) return false;
-        return COUNTRY_CODES_REMOVE.indexOf(code+",") > -1 ? false 
-                : COUNTRY_CODES_ADD.indexOf(code+",") > -1 ? true : isAlpha3(code);
+    static class IcaoCountry implements Iso3166_1Alpha_3 {
+        private final String COUNTRY_CODES_REMOVE = "ALA,ANT,DEU,GGY,IMN,JEY,NTZ,";
+        private final String COUNTRY_CODES_ADD = "GBD,GBN,GBO,GBS,GBP.RKS,EUE,UNO,UNA,UNK,XBA,XIM,XCC,XCE,XCO,XEC,XPO,XES,XMP,XOM,XDC,XXA,XXB,XXC,XXX,UTO,";
+        public boolean isIcaoCountry(final String code) {
+            if ("D".equals(code)) return true;
+            if (code == null || code.length() != 3) return false;
+            return COUNTRY_CODES_REMOVE.indexOf(code+",") > -1 ? false 
+                    : COUNTRY_CODES_ADD.indexOf(code+",") > -1 ? true : isAlpha3(code);
+        }
     }
+    static IcaoCountry ICAO = new IcaoCountry();
 
     /**
      * The validation class
@@ -146,12 +150,8 @@ public class TravelDocumentValidator implements Iso3166_1Alpha_3 {
          * @param routine the Check Digit routine
          */
         public Validator(final Type t, final String cc, final int maxLength, final String regex, final CheckDigit routine) {
-            if (!(cc.length() == 3 && Character.isUpperCase(cc.charAt(0)) 
-                                   && Character.isUpperCase(cc.charAt(1))
-                                   && Character.isUpperCase(cc.charAt(2))
-                  || cc.equals("D")
-                 )) {
-                throw new IllegalArgumentException("Invalid country Code; must be 3 upper-case characters");
+            if (!ICAO.isIcaoCountry(cc)) {
+                throw new IllegalArgumentException(ValidatorException.invalidCode(cc, "Must be a valid ICAO alpha-3 country"));
             }
             if (maxLength > MAX_LEN || maxLength < MIN_LEN) {
                 throw new IllegalArgumentException("Invalid length parameter, must be in range " + MIN_LEN + " to " + MAX_LEN + " inclusive: " + maxLength);
