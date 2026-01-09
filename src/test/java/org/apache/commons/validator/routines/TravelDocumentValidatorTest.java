@@ -65,6 +65,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "FIN", "FX12345672"), // File:Finland_biodata.png
         new TreavelDocument(Type.P , "D", "CZ6311T472"), // File:Deutscher_Reisepass_(2024)_-_Passkartendatenseite.jpg
         new TreavelDocument(Type.ID, "D", "L01X00T471"), // File:Personalausweis_(2021).png
+        new TreavelDocument(Type.I , "D", "L01X00T471"),
         new TreavelDocument(Type.ID, "D", "LZ6311T475"), // File:Personalausweis_(2024).png
         new TreavelDocument(Type.ID, "D", "1220011933"), // File:Mustermann_nPA_Sicherheitsmerkmale.jpg
         new TreavelDocument(Type.PP, "GBR", "9992371442"), // File:British_passport_biographical_data.jpg
@@ -207,8 +208,9 @@ public class TravelDocumentValidatorTest {
         for (final TreavelDocument f : VALID_FIXTURES) {
             LOG.info("testValid:" + f);
             assertTrue(VALIDATOR.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
-            if (f.docType == Type.V) {
-                System.out.println("   " + f + " is a valid "+f.countryCode+" visa number");
+            if (!VALIDATOR.hasValidator(f.docType, f.countryCode) 
+                && (f.docType == Type.V || f.docType == Type.I || f.docType == Type.P)) {
+                System.out.println("   " + f + " is a valid document number");
             } else {
                 assertTrue(VALIDATOR.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
             }
