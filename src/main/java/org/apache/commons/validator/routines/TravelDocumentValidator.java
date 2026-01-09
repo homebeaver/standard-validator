@@ -54,7 +54,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus10_731CheckDigit;
  * </p>
  * @since 2.10.5
  */
-public class TravelDocumentValidator {
+public class TravelDocumentValidator implements Iso3166_1Alpha_3 {
 
     private static final Log LOG = LogFactory.getLog(TravelDocumentValidator.class);
 
@@ -77,6 +77,7 @@ public class TravelDocumentValidator {
     , PS // stateless : Reiseausweis Konvention 1954
     , PT // alien, non-citizen : Reiseausweis für Ausländer
     , PL // laissez-passer : herausgegeben von UN oder EU
+    , PM // military
     , P {  // Passport
            @Override
            public String toString() {
@@ -108,6 +109,15 @@ public class TravelDocumentValidator {
            }
         }
     ;
+    }
+
+    private final String COUNTRY_CODES_REMOVE = "ALA,ANT,DEU,NTZ";
+    private final String COUNTRY_CODES_ADD = "GBD,GBN,GBO,GBS,GBP.RKS,EUE,UNO,UNA,UNK,XBA,XIM,XCC,XCE,XCO,XEC,XPO,XES,XMP,XOM,XDC,XXA,XXB,XXC,XXX,";
+    public boolean isIcaoCountry(final String code) {
+        if ("D".equals(code)) return true;
+        if (code == null || code.length() != 3) return false;
+        return COUNTRY_CODES_REMOVE.indexOf(code+",") > -1 ? false 
+                : COUNTRY_CODES_ADD.indexOf(code+",") > -1 ? true : isAlpha3(code);
     }
 
     /**
