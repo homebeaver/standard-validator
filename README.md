@@ -1,9 +1,9 @@
-This Java library extends commons-validator and implements algorithms specified in [ISO/IEC 7064](https://en.wikipedia.org/wiki/ISO/IEC_7064) and [LUHN](https://en.wikipedia.org/wiki/Luhn_algorithm) which is defined in [ISO/IEC 7812-1 Annex B](https://en.wikipedia.org/wiki/ISO%2FIEC_7812).
+This Java library extends commons-validator and implements algorithms specified in [ISO/IEC 7064](https://en.wikipedia.org/wiki/ISO/IEC_7064), [ICAO MOD 10/731](https://www2023.icao.int/publications/Documents/9303_p3_cons_en.pdf) and [LUHN](https://en.wikipedia.org/wiki/Luhn_algorithm) which is defined in [ISO/IEC 7812-1 Annex B](https://en.wikipedia.org/wiki/ISO%2FIEC_7812).
 
 The standard-validator jar calculates/validates
 
 - credit card numbers ([LUHN](https://github.com/homebeaver/ungueltig/wiki/LUHN))
-- travel document numbers (passports and ID-Cards, miles&more)
+- [travel document](https://en.wikipedia.org/wiki/Travel_document) numbers (passports, visa and ID-Cards, miles & more)
 - driver license numbers
 - rail card numbers
 - all [IBAN](https://en.wikipedia.org/wiki/International_Bank_Account_Number)s (ISO/IEC 7064:MOD 97-10)

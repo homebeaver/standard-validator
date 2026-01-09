@@ -31,7 +31,7 @@
 
   <name>standard-validator</name>
   <description>A Java library to calculate and validate standardized check digits. 
-ISO/IEC 7064 System, Luhn etc</description>
+ISO/IEC 7064 System, Luhn, ICAO etc</description>
   <url>https://github.com/homebeaver/standard-validator</url>
   <inceptionYear>2002</inceptionYear> <!-- apache commons-validator -->
   <!-- <inceptionYear>2012</inceptionYear> iso7064 by danieltwagner -->
