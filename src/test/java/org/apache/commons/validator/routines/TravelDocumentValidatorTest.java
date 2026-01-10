@@ -58,8 +58,11 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.PP, "AUT", "AP12345673"), // File:Passport_of_Austria_(2024)_data_page.jpg
         new TreavelDocument(Type.P , "BEL", "GA00078050"), // File:Belgian_passport_-_2022_update.png
         new TreavelDocument(Type.P , "HRV", "0070070071"), // File:Croatian_passport_data_page.jpg
+        new TreavelDocument(Type.ID, "HRV", "1155018306"), // File:New_Croatian_ID_Card XXX mit Type IO ?
         new TreavelDocument(Type.P , "CZE", "990090544"), // File:Czech_passport_2006_MRZ_data.jpg
+        new TreavelDocument(Type.ID, "CZE", "9980094762"), // File:Vzor_OP_2021_1_revers.jpg
         new TreavelDocument(Type.P , "ESP", "ZAB0002549"), // File:ESPpassportdatapage.png
+        new TreavelDocument(Type.ID, "ESP", "CAA0000004"), // File:Spanish_ID_card_(back_side)_webp
         new TreavelDocument(Type.P , "EST", "KS12345672"), // File:Eesti_biodata_2021.jpg
         new TreavelDocument(Type.ID, "EST", "AS00022619"), // https://en.wikipedia.org/wiki/Estonian_identity_card
         new TreavelDocument(Type.P , "FIN", "FX12345672"), // File:Finland_biodata.png
@@ -72,12 +75,17 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "HUN", "BD00020282"), // File:Hungarian_passport_biodata_page.png
         new TreavelDocument(Type.P , "ITA", "KK60005333"), // File:Itpassportbiodata.jpg
         new TreavelDocument(Type.P , "LUX", "JC3L7T2H4"), // File:Luxembourgish_Passport_Biodata.jpg
+        new TreavelDocument(Type.ID, "LUX", "SPEC073476"), // File:Luxembourg_identity_Card_2021_verso.jpg
         new TreavelDocument(Type.P , "NLD", "SPECI20142"), // File:Dutch_passport_specimen_issued_9_March_2014.jpg
         new TreavelDocument(Type.PS, "POL", "ZC39917886"), // File:PL_Passport_data_page_2018_series.jpg
-        new TreavelDocument(Type.P , "ROU", "0400210397"), // File:Romanian_passport_2024_model_datapage.jpg
+        new TreavelDocument(Type.I , "POL", "ZZC1082012"), // www.gov.pl
+        new TreavelDocument(Type.PE, "ROU", "0400210397"), // File:Romanian_passport_2024_model_datapage.jpg
         new TreavelDocument(Type.ID, "ROU", "SP12352370"), // File:CEI_Romania_2025.jpg
         new TreavelDocument(Type.P , "SWE", "XA00000012"), // File:Svensk_pass_biodatakort.png
         new TreavelDocument(Type.ID, "SWE", "XA00000023"), // File:Nya_svensk_ID_backsidan.png
+        new TreavelDocument(Type.ID, "SVK", "XX0230582"), // File:Slovakian_identity_card_-_back_-_2022.jpg
+        new TreavelDocument(Type.I , "SVK", "XX02305802"),
+        new TreavelDocument(Type.ID, "CYP", "HT00000006"), // File:Cypriot_identity_card_-_2020_-_Back.jpg
 
         new TreavelDocument(Type.P , "ARG", "ZZZ0001105"), // File:Argentine_Passport_for_Argentinian-Foreigners_citizens.png
         new TreavelDocument(Type.PS, "BIH", "20000028"), // File:Bosnia_passport.jpg
@@ -86,8 +94,12 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "FRA", "01EY738902"), // File:Passeport_français_avant_2000_pp8-9_visa_Chine_F_2011_tampons_Chine.png
         new TreavelDocument(Type.P , "CHE", "S0A00A006"),
         new TreavelDocument(Type.ID, "CHE", "F08033995"),
+        new TreavelDocument(Type.ID, "CHE", "S1A00A009"), // File:NIDK-back.jpg
+        new TreavelDocument(Type.ID, "CHE", "S1A00A0009"),
+        new TreavelDocument(Type.ID, "LIE", "ID12345673"), // File:Liechtenstein_IDt_card_back.png
         new TreavelDocument(Type.P , "SYR", "N000000001"), // File:Syria_passport_2022_data_page.jpg
         new TreavelDocument(Type.PP, "JPN", "ZZ10000012"), // File:2025_Passport_of_Japan.png
+        new TreavelDocument(Type.P , "QAT", "001264997"), // File:Qatar_passport_data_page.jpg
         new TreavelDocument(Type.P , "IND", "T43541679"),
         new TreavelDocument(Type.P , "AUS", "RA01234564"),
         new TreavelDocument(Type.P , "CAN", "BA1518622"),
