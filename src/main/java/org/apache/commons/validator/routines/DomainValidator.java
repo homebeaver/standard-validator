@@ -66,33 +66,46 @@ public class DomainValidator implements Serializable {
     /**
      * Enum used by {@link DomainValidator#updateTLDOverride(ArrayType, String[])}
      * to determine which override array to update / fetch
+     *
      * @since 1.5.0
      * @since 1.5.1 made public and added read-only array references
      */
     public enum ArrayType {
+
         /** Update (or get a copy of) the GENERIC_TLDS_PLUS table containing additional generic TLDs */
         GENERIC_PLUS,
+
         /** Update (or get a copy of) the GENERIC_TLDS_MINUS table containing deleted generic TLDs */
         GENERIC_MINUS,
+
         /** Update (or get a copy of) the COUNTRY_CODE_TLDS_PLUS table containing additional country code TLDs */
         COUNTRY_CODE_PLUS,
+
         /** Update (or get a copy of) the COUNTRY_CODE_TLDS_MINUS table containing deleted country code TLDs */
         COUNTRY_CODE_MINUS,
+
         /** Gets a copy of the generic TLDS table */
         GENERIC_RO,
+
         /** Gets a copy of the country code table */
         COUNTRY_CODE_RO,
+
         /** Gets a copy of the infrastructure table */
         INFRASTRUCTURE_RO,
+
         /** Gets a copy of the local table */
         LOCAL_RO,
+
         /**
          * Update (or get a copy of) the LOCAL_TLDS_PLUS table containing additional local TLDs
+         *
          * @since 1.7
          */
         LOCAL_PLUS,
+
         /**
          * Update (or get a copy of) the LOCAL_TLDS_MINUS table containing deleted local TLDs
+         *
          * @since 1.7
          */
         LOCAL_MINUS
@@ -118,6 +131,7 @@ public class DomainValidator implements Serializable {
 
         /**
          * Constructs a new instance.
+         *
          * @param type ArrayType, for example, GENERIC_PLUS, LOCAL_PLUS
          * @param values array of TLDs. Will be lower-cased and sorted
          */
@@ -497,7 +511,8 @@ public class DomainValidator implements Serializable {
         "dtv", // dtv Dish DBS Corporation
         "dubai", // dubai Dubai Smart Government Department
 //        "duck", // duck Johnson Shareholdings, Inc.
-        "dunlop", // dunlop The Goodyear Tire &amp; Rubber Company
+// [VALIDATOR-503] Revocation Report for .dunlop: https://www.iana.org/reports/tld-transfer/20251021-dunlop
+//        "dunlop", // dunlop The Goodyear Tire &amp; Rubber Company
 //        "duns", // duns The Dun &amp; Bradstreet Corporation
         "dupont", // dupont E. I. du Pont de Nemours and Company
         "durban", // durban ZA Central Registry NPC trading as ZA Central Registry
@@ -749,7 +764,8 @@ public class DomainValidator implements Serializable {
         "kaufen", // kaufen United TLD Holdco Ltd.
         "kddi", // kddi KDDI CORPORATION
         "kerryhotels", // kerryhotels Kerry Trading Co. Limited
-        "kerrylogistics", // kerrylogistics Kerry Trading Co. Limited
+// [VALIDATOR-504] DomainValidator ICAAN .kerrylogistics Registry Agreement - Terminated: https://www.icann.org/en/registry-agreements/terminated/kerrylogistics
+//        "kerrylogistics", // kerrylogistics Kerry Trading Co. Limited
         "kerryproperties", // kerryproperties Kerry Trading Co. Limited
         "kfh", // kfh Kuwait Finance House
         "kia", // kia KIA MOTORS CORPORATION
@@ -772,7 +788,8 @@ public class DomainValidator implements Serializable {
 //        "ladbrokes", // ladbrokes LADBROKES INTERNATIONAL PLC
         "lamborghini", // lamborghini Automobili Lamborghini S.p.A.
         "lamer", // lamer The Estée Lauder Companies Inc.
-        "lancaster", // lancaster LANCASTER
+// [VALIDATOR-505] DomainValidator ICAAN .lancaster Registry Agreement - Terminated: https://www.icann.org/en/registry-agreements/terminated/lancaster
+//        "lancaster", // lancaster LANCASTER
         // "lancia", // lancia Fiat Chrysler Automobiles N.V.
 //        "lancome", // lancome L&#39;Oréal
         "land", // land Pine Moon, LLC
@@ -805,7 +822,8 @@ public class DomainValidator implements Serializable {
         "lincoln", // lincoln Ford Motor Company
         // "linde", // linde Linde Aktiengesellschaft
         "link", // link Uniregistry, Corp.
-        "lipsy", // lipsy Lipsy Ltd
+// [VALIDATOR-506] DomainValidator ICAAN Revocation for .lipsy: https://www.iana.org/reports/tld-transfer/20250227-lipsy
+//        "lipsy", // lipsy Lipsy Ltd
         "live", // live United TLD Holdco Ltd.
         "living", // living Lifestyle Domain Holdings, Inc.
 //        "lixil", // lixil LIXIL Group Corporation
@@ -1007,7 +1025,8 @@ public class DomainValidator implements Serializable {
         "politie", // politie Politie Nederland
         "porn", // porn ICM Registry PN LLC
         "post", // post Universal Postal Union
-        "pramerica", // pramerica Prudential Financial, Inc.
+// [VALIDATOR-507] DomainValidator ICAAN Revocation for .pramerica" https://www.iana.org/reports/tld-transfer/20250516-pramerica
+//        "pramerica", // pramerica Prudential Financial, Inc.
         "praxi", // praxi Praxi S.p.A.
         "press", // press DotPress Inc.
         "prime", // prime Amazon Registry Services, Inc.
@@ -1037,7 +1056,8 @@ public class DomainValidator implements Serializable {
         "realty", // realty Fegistry, LLC
         "recipes", // recipes Grand Island, LLC
         "red", // red Afilias Limited
-        "redstone", // redstone Redstone Haute Couture Co., Ltd.
+// [VALIDATOR-508] DomainValidator ICAAN Revocation for .redstone: https://www.iana.org/reports/tld-transfer/20250826-redstone
+//        "redstone", // redstone Redstone Haute Couture Co., Ltd.
         "redumbrella", // redumbrella Travelers TLD, LLC
         "rehab", // rehab United TLD Holdco Ltd.
         "reise", // reise Foggy Way, LLC
@@ -1775,7 +1795,7 @@ public class DomainValidator implements Serializable {
      * This field does not need to be volatile since it is only accessed from
      * synchronized methods.
      */
-    private static boolean inUse;
+    private static boolean inUse; //NOPMD @GuardedBy("this")
     /*
      * These arrays are mutable.
      * They can only be updated by the updateTLDOverride method, and readers must first get an instance
@@ -1783,13 +1803,13 @@ public class DomainValidator implements Serializable {
      * The only other access is via getTLDEntries which is now synchronized.
      */
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] countryCodeTLDsPlus = EMPTY_STRING_ARRAY;
+    private static String[] countryCodeTLDsPlus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] genericTLDsPlus = EMPTY_STRING_ARRAY;
+    private static String[] genericTLDsPlus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] countryCodeTLDsMinus = EMPTY_STRING_ARRAY;
+    private static String[] countryCodeTLDsMinus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] genericTLDsMinus = EMPTY_STRING_ARRAY;
+    private static String[] genericTLDsMinus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
 
     // The constructors are deliberately private to avoid possible problems with unsafe publication.
     // It is vital that the static override arrays are not mutable once they have been used in an instance
@@ -1797,10 +1817,10 @@ public class DomainValidator implements Serializable {
     // result in different settings for the shared default instances
 
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] localTLDsMinus = EMPTY_STRING_ARRAY;
+    private static String[] localTLDsMinus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
 
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
-    private static String[] localTLDsPlus = EMPTY_STRING_ARRAY;
+    private static String[] localTLDsPlus = EMPTY_STRING_ARRAY; //NOPMD @GuardedBy("this")
 
     /**
      * Tests if a sorted array contains the specified key
