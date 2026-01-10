@@ -108,6 +108,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "TWN", "8888008505"), // File:ROC_National_Without_Registration_Passport_Datapage.jpg
 
         new TreavelDocument(Type.V , "EGY", "0203104802"), // File:Egypt_visa_in_Czech_passport.jpg
+        new TreavelDocument(Type.AC, "SGP", "0203104802"), // (Airline) crew
     };
     // @formatter:on
 
@@ -221,7 +222,7 @@ public class TravelDocumentValidatorTest {
             LOG.info("testValid:" + f);
             assertTrue(VALIDATOR.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
             if (!VALIDATOR.hasValidator(f.docType, f.countryCode) 
-                && (f.docType == Type.V || f.docType == Type.I || f.docType == Type.P)) {
+                && (f.docType == Type.V || f.docType == Type.I || f.docType == Type.P || f.docType == Type.AC)) {
                 System.out.println("   " + f + " is a valid document number");
             } else {
                 assertTrue(VALIDATOR.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());

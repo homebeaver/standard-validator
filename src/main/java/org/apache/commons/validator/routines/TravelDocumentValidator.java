@@ -69,6 +69,7 @@ public class TravelDocumentValidator {
     { ID // Identity card with Subtype D Personalausweis
     , IR // Residence permit
     , IT // vorläufige Personalausweis (temporär)
+    , AC // (Airline) crew
     , VF // Visum F==>???
     , PP // ordinary passport : Reisepass (ab November 2025)
     , PE // emergency
