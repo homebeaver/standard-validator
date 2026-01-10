@@ -48,7 +48,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus10_731CheckDigit;
  * </p>
  * <pre>
  * TravelDocumentValidator v = new TravelDocumentValidator();
- * v.setValidator(P, "TWN", 10, "\\d{10}", Modulus10_731CheckDigit.getInstance());
+ * v.setValidator(P, "TWN", "\\d{10}", Modulus10_731CheckDigit.getInstance());
  * </pre>
  * <p>
  * The singleton default instance cannot be modified in this way.
@@ -168,11 +168,10 @@ public class TravelDocumentValidator {
          * @param t the ICAO document type
          * @param cc the ICAO country code
          * @param routine the Check Digit routine
-         * @param maxLength the max length of the TIN for the country code
          * @param regex the regex to use to check the format without country code.
          */
-        private Validator(final Type t, final String cc, final CheckDigit routine, final int maxLength, final String regex) {
-            this(t, cc, maxLength, regex, routine);
+        private Validator(final Type t, final String cc, final CheckDigit routine, final String regex) {
+            this(t, cc, MAX_LEN, regex, routine);
         }
 
         /**
@@ -188,6 +187,7 @@ public class TravelDocumentValidator {
     private static final String INVALID_COUNTRY_CODE = "No CheckDigit routine or invalid country, code=";
     private static final String CANNOT_MODIFY_SINGLETON = "The singleton validator cannot be modified";
     private static final String CD = "\\d";
+    private static final String OPTIONAL0_CD = "(0)?" + CD;
     static final String REGEX_ICAO9303 = "[A-Z0-9]{9}" + CD;
     private static final String REGEX_2ALPH_7NUM_CD = "[A-Z]{2}\\d{7}" + CD;
     private static final String REGEX_ALLNUMERIC = "\\d{9}" + CD;
@@ -195,67 +195,67 @@ public class TravelDocumentValidator {
     private static final Validator[] DEFAULT_VALIDATORS = {
         // ohne Beleg: sieht so aus als ob der neue Pass PP und die ID eine Stelle mehr hat als der mit P
         // auch bei LUX und CZE ID
-        new Validator(Type.PP, "AUT", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.ID, "AUT", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.ID, "LUX", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{4}\\d{5}\\d"),
-        new Validator(Type.ID, "CZE", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+        new Validator(Type.PP, "AUT", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.ID, "AUT", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.ID, "LUX", Modulus10_731CheckDigit.getInstance(), "[A-Z]{4}\\d{5}" + CD),
+        new Validator(Type.ID, "CZE", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
         // die Stelle vor CD ist eine optionale 0:
-        new Validator(Type.P , "AUT", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]\\d{7}(0)?\\d"),
-        new Validator(Type.P , "LUX", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{8}(0)?\\d"),
-        new Validator(Type.ID, "SVK", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{2}\\d{6}(0)?\\d"),
-        new Validator(Type.P , "CZE", Modulus10_731CheckDigit.getInstance(), 10, "\\d{8}(0)?\\d"),
+        new Validator(Type.P , "AUT", Modulus10_731CheckDigit.getInstance(), "[A-Z]\\d{7}" + OPTIONAL0_CD),
+        new Validator(Type.P , "LUX", Modulus10_731CheckDigit.getInstance(), "[A-Z0-9]{8}" + OPTIONAL0_CD),
+        new Validator(Type.ID, "SVK", Modulus10_731CheckDigit.getInstance(), "[A-Z]{2}\\d{6}" + OPTIONAL0_CD),
+        new Validator(Type.P , "CZE", Modulus10_731CheckDigit.getInstance(), "\\d{8}" + OPTIONAL0_CD),
         // Buchstaben O (Oscar) und I (India) werden bei der Nummer der Identitätskarte oder des Schweizer Passes nicht verwendet
-        new Validator(Type.P , "CHE", Modulus10_731CheckDigit.getInstance(), 10, "[A-HJ-NP-Z0-9]{8}(0)?\\d"),
-        new Validator(Type.ID, "CHE", Modulus10_731CheckDigit.getInstance(), 10, "[A-HJ-NP-Z0-9]{8}(0)?\\d"),
-        new Validator(Type.P , "QAT", Modulus10_731CheckDigit.getInstance(), 10, "\\d{8}(0)?\\d"), // XXX LEN immer 10
-        new Validator(Type.P , "CAN", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{2}\\d{6}(0)?\\d"),
-        new Validator(Type.P , "IND", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]\\d{7}(0)?\\d"),
+        new Validator(Type.P , "CHE", Modulus10_731CheckDigit.getInstance(), "[A-HJ-NP-Z0-9]{8}" + OPTIONAL0_CD),
+        new Validator(Type.ID, "CHE", Modulus10_731CheckDigit.getInstance(), "[A-HJ-NP-Z0-9]{8}" + OPTIONAL0_CD),
+        new Validator(Type.P , "QAT", Modulus10_731CheckDigit.getInstance(), "\\d{8}" + OPTIONAL0_CD),
+        new Validator(Type.P , "CAN", Modulus10_731CheckDigit.getInstance(), "[A-Z]{2}\\d{6}" + OPTIONAL0_CD),
+        new Validator(Type.P , "IND", Modulus10_731CheckDigit.getInstance(), "[A-Z]\\d{7}" + OPTIONAL0_CD),
         // zwei optionale 0:
-        new Validator(Type.PS, "BIH", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]{7}(0)?(0)?\\d"),
+        new Validator(Type.PS, "BIH", Modulus10_731CheckDigit.getInstance(), "[A-Z0-9]{7}(0)?(0)?\\d"),
 
-        new Validator(Type.P , "BEL", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "BEL", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
         // https://en.wikipedia.org/wiki/Belgian_identity_card ==> 12 digits in the form xxx-xxxxxxx-yy
-//        new Validator(Type.ID, "BEL", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2A_7NUM_CD),
+//        new Validator(Type.ID, "BEL", Modulus10_731CheckDigit.getInstance(), REGEX_2A_7NUM_CD),
 
-        new Validator(Type.P , "D", Modulus10_731CheckDigit.getInstance(),  10, "[C-HJ-NP-RT-Z0-9]{9}\\d"),
-        new Validator(Type.ID, "D", Modulus10_731CheckDigit.getInstance(),  10, "[C-HJ-NP-RT-Z0-9]{9}\\d"),
+        new Validator(Type.P , "D", Modulus10_731CheckDigit.getInstance(), "[C-HJ-NP-RT-Z0-9]{9}\\d"),
+        new Validator(Type.ID, "D", Modulus10_731CheckDigit.getInstance(), "[C-HJ-NP-RT-Z0-9]{9}\\d"),
 
-        new Validator(Type.P , "ESP", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{3}\\d{6}\\d"),
-        new Validator(Type.ID, "ESP", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{3}\\d{6}\\d"),
-        new Validator(Type.P , "EST", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.ID, "EST", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.P , "FIN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.P , "FRA", Modulus10_731CheckDigit.getInstance(), 10, "\\d{2}[A-Z]{2}\\d{5}\\d"),
-        new Validator(Type.PP, "GBR", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
-        new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
-        new Validator(Type.ID, "HRV", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
-        new Validator(Type.P , "HUN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.P , "ITA", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.P , "NLD", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ICAO9303),
-        new Validator(Type.PS, "POL", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.I , "POL", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z]{3}\\d{6}" + CD),
-        new Validator(Type.ID, "LIE", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "ESP", Modulus10_731CheckDigit.getInstance(), "[A-Z]{3}\\d{6}\\d"),
+        new Validator(Type.ID, "ESP", Modulus10_731CheckDigit.getInstance(), "[A-Z]{3}\\d{6}\\d"),
+        new Validator(Type.P , "EST", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.ID, "EST", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "FIN", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "FRA", Modulus10_731CheckDigit.getInstance(), "\\d{2}[A-Z]{2}\\d{5}\\d"),
+        new Validator(Type.PP, "GBR", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
+        new Validator(Type.P , "HRV", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
+        new Validator(Type.ID, "HRV", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
+        new Validator(Type.P , "HUN", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "ITA", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "NLD", Modulus10_731CheckDigit.getInstance(), REGEX_ICAO9303),
+        new Validator(Type.PS, "POL", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.I , "POL", Modulus10_731CheckDigit.getInstance(), "[A-Z]{3}\\d{6}" + CD),
+        new Validator(Type.ID, "LIE", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
 
         // im Specimen model ist Type.PE, bei ID passen die VIS und MRT nicht zueinander
-        new Validator(Type.PE, "ROU", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
-        new Validator(Type.ID, "ROU", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.PE, "ROU", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
+        new Validator(Type.ID, "ROU", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
 
-        new Validator(Type.P , "SWE", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.ID, "SWE", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.ID, "CYP", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "SWE", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.ID, "SWE", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.ID, "CYP", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
 
-        new Validator(Type.P , "ARG", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ICAO9303),
-        new Validator(Type.P , "RKS", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
-        new Validator(Type.PP, "JPN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
-        new Validator(Type.P , "AUS", Modulus10_731CheckDigit.getInstance(), 10, REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "ARG", Modulus10_731CheckDigit.getInstance(), REGEX_ICAO9303),
+        new Validator(Type.P , "RKS", Modulus10_731CheckDigit.getInstance(), "[A-Z0-9]\\d{8}\\d"),
+        new Validator(Type.PP, "JPN", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
+        new Validator(Type.P , "AUS", Modulus10_731CheckDigit.getInstance(), REGEX_2ALPH_7NUM_CD),
 
         // im Specimen model ist Type.PN (?)
-        new Validator(Type.P , "SYR", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+        new Validator(Type.P , "SYR", Modulus10_731CheckDigit.getInstance(), "[A-Z0-9]\\d{8}\\d"),
 
         // bis 2021 nur Ziffern; NGP Next Generation Passport: Alpha am Anfang, meist A, C für PassCard
-        new Validator(Type.P , "USA", Modulus10_731CheckDigit.getInstance(), 10, "[A-Z0-9]\\d{8}\\d"),
+        new Validator(Type.P , "USA", Modulus10_731CheckDigit.getInstance(), "[A-Z0-9]\\d{8}\\d"),
 
-        new Validator(Type.P , "TWN", Modulus10_731CheckDigit.getInstance(), 10, REGEX_ALLNUMERIC),
+        new Validator(Type.P , "TWN", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
     };
 
     /** The singleton instance which uses the default formats */
