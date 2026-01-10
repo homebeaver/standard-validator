@@ -119,6 +119,7 @@ public class TravelDocumentValidatorTest {
             new TreavelDocument(Type.P, "D", "9"),              // too short
             new TreavelDocument(Type.P, "??", "abc"),           // non country
             new TreavelDocument(Type.P, "USA", "\n9102392482"), // nl
+            new TreavelDocument(Type.P, "ATA", "0203104802"),   // not valid Antarktis
     };
     // @formatter:on
 
