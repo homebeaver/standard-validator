@@ -53,7 +53,7 @@ public class SINValidator {
     /**
      * Validate a SIN
      *
-     * @param id The value validation is being performed on
+     * @param code The value validation is being performed on
      * @return <code>true</code> if the value is valid
      */
     public boolean isValid(String code) {
