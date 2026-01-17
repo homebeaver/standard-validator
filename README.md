@@ -12,7 +12,7 @@ The standard-validator jar calculates/validates
 - [ISIN](https://en.wikipedia.org/wiki/International_Securities_Identification_Number) (US-CUSIP and GB-SEDOL)
 - EAN/UPC, ISBNs and ISSNs (MOD-10)
 - all european [VAT ID numbers](https://en.wikipedia.org/wiki/VAT_identification_number) and Tax numbers 
-- french [SIREN](https://en.wikipedia.org/wiki/SIREN_code) and SIRET numbers (LUHN)
+- french [SIREN](https://en.wikipedia.org/wiki/SIREN_code) and SIRET numbers, Canadian [social insurance number](https://en.wikipedia.org/wiki/Social_insurance_number) (LUHN)
 - chemical numbers [CAS](https://en.wikipedia.org/wiki/CAS_Registry_Number), EC index and [EC-number](https://en.wikipedia.org/wiki/European_Community_number)
 - [IMO vessel number](https://en.wikipedia.org/wiki/IMO_number) ([MOD-10](https://github.com/homebeaver/ungueltig/wiki/MOD-10))
 - german [Leitweg-ID](https://de.wikipedia.org/wiki/Leitweg-ID) (ISO/IEC 7064:MOD 97-10)
