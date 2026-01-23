@@ -217,6 +217,8 @@ public class TravelDocumentValidator {
         // https://en.wikipedia.org/wiki/Belgian_identity_card ==> 12 digits in the form xxx-xxxxxxx-yy
 //        new Validator(Type.ID, "BEL", Modulus10_731CheckDigit.getInstance(), REGEX_2A_7NUM_CD),
 
+        new Validator(Type.ID, "BGR", Modulus10_731CheckDigit.getInstance(), REGEX_ALLNUMERIC),
+
         new Validator(Type.P , "D", Modulus10_731CheckDigit.getInstance(), "[C-HJ-NP-RT-Z0-9]{9}\\d"),
         new Validator(Type.ID, "D", Modulus10_731CheckDigit.getInstance(), "[C-HJ-NP-RT-Z0-9]{9}\\d"),
 

@@ -57,6 +57,8 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "AUT", "U12345676"), // https://www.consilium.europa.eu/prado/en/AUT-AO-02002/image-240610.html
         new TreavelDocument(Type.PP, "AUT", "AP12345673"), // File:Passport_of_Austria_(2024)_data_page.jpg
         new TreavelDocument(Type.P , "BEL", "GA00078050"), // File:Belgian_passport_-_2022_update.png
+        new TreavelDocument(Type.P , "BGR", "0399033566"), // TIN_by_country_de_0.zip
+        new TreavelDocument(Type.ID, "BGR", "6000000002"), // TIN_by_country_de_0.zip
         new TreavelDocument(Type.P , "HRV", "0070070071"), // File:Croatian_passport_data_page.jpg
         new TreavelDocument(Type.ID, "HRV", "1155018306"), // File:New_Croatian_ID_Card XXX mit Type IO ?
         new TreavelDocument(Type.P , "CZE", "990090544"), // File:Czech_passport_2006_MRZ_data.jpg
