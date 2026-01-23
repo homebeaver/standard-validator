@@ -26,6 +26,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 
 /**
@@ -119,6 +120,7 @@ public class TINValidator {
 
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator("AT", LuhnCheckDigit.getInstance(), 11, "\\d{2}(-|\\s)?\\d{3}(/)?\\d{4}"),
+            new Validator("BE", VATidBECheckDigit.getInstance(), 15, "\\d{2}(.|\\s)?\\d{2}(.|\\s)?\\d{2}(-|\\s)?\\d{3}(.|\\s)?\\d{2}"),
             new Validator("DE", TidDECheckDigit.getInstance(), 11, "[1-9]\\d{10}"),
             new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
             new Validator("HR", IsoIecHybrid1110System.getInstance(), 11, "[1-9]\\d{10}"),
@@ -196,7 +198,7 @@ public class TINValidator {
     }
 
     /*
-     * Finanzamtsnummern bis 2020
+     * AT Finanzamtsnummern bis 2020
      * See <a href="https://de.wikipedia.org/wiki/Abgabenkontonummer#Finanzamtsnummern">Wikipedia</a>
      */
 //    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
@@ -220,7 +222,24 @@ public class TINValidator {
             return false;
         }
         if ("AT".equals(cc)) {
+            // non digits eliminieren
             return validator.routine.isValid(code.replaceAll("[^\\d]", ""));
+        }
+        if ("BE".equals(cc)) {
+            String cde = code.replaceAll("[^\\d]", "");
+            boolean res = validator.routine.isValid(cde);
+            if (res) return res;
+            // die ersten zwei Ziffern sind das Geburstjahr, 
+            // bei >1999, also 00,01,..,25 muss für CheckDigit eine 2 vorangestellt werden
+            char[] c = cde.toCharArray();
+            if (c[0]<'3') { // born 2000 .. 2029
+                res = validator.routine.isValid("2"+cde);
+                if (res) {
+                    LOG.info(code + " indicates a birthday after 1999 YYMMDD:"+cde.substring(0, 6));
+                    return res;
+                }
+            }
+            return false;
         }
         return validator.routine.isValid(code);
     }

@@ -61,6 +61,13 @@ public class TINValidatorTest {
             new Tin("AT", "54-267/9451"),
             new Tin("AT", "35-353/5354"), // invalid until 2020 : 35 ist kein AT Finanzamt
 
+            new Tin("BE", "95.02.28-998.74"),
+            new Tin("BE", "85 07 30 033 28"),
+            new Tin("BE", "17 07 30 033 84"), // born 2017
+            new Tin("BE", "40 00 00 955-79"),
+            new Tin("BE", "00 00 01 003-64"),
+            
+
             new Tin("DE", "86095742719"), // doppelte Ziffer : 7
             new Tin("DE", "47036892816"), // doppelte Ziffer : 8
             new Tin("DE", "65929970489"), // keine doppelte Ziffer, dreifache Ziffer : 9

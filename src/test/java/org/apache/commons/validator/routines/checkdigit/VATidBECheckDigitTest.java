@@ -40,7 +40,8 @@ public class VATidBECheckDigitTest extends AbstractCheckDigitTest {
     protected void setUp() {
         routine = VATidBECheckDigit.getInstance();
         checkDigitLth = ((VATidBECheckDigit) routine).getCheckdigitLength();
-        valid = new String[] {"1234567894"
+        valid = new String[] { "95022899874" , "85073003328" , "217073003384" , "40000095579" , "00000100364" // TINs
+            , "1234567894"
             , "0400037797" // check digit == 97
             , "441826783", "0441826783"
             , "136695962", "0136695962"
