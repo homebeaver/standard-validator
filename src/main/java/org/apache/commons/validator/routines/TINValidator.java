@@ -144,8 +144,39 @@ public class TINValidator {
     /**
      * BG Edinen grazhdanski nomer EGN (ЕГН)
      * See <a href="https://en.wikipedia.org/wiki/Unique_citizenship_number">Wikipedia</a>
-     * YYMMDDOOPC
+     * YYMMDDRRGP : RRP - Region+Gender
      */
+/* Regions:
+000 ... 043 : Blagoevgrad
+044 ... 093 : Burgas
+094 ... 139 : Varna
+140 ... 169 : Veliko Tarnovo
+170 ... 183 : Vidin
+184 ... 217 : Vratsa
+218 ... 233 : Gabrovo
+234 ... 281 : Kardschali
+282 ... 301 : Kyustendil
+302 ... 319 : Lovech
+320 ... 341 : Montana
+342 ... 377 : Pazardzhik
+378 ... 395 : Pernik
+396 ... 435 : Pleven
+436 ... 501 : Plowdwi
+502 ... 527 : Razgrad
+528 ... 555 : Russe
+556 ... 575 : Silistra
+576 ... 601 : Sliven
+602 ... 623 : Smoljan
+624 ... 721 : Sofia City
+722 ... 751 : Sofia County
+752 ... 789 : Stara Zagora
+790 ... 821 : Dobrich
+822 ... 843 : Targovischte
+844 ... 871 : Haskovo
+872 ... 903 : Schumen
+904 ... 925 : Yambol
+926 ... 999 : other
+ */
     private static final String REGEX_BG = "\\d{4}[0-3]\\d{5}";
 
     private static final Validator[] DEFAULT_VALIDATORS = {
