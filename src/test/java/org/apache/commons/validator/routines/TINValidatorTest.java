@@ -66,7 +66,16 @@ public class TINValidatorTest {
             new Tin("BE", "17 07 30 033 84"), // born 2017
             new Tin("BE", "40 00 00 955-79"),
             new Tin("BE", "00 00 01 003-64"),
-            
+
+            new Tin("BG", "0011113966"), // born 11.11.1900, male
+            new Tin("BG", "0404271406"), // born 27.04.1904, male
+            new Tin("BG", "1012191435"), // born 19.12.1910, female
+            new Tin("BG", "1302203993"), // born 20.02.1913, female
+            new Tin("BG", "2502191464"), // born 19.02.1925, male
+            new Tin("BG", "0649034487"), // born 03.09.2006, male
+            new Tin("BG", "0847038794"), // born 03.07.2008, female
+            new Tin("BG", "7901050017"),
+            new Tin("BG", "0847038794"), // Пример bg.eikipedia
 
             new Tin("DE", "86095742719"), // doppelte Ziffer : 7
             new Tin("DE", "47036892816"), // doppelte Ziffer : 8
@@ -91,6 +100,8 @@ public class TINValidatorTest {
             new Tin("DE", "9"),                     // too short
             new Tin("DE", "AB768131411"),           // letters
             new Tin("??", "abc"),                   // non ISO country
+            new Tin("BG", "8508010133"),            // BG ID-Card Specimen
+            new Tin("BG", "7608010133"),            // BG Passport Specimen
     };
     // @formatter:on
 

@@ -70,6 +70,7 @@ public class VATidBGCheckDigitTest extends AbstractCheckDigitTest {
         invalid = new String[] { "10851124" // to short
                 , "7502300013"     // invalid date 30 Feb
                 , "8319195370016"  // Invalid DDC subcode
+                , "1001715145", "8508010133", "7608010133" // invalid TIN/ЕГН
             };
     }
 

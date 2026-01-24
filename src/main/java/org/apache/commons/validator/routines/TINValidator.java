@@ -27,6 +27,7 @@ import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 
 /**
@@ -118,9 +119,39 @@ public class TINValidator {
     private static final String INVALID_COUNTRY_CODE = "No CheckDigit routine or invalid country, code=";
     private static final String CANNOT_MODIFY_SINGLETON = "The singleton validator cannot be modified";
 
+    private static final String REGEX_NON_DIGITS = "[^\\d]";
+
+    private static final String AT = "AT";
+    /**
+     * AT Finanzamtsnummern bis 2020
+     * See <a href="https://de.wikipedia.org/wiki/Abgabenkontonummer#Finanzamtsnummern">Wikipedia</a>
+     * FA-NNN/NNNP
+     */
+//    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
+//        , "18", "22", "23", "29", "33", "38", "41", "46", "51", "52", "53", "54", "57", "59", "61", "65"
+//        , "67", "68", "69", "71", "72", "81", "82", "83", "84", "90", "91", "93", "97", "98");
+    private static final String REGEX_AT = "\\d{2}(-|\\s)?\\d{3}(/)?\\d{4}";
+
+    private static final String BE = "BE";
+    /**
+     * BE Numéro National (NN)
+     * See <a href="https://fr.wikipedia.org/wiki/Num%C3%A9ro_de_registre_national">Wikipedia (fr)</a>
+     * YY.MM.DD-999.PP
+     */
+    private static final String REGEX_BE = "\\d{2}(.|\\s)?[0-1]\\d(.|\\s)?[0-3]\\d(-|\\s)?\\d{3}(.|\\s)?\\d{2}";
+
+    private static final String BG = "BG";
+    /**
+     * BG Edinen grazhdanski nomer EGN (ЕГН)
+     * See <a href="https://en.wikipedia.org/wiki/Unique_citizenship_number">Wikipedia</a>
+     * YYMMDDOOPC
+     */
+    private static final String REGEX_BG = "\\d{4}[0-3]\\d{5}";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
-            new Validator("AT", LuhnCheckDigit.getInstance(), 11, "\\d{2}(-|\\s)?\\d{3}(/)?\\d{4}"),
-            new Validator("BE", VATidBECheckDigit.getInstance(), 15, "\\d{2}(.|\\s)?\\d{2}(.|\\s)?\\d{2}(-|\\s)?\\d{3}(.|\\s)?\\d{2}"),
+            new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
+            new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
+            new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
             new Validator("DE", TidDECheckDigit.getInstance(), 11, "[1-9]\\d{10}"),
             new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
             new Validator("HR", IsoIecHybrid1110System.getInstance(), 11, "[1-9]\\d{10}"),
@@ -197,14 +228,6 @@ public class TINValidator {
         return getValidator(cc) != null;
     }
 
-    /*
-     * AT Finanzamtsnummern bis 2020
-     * See <a href="https://de.wikipedia.org/wiki/Abgabenkontonummer#Finanzamtsnummern">Wikipedia</a>
-     */
-//    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
-//        , "18", "22", "23", "29", "33", "38", "41", "46", "51", "52", "53", "54", "57", "59", "61", "65"
-//        , "67", "68", "69", "71", "72", "81", "82", "83", "84", "90", "91", "93", "97", "98");
-
     /**
      * Validate a TIN Code
      *
@@ -221,12 +244,12 @@ public class TINValidator {
             LOG.warn(INVALID_COUNTRY_CODE + code);
             return false;
         }
-        if ("AT".equals(cc)) {
-            // non digits eliminieren
-            return validator.routine.isValid(code.replaceAll("[^\\d]", ""));
+        if (AT.equals(cc)) {
+            // eliminate non digits
+            return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, ""));
         }
-        if ("BE".equals(cc)) {
-            String cde = code.replaceAll("[^\\d]", "");
+        if (BE.equals(cc)) {
+            String cde = code.replaceAll(REGEX_NON_DIGITS, "");
             boolean res = validator.routine.isValid(cde);
             if (res) return res;
             // die ersten zwei Ziffern sind das Geburstjahr, 
