@@ -311,11 +311,7 @@ public class TINValidator {
             }
             return false;
         } else if (FI.equals(cc)) {
-            RegexValidator rxVal = validator.getRegexValidator();
-            String c = rxVal.validate(code);
-            System.out.println("rxVal res="+c);
-            // eliminate non digits
-//        	System.out.println(">>>>"+code.replaceAll(REGEX_NON_DIGITS, ""));
+            // eliminate non digit Century indicator
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
         }
         return validator.routine.isValid(code);
