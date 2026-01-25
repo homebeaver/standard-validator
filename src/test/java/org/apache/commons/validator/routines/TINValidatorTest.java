@@ -93,9 +93,9 @@ public class TINValidatorTest {
             new Tin("FI", "120464-126J"), // https://tarkistusmerkit.teppovuori.fi/tarkmerk.htm#moduli-31
             new Tin("FI", "120464U126J"), // same as 120464-126J (born 12.04.1964, female)
             new Tin("FI", "120464Y126J"),
-            //new Tin("FI", "120464A126J"), // born 2064 (!)
-            //new Tin("FI", "120464F126J"),
             new Tin("FI", "120464+126J"), // born 1864 (!)
+            new Tin("FI", "280264-051U"), // gleiche Quelle
+            new Tin("FI", "140457-107D"),
 
             new Tin("HR", "33392005961"), // NASTAVNI ZAVOD ZA JAVNO ZDRAVSTVO DR. ANDRIJA ŠTA, Zagreb
     };
