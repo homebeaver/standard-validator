@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Mudulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
@@ -179,12 +180,29 @@ public class TINValidator {
  */
     private static final String REGEX_BG = "\\d{4}[0-3]\\d{5}";
 
+    private static final String DE = "DE";
+    private static final String REGEX_DE = "[1-9]\\d{10}";
+
+    private static final String ES = "ES";
+    private static final String REGEX_ES = "[A-Z0-9]\\d{7}[A-Z0-9]";
+
+    private static final String FI = "FI";
+    /**
+     * FI Suomalainen henkilötunnus (HETU)
+     * See <a href="https://en.wikipedia.org/wiki/National_identification_number#Finland">Wikipedia</a>
+     * DDMMYYCZZZQ  : C - Century indicator
+     */
+    //                                                                                                        2 : bis 202x
+    private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])\\d{3}[A-Z0-9]";
+//    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
-            new Validator("DE", TidDECheckDigit.getInstance(), 11, "[1-9]\\d{10}"),
-            new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
+            new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
+            new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
+            new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator("HR", IsoIecHybrid1110System.getInstance(), 11, "[1-9]\\d{10}"),
     };
 
@@ -274,12 +292,10 @@ public class TINValidator {
         if (validator.routine == null) {
             LOG.warn(INVALID_COUNTRY_CODE + code);
             return false;
-        }
-        if (AT.equals(cc)) {
+        } else if (AT.equals(cc)) {
             // eliminate non digits
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, ""));
-        }
-        if (BE.equals(cc)) {
+        } else if (BE.equals(cc)) {
             String cde = code.replaceAll(REGEX_NON_DIGITS, "");
             boolean res = validator.routine.isValid(cde);
             if (res) return res;
@@ -294,6 +310,13 @@ public class TINValidator {
                 }
             }
             return false;
+        } else if (FI.equals(cc)) {
+            RegexValidator rxVal = validator.getRegexValidator();
+            String c = rxVal.validate(code);
+            System.out.println("rxVal res="+c);
+            // eliminate non digits
+//        	System.out.println(">>>>"+code.replaceAll(REGEX_NON_DIGITS, ""));
+            return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
         }
         return validator.routine.isValid(code);
     }

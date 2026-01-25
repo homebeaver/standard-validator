@@ -89,6 +89,14 @@ public class TINValidatorTest {
             new Tin("ES", "X2482300W"), // Extranjeros residentes
             new Tin("ES", "W8265365J"), // Establecimientos permanentes de entidades no residentes en España
 
+            new Tin("FI", "131052-308T"), // wikipedia
+            new Tin("FI", "120464-126J"), // https://tarkistusmerkit.teppovuori.fi/tarkmerk.htm#moduli-31
+            new Tin("FI", "120464U126J"), // same as 120464-126J (born 12.04.1964, female)
+            new Tin("FI", "120464Y126J"),
+            //new Tin("FI", "120464A126J"), // born 2064 (!)
+            //new Tin("FI", "120464F126J"),
+            new Tin("FI", "120464+126J"), // born 1864 (!)
+
             new Tin("HR", "33392005961"), // NASTAVNI ZAVOD ZA JAVNO ZDRAVSTVO DR. ANDRIJA ŠTA, Zagreb
     };
     // @formatter:on
@@ -102,6 +110,12 @@ public class TINValidatorTest {
             new Tin("??", "abc"),                   // non ISO country
             new Tin("BG", "8508010133"),            // BG ID-Card Specimen
             new Tin("BG", "7608010133"),            // BG Passport Specimen
+            new Tin("FI", "120464T126J"),           // T is not valid
+            new Tin("FI", "120464Z126J"),           // Z is not valid
+            new Tin("FI", "120464G126J"),           // G is not valid
+            new Tin("FI", "131052A308T"), // born 2052 (!)
+            new Tin("FI", "120464F126J"), // born 2064 (!)
+            new Tin("FI", "211271-426U"),           // specimen invalid CD
     };
     // @formatter:on
 
