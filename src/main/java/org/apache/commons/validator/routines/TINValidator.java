@@ -192,7 +192,6 @@ public class TINValidator {
      * See <a href="https://en.wikipedia.org/wiki/National_identification_number#Finland">Wikipedia</a>
      * DDMMYYCZZZQ  : C - Century indicator
      */
-    //                                                                                                        2 : bis 202x
     private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])\\d{3}[A-Z0-9]";
 //    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
 
@@ -200,7 +199,13 @@ public class TINValidator {
     private static final String REGEX_HR = "[1-9]\\d{10}";
 
     private static final String SE = "SE";
-    private static final String REGEX_SE = "(\\d{6})(-)?(\\d{4})";
+    /**
+     * SE personnummer
+     * See <a href="https://sv.wikipedia.org/wiki/Personnummer_i_Sverige">Wikipedia</a>
+     * YYMMDD-ZZGP  : das '-' ändert sich in '+', wenn die Person 100 Jahre alt wird
+     * ( auf der sv-wiki Diskussionsseite gibt es Hinweise, dass statt '+' das Datum auf YYYY erweitert wird )
+     */
+    private static final String REGEX_SE = "(\\d{6})(-|\\+)?(\\d{4})";
 
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
