@@ -51,7 +51,8 @@ class LuhnCheckDigitTest extends AbstractCheckDigitTest {
             , "999956789012347", "992056789012343", "992256789012349", "222000000000002", "333000000000008"
             // SIN_CAN:
             , "112547351"
-            // VATIN_SE:
+            // TIN + VATIN_SE:
+            , "7203101212" , "8208212384" , "8703142391" // TIN
             , "0000000018", "9999999999", "5565102570" // theoretical minimum, maximum, checkdigit zero
             , "1366959755", "1234567897", "5560528514", "5566801444", "5565102471", VALID_SE_VATIN_OLLE_SVENSSONS
             // TIN_AT:

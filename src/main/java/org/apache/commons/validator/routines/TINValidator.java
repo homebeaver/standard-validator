@@ -196,6 +196,12 @@ public class TINValidator {
     private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])\\d{3}[A-Z0-9]";
 //    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
 
+    private static final String HR = "HR";
+    private static final String REGEX_HR = "[1-9]\\d{10}";
+
+    private static final String SE = "SE";
+    private static final String REGEX_SE = "(\\d{6})(-)?(\\d{4})";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
@@ -203,7 +209,8 @@ public class TINValidator {
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
-            new Validator("HR", IsoIecHybrid1110System.getInstance(), 11, "[1-9]\\d{10}"),
+            new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
+            new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
     };
 
     /** The singleton instance which uses the default formats */
@@ -313,6 +320,9 @@ public class TINValidator {
         } else if (FI.equals(cc)) {
             // eliminate non digit Century indicator
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
+        } else if (SE.equals(cc)) {
+            // eliminate non digits
+            return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, ""));
         }
         return validator.routine.isValid(code);
     }
