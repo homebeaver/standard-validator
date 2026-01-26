@@ -37,7 +37,8 @@ public class VATidHUCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = new ModulusTenCheckDigit(new int[] { 1, 3, 7, 9 }, true);
-        valid = new String[] {"21376414", "10597190", "12892312", "10663103", "12188224"};
+        valid = new String[] {"21376414", "10597190"
+            , "12892312", "10663103", "12188224"};
     }
 
 }
