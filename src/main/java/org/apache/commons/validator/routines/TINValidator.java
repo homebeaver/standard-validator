@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Mudulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
@@ -207,6 +208,15 @@ public class TINValidator {
      */
     private static final String REGEX_SE = "(\\d{6})(-|\\+)?(\\d{4})";
 
+    private static final String PL = "PL";
+    private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
+    /**
+     * PL Numer PESEL
+     * See <a href="https://pl.wikipedia.org/wiki/PESEL">Wikipedia</a>
+     * YYMMDDZZZGP : das Jahrhundert wird im Monat kodiert
+     */
+    private static final String REGEX_PL = "(\\d{6})(\\d{5})";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
@@ -215,6 +225,7 @@ public class TINValidator {
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
+            new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
     };
 
