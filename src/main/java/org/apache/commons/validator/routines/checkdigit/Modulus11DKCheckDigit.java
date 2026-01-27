@@ -34,12 +34,12 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 2.10.6
  */
-public final class TidDKCheckDigit extends Modulus11XCheckDigit {
+public final class Modulus11DKCheckDigit extends Modulus11XCheckDigit {
 
     private static final long serialVersionUID = -2476335527498714738L;
 
     /** Singleton Check Digit instance */
-    private static final TidDKCheckDigit INSTANCE = new TidDKCheckDigit();
+    private static final Modulus11DKCheckDigit INSTANCE = new Modulus11DKCheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -52,7 +52,7 @@ public final class TidDKCheckDigit extends Modulus11XCheckDigit {
     /**
      * Constructs a new instance.
      */
-    private TidDKCheckDigit() {
+    private Modulus11DKCheckDigit() {
     }
 
     /** Weighting given to digits depending on their right position */
@@ -74,23 +74,7 @@ public final class TidDKCheckDigit extends Modulus11XCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-/*
-   0 Testing calculate Valid Check Digit, Code=[2110625629] expected=[0]
->> charValue=2 weight=4 leftPos=1 rightPos=11 , summe bei TIN immer = 12
->> charValue=1 weight=3 leftPos=2 rightPos=10
->> charValue=1 weight=2 leftPos=3 rightPos=9
->> charValue=0 weight=7 leftPos=4 rightPos=8
->> charValue=6 weight=6 leftPos=5 rightPos=7
->> charValue=2 weight=5 leftPos=6 rightPos=6
->> charValue=5 weight=4 leftPos=7 rightPos=5
->> charValue=6 weight=3 leftPos=8 rightPos=4
->> charValue=2 weight=2 leftPos=9 rightPos=3
->> charValue=9 weight=1 leftPos=10 rightPos=2
-
- */
-//        final int weight = POSITION_WEIGHT[(leftPos - 1)];
-    	final int weight = rightPos < 3 ? 1 : POSITION_WEIGHT[(rightPos-3) % POSITION_WEIGHT.length];
-    System.out.println(">> charValue="+charValue + " weight="+weight + " leftPos="+leftPos + " rightPos="+rightPos);
+        final int weight = rightPos < 3 ? 1 : POSITION_WEIGHT[(rightPos - 3) % POSITION_WEIGHT.length];
         return charValue * weight;
     }
 

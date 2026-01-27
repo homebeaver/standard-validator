@@ -28,7 +28,7 @@ import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Mudulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidDKCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
@@ -128,20 +128,20 @@ public class TINValidator {
     /**
      * AT Finanzamtsnummern bis 2020
      * See <a href="https://de.wikipedia.org/wiki/Abgabenkontonummer#Finanzamtsnummern">Wikipedia</a>
-     * FA-NNN/NNNP
+     * FA-NNN/NNNP with two non-capturing groups
      */
 //    private List<String> atFA = Arrays.asList("03", "04", "06", "07", "08", "09", "10", "12", "15", "16"
 //        , "18", "22", "23", "29", "33", "38", "41", "46", "51", "52", "53", "54", "57", "59", "61", "65"
 //        , "67", "68", "69", "71", "72", "81", "82", "83", "84", "90", "91", "93", "97", "98");
-    private static final String REGEX_AT = "\\d{2}(-|\\s)?\\d{3}(/)?\\d{4}";
+    private static final String REGEX_AT = "(\\d{2})(?:-|\\s)?(\\d{3})(?:/?)(\\d{4})";
 
     private static final String BE = "BE";
     /**
      * BE Numéro National (NN)
      * See <a href="https://fr.wikipedia.org/wiki/Num%C3%A9ro_de_registre_national">Wikipedia (fr)</a>
-     * YY.MM.DD-999.PP
+     * YY.MM.DD-999.PP with non-capturing groups
      */
-    private static final String REGEX_BE = "\\d{2}(.|\\s)?[0-1]\\d(.|\\s)?[0-3]\\d(-|\\s)?\\d{3}(.|\\s)?\\d{2}";
+    private static final String REGEX_BE = "(\\d{2})(?:.|\\s)?([0-1]\\d)(?:.|\\s)?([0-3]\\d)(?:-|\\s)?(\\d{3})(?:.|\\s)?(\\d{2})";
 
     private static final String BG = "BG";
     /**
@@ -189,9 +189,9 @@ public class TINValidator {
     /**
      * DK CPR-nummer
      * See <a href="https://da.wikipedia.org/wiki/CPR-nummer">Wikipedia</a>
-     * `DDMMYY-CZZG` : zehn Zeichen, der Bindestrich ist optional
+     * `DDMMYY-CZZG` : zehn Zeichen, der Bindestrich ist optional (non-capturing)
      */
-    private static final String REGEX_DK = "(\\d{6})(-)?(\\d{4})";
+    private static final String REGEX_DK = "(\\d{6})(?:-?)(\\d{4})";
 
     private static final String ES = "ES";
     private static final String REGEX_ES = "[A-Z0-9]\\d{7}[A-Z0-9]";
@@ -202,7 +202,7 @@ public class TINValidator {
      * See <a href="https://en.wikipedia.org/wiki/National_identification_number#Finland">Wikipedia</a>
      * DDMMYYCZZZQ  : C - Century indicator
      */
-    private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])\\d{3}[A-Z0-9]";
+    private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])(\\d{3}[A-Z0-9])";
 //    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
 
     private static final String HR = "HR";
@@ -215,7 +215,7 @@ public class TINValidator {
      * YYMMDD-ZZGP  : das '-' ändert sich in '+', wenn die Person 100 Jahre alt wird
      * ( auf der sv-wiki Diskussionsseite gibt es Hinweise, dass statt '+' das Datum auf YYYY erweitert wird )
      */
-    private static final String REGEX_SE = "(\\d{6})(-|\\+)?(\\d{4})";
+    private static final String REGEX_SE = "(\\d{6})(?:-|\\+)?(\\d{4})";
 
     private static final String PL = "PL";
     private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
@@ -231,7 +231,7 @@ public class TINValidator {
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
-            new Validator(DK, TidDKCheckDigit.getInstance(), 11, REGEX_DK),
+            new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
@@ -325,11 +325,14 @@ public class TINValidator {
         if (validator.routine == null) {
             LOG.warn(INVALID_COUNTRY_CODE + code);
             return false;
-        } else if (AT.equals(cc)) {
-            // eliminate non digits
-            return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, ""));
+        }
+        final RegexValidator regexValidator = validator.getRegexValidator();
+        if (AT.equals(cc)) {
+            // eliminate non digits ( two non-capturing groups )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
         } else if (BE.equals(cc)) {
-            String cde = code.replaceAll(REGEX_NON_DIGITS, "");
+            String cde = regexValidator.validate(code);
             boolean res = validator.routine.isValid(cde);
             if (res) return res;
             // die ersten zwei Ziffern sind das Geburstjahr, 
@@ -343,12 +346,17 @@ public class TINValidator {
                 }
             }
             return false;
+        } else if (DK.equals(cc)) {
+            // eliminate non digits ( in non-capturing group )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
         } else if (FI.equals(cc)) {
-            // eliminate non digit Century indicator
+            // eliminate non digit Century indicator ( regex without non-capturing group )
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
         } else if (SE.equals(cc)) {
-            // eliminate non digits
-            return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, ""));
+            // eliminate non digits ( in non-capturing group )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
         }
         return validator.routine.isValid(code);
     }

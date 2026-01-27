@@ -29,7 +29,7 @@ public class TidDKCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         checkDigitLth = 0;
-        routine = TidDKCheckDigit.getInstance();
+        routine = Modulus11DKCheckDigit.getInstance();
         valid = new String[] { "19" // theoretical : 2*1 + 9 = 11
             , "2110625629", "1111111118" // TIN
             , "88146328", "13585628", "13748136" // VATIN

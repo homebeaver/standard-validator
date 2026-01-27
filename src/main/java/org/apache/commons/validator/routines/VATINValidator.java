@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.commons.validator.routines.checkdigit.ABANumberCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11TenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidATCheckDigit;
@@ -30,7 +31,6 @@ import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidDKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidFICheckDigit;
@@ -142,7 +142,7 @@ public class VATINValidator {
             new Validator("CY", VATidCYCheckDigit.getInstance(), 11, "[013459]\\d{7}[A-Z]"),
             new Validator("CZ", VATidCZCheckDigit.getInstance(), 12, "(\\d)?(\\d)?\\d{8}"),
             new Validator("DE", Modulus11TenCheckDigit.getInstance(), 11, "\\d{9}"),
-            new Validator("DK", VATidDKCheckDigit.getInstance(), 10, "[1-9]\\d{7}"),
+            new Validator("DK", Modulus11DKCheckDigit.getInstance(), 10, "[1-9]\\d{7}"),
             new Validator("EE", ABANumberCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("EL", VATidELCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("ES", VATidESCheckDigit.getInstance(), 11, "[A-Z0-9]\\d{7}[A-Z0-9]"),
