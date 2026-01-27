@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * DK VAT Id Check Digit Tests.
+ * DK VAT Id (VATIN) Check Digit Tests.
  */
 public class VATidDKCheckDigitTest extends AbstractCheckDigitTest {
 
