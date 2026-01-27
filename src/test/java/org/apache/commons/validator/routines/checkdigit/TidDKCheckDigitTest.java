@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * DK Tax Id (CPR-nummer) Check Digit Tests.
+ * DK Tax Id (CPR-nummer) and VAT Id (VATIN) Check Digit Tests.
  */
 public class TidDKCheckDigitTest extends AbstractCheckDigitTest {
 
@@ -30,12 +30,15 @@ public class TidDKCheckDigitTest extends AbstractCheckDigitTest {
     protected void setUp() {
         checkDigitLth = 0;
         routine = TidDKCheckDigit.getInstance();
-        valid = new String[] { "2110625629", "1111111118" };
+        valid = new String[] { "19" // theoretical : 2*1 + 9 = 11
+            , "2110625629", "1111111118" // TIN
+            , "88146328", "13585628", "13748136" // VATIN
+            };
         invalid = new String[] { "3112791234" };
     }
 
     protected String checkDigit(final String code) {
-        return "0"; // No check digit in DK TIN, it is always 0.
+        return "0"; // No check digit in DK TIN / VATIN, it is always 0.
     }
 
 }
