@@ -83,6 +83,10 @@ public class TINValidatorTest {
             new Tin("DE", "57549285017"), // keine doppelte Ziffer, dreifache Ziffer : 5
             new Tin("DE", "25768131411"), // keine doppelte Ziffer, dreifache Ziffer : 1
 
+            new Tin("DK", "211062-5629"), // wikipedia
+            new Tin("DK", "1111111118"),
+            new Tin("DK", "111111-1118"),
+
             new Tin("ES", "A60195278"), // LIDL SUPERMERCADOS, S.A.U.
             new Tin("ES", "54362315K"), // Españoles con DNI
             new Tin("ES", "B58378431"), // Sociedades de responsabilidad limitada
@@ -117,6 +121,7 @@ public class TINValidatorTest {
             new Tin("DE", "   "),                   // empty
             new Tin("DE", "9"),                     // too short
             new Tin("DE", "AB768131411"),           // letters
+            new Tin("DE", "11111111180"),           // cd 0
             new Tin("??", "abc"),                   // non ISO country
             new Tin("BG", "8508010133"),            // BG ID-Card Specimen
             new Tin("BG", "7608010133"),            // BG Passport Specimen

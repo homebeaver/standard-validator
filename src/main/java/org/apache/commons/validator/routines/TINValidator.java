@@ -28,6 +28,7 @@ import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Mudulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidDKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
@@ -184,6 +185,14 @@ public class TINValidator {
     private static final String DE = "DE";
     private static final String REGEX_DE = "[1-9]\\d{10}";
 
+    private static final String DK = "DK";
+    /**
+     * DK CPR-nummer
+     * See <a href="https://da.wikipedia.org/wiki/CPR-nummer">Wikipedia</a>
+     * `DDMMYY-CZZG` : zehn Zeichen, der Bindestrich ist optional
+     */
+    private static final String REGEX_DK = "(\\d{6})(-)?(\\d{4})";
+
     private static final String ES = "ES";
     private static final String REGEX_ES = "[A-Z0-9]\\d{7}[A-Z0-9]";
 
@@ -222,6 +231,7 @@ public class TINValidator {
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
+            new Validator(DK, TidDKCheckDigit.getInstance(), 11, REGEX_DK),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
