@@ -43,10 +43,11 @@ public class VATidLVCheckDigitTest extends AbstractCheckDigitTest {
             , "40103161235" // C.P.S. BALTIC
             , "40103151608" // LEM MODA
             , "40003022654" // LIDO
-            // natural persons:
+            // natural persons (TINs):
             , "07091910933", "23028318902", "01010020932", "18097200928"
             , "32053410932", "32013410209", "32579461005" // starts with "32" TIN without date, No VAT payer
-            , "32132113936"
+            , "32132113936", "32503511782", "29075810403", "11111111410"
+            , "32132183934" // erfunden mit C==8 , akzeptiert durch ec.europa.eu/taxation_customs/tin/#/check-tin
             };
         invalid = new String[] {"31129910930"
             , "18097230924"

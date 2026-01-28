@@ -112,6 +112,11 @@ public class TINValidatorTest {
             new Tin("EE", "49403136526"),
             new Tin("EE", "37107290014"), // teppo
 
+            new Tin("LV", "32132113936"),
+            new Tin("LV", "32503511782"),
+            new Tin("LV", "29075810403"),
+            new Tin("LV", "11111111410"),
+
             new Tin("PL", "44051401458"), // wikipedia
             new Tin("PL", "26083006995"),
             new Tin("PL", "55030101193"), // wikipedia

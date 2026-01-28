@@ -34,6 +34,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -222,6 +223,14 @@ public class TINValidator {
     private static final String HR = "HR";
     private static final String REGEX_HR = "[1-9]\\d{10}";
 
+    private static final String LV = "LV";
+    /**
+     * LV personas kods
+     * See <a href="https://lv.wikipedia.org/wiki/Personas_kods_(Latvija)">Wikipedia</a>
+     * `DDMMYYCNNGP` : elf Zeichen, auch ohne Geburtsdatum, beginnend mit 32
+     */
+    private static final String REGEX_LV = "\\d{6}[0-9](\\d{4})";
+
     private static final String PL = "PL";
     private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
     /**
@@ -259,6 +268,7 @@ public class TINValidator {
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
+            new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
