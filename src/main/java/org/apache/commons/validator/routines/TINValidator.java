@@ -33,6 +33,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -194,6 +195,18 @@ public class TINValidator {
      */
     private static final String REGEX_DK = "(\\d{6})(?:-?)(\\d{4})";
 
+    private static final String LT = "LT";
+    /**
+     * LT asmens kodas
+     * See <a href="https://lt.wikipedia.org/wiki/Asmens_kodas">Wikipedia</a>
+     * `GYYMMDDSSSC` : elf Zeichen, beginnt mit gender+century
+     */
+    private static final String REGEX_LT = "[1-6](\\d{2}[0-1]\\d[0-3]\\d)(\\d{4})";
+
+    private static final String EE = "EE";
+    /* wie LT */
+    private static final String REGEX_EE = REGEX_LT;
+
     private static final String ES = "ES";
     private static final String REGEX_ES = "[A-Z0-9]\\d{7}[A-Z0-9]";
 
@@ -208,15 +221,6 @@ public class TINValidator {
 
     private static final String HR = "HR";
     private static final String REGEX_HR = "[1-9]\\d{10}";
-
-    private static final String SE = "SE";
-    /**
-     * SE personnummer
-     * See <a href="https://sv.wikipedia.org/wiki/Personnummer_i_Sverige">Wikipedia</a>
-     * YYMMDD-ZZGP  : das '-' ändert sich in '+', wenn die Person 100 Jahre alt wird
-     * ( auf der sv-wiki Diskussionsseite gibt es Hinweise, dass statt '+' das Datum auf YYYY erweitert wird )
-     */
-    private static final String REGEX_SE = "(\\d{6})(?:-|\\+)?(\\d{4})";
 
     private static final String PL = "PL";
     private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
@@ -235,15 +239,26 @@ public class TINValidator {
      */
     private static final String REGEX_RO = "[1-9]\\d{2}[0-1]\\d[0-3]\\d(70|51|52|[0-4]\\d)(\\d{4})";
 
+    private static final String SE = "SE";
+    /**
+     * SE personnummer
+     * See <a href="https://sv.wikipedia.org/wiki/Personnummer_i_Sverige">Wikipedia</a>
+     * YYMMDD-ZZGP  : das '-' ändert sich in '+', wenn die Person 100 Jahre alt wird
+     * ( auf der sv-wiki Diskussionsseite gibt es Hinweise, dass statt '+' das Datum auf YYYY erweitert wird )
+     */
+    private static final String REGEX_SE = "(\\d{6})(?:-|\\+)?(\\d{4})";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
+            new Validator(EE, VATidLTCheckDigit.getInstance(), 11, REGEX_EE),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
+            new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),

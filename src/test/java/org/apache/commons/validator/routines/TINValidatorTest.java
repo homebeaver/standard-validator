@@ -103,6 +103,15 @@ public class TINValidatorTest {
 
             new Tin("HR", "33392005961"), // NASTAVNI ZAVOD ZA JAVNO ZDRAVSTVO DR. ANDRIJA ŠTA, Zagreb
 
+            new Tin("LT", "33309240064"), // wikipedia
+            new Tin("LT", "46411231034"),
+            new Tin("EE", "47101010033"), // EE wie LT
+            new Tin("EE", "47302200234"),
+            new Tin("EE", "37605030299"), // wikipedia
+            new Tin("EE", "49403136515"),
+            new Tin("EE", "49403136526"),
+            new Tin("EE", "37107290014"), // teppo
+
             new Tin("PL", "44051401458"), // wikipedia
             new Tin("PL", "26083006995"),
             new Tin("PL", "55030101193"), // wikipedia
@@ -129,6 +138,7 @@ public class TINValidatorTest {
             new Tin("??", "abc"),                   // non ISO country
             new Tin("BG", "8508010133"),            // BG ID-Card Specimen
             new Tin("BG", "7608010133"),            // BG Passport Specimen
+            new Tin("EE", "75001010007"),           // invalid 7 (sex+century)
             new Tin("FI", "120464T126J"),           // T is not valid
             new Tin("FI", "120464Z126J"),           // Z is not valid
             new Tin("FI", "120464G126J"),           // G is not valid

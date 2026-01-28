@@ -20,6 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 
 /**
  * LT VAT Id Check Digit Tests.
+ * <p>
+ * VATidLTCheckDigit is also used by LT TIN (asmens kodas)
+ * and EE isikukood IK
  */
 public class VATidLTCheckDigitTest extends AbstractCheckDigitTest {
 
@@ -40,6 +43,9 @@ public class VATidLTCheckDigitTest extends AbstractCheckDigitTest {
             , "321389515" // kautra
             , "100008668621"
             , "100001919017"
+            , "33309240064", "46411231034" // LT TIN
+            , "75001010007" // valide aber ungültig wg präfix 7
+            , "47101010033", "47302200234", "37605030299", "49403136515", "49403136526", "37107290014"
             };
         invalid = new String[] {"07091910933", "11"};
     }
