@@ -28,6 +28,7 @@ import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Mudulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
@@ -226,6 +227,14 @@ public class TINValidator {
      */
     private static final String REGEX_PL = "(\\d{6})(\\d{5})";
 
+    private static final String RO = "RO";
+    /**
+     * RO Codul de Inregistrare Fiscală (CIF), Număr de Identificare Fiscală (NIF) and Cod Numeric Personal (CNP)
+     * See <a href="https://ro.wikipedia.org/wiki/Cod_numeric_personal_(Rom%C3%A2nia)">Wikipedia</a>
+     * GYYMMDDJJ999P : JJ ist Region 01..52 + 70
+     */
+    private static final String REGEX_RO = "[1-9]\\d{2}[0-1]\\d[0-3]\\d(70|51|52|[0-4]\\d)(\\d{4})";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
@@ -236,6 +245,7 @@ public class TINValidator {
             new Validator(FI, Mudulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
+            new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
     };
 
