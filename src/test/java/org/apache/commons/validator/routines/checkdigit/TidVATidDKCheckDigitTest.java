@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * DK Tax Id (CPR-nummer) and VAT Id (VATIN) Check Digit Tests.
  */
-public class TidDKCheckDigitTest extends AbstractCheckDigitTest {
+public class TidVATidDKCheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
