@@ -35,6 +35,7 @@ public class TidROCheckDigitTest extends AbstractCheckDigitTest {
             , "9000123456785" , "2570120400241" // TIN
             , "1541115881234" // erfunden (ungültige Region)
             , "1541115221233" // erfunden (gültige Region)
+            , "0541115221231" // erfunden (gender 0 ungültig)
             };
     }
 

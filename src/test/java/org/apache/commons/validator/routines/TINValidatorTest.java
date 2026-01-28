@@ -135,7 +135,8 @@ public class TINValidatorTest {
             new Tin("FI", "131052A308T"), // born 2052 (!)
             new Tin("FI", "120464F126J"), // born 2064 (!)
             new Tin("FI", "211271-426U"),           // specimen invalid CD
-            new Tin("RO", "1541115881234"),         // invalid region
+            new Tin("RO", "1541115881234"),         // invalid region1
+            new Tin("RO", "0541115221231"),         // invalid gender: 0 
     };
     // @formatter:on
 
