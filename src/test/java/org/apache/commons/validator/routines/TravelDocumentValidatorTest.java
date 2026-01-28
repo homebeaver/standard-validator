@@ -78,6 +78,7 @@ public class TravelDocumentValidatorTest {
         new TreavelDocument(Type.P , "ITA", "KK60005333"), // File:Itpassportbiodata.jpg
         new TreavelDocument(Type.P , "LUX", "JC3L7T2H4"), // File:Luxembourgish_Passport_Biodata.jpg
         new TreavelDocument(Type.ID, "LUX", "SPEC073476"), // File:Luxembourg_identity_Card_2021_verso.jpg
+        new TreavelDocument(Type.I , "LVA", "PA99239021"), // File:Latvia-ID_(Back).png
         new TreavelDocument(Type.P , "NLD", "SPECI20142"), // File:Dutch_passport_specimen_issued_9_March_2014.jpg
         new TreavelDocument(Type.PS, "POL", "ZC39917886"), // File:PL_Passport_data_page_2018_series.jpg
         new TreavelDocument(Type.I , "POL", "ZZC1082012"), // www.gov.pl
