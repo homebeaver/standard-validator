@@ -35,6 +35,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidPTCheckDigit;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -68,9 +69,9 @@ public class TINValidator {
     public static class Validator {
         /*
          * The minimum length does not appear to be defined.
-         * Denmark, Finnland are currently the shortest (including countryCode).
+         * Netherlands are currently the shortest (including countryCode).
          */
-        private static final int MIN_LEN = 10;
+        private static final int MIN_LEN = 9;
         private static final int MAX_LEN = 16;
 
         final String countryCode;
@@ -231,6 +232,9 @@ public class TINValidator {
      */
     private static final String REGEX_LV = "\\d{6}[0-9](\\d{4})";
 
+    private static final String NL = "NL";
+    private static final String REGEX_NL = "\\d{9}";
+
     private static final String PL = "PL";
     private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
     /**
@@ -269,6 +273,7 @@ public class TINValidator {
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
+            new Validator(NL, VATidPTCheckDigit.getInstance(), 9, REGEX_NL),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
