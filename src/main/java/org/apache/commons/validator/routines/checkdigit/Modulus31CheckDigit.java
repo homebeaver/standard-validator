@@ -29,12 +29,12 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public class Mudulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecConstants {
+public class Modulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecConstants {
 
     private static final long serialVersionUID = -6810195028611194540L;
 
     /** Singleton Check Digit instance */
-    private static final Mudulus31CheckDigit INSTANCE = new Mudulus31CheckDigit();
+    private static final Modulus31CheckDigit INSTANCE = new Modulus31CheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -43,7 +43,7 @@ public class Mudulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecC
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
-    Mudulus31CheckDigit() {
+    Modulus31CheckDigit() {
         super(MODULUS_31, 1);
     }
 

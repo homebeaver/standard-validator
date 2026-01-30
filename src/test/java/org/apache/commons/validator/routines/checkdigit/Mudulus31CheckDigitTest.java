@@ -31,7 +31,7 @@ public class Mudulus31CheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = Mudulus31CheckDigit.getInstance();
+        routine = Modulus31CheckDigit.getInstance();
         valid = new String[] {"120464126J"
             , "131052308T"
             , "11" , "9999999999999999997"
