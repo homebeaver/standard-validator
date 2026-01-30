@@ -30,6 +30,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
@@ -186,6 +187,9 @@ public class TINValidator {
  */
     private static final String REGEX_BG = "\\d{4}[0-3]\\d{5}";
 
+    private static final String CY = "CY";
+    private static final String REGEX_CY = "[069]\\d{7}[A-Z]";
+
     private static final String DE = "DE";
     private static final String REGEX_DE = "[1-9]\\d{10}";
 
@@ -265,6 +269,7 @@ public class TINValidator {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
+            new Validator(CY, Modulus26CYCheckDigit.getInstance(), 9, REGEX_CY),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
             new Validator(EE, VATidLTCheckDigit.getInstance(), 11, REGEX_EE),

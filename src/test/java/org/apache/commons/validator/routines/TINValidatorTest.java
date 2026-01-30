@@ -77,6 +77,11 @@ public class TINValidatorTest {
             new Tin("BG", "7901050017"),
             new Tin("BG", "0847038794"), // Пример bg.eikipedia
 
+            new Tin("CY", "00010823U"),
+            new Tin("CY", "60010823I"),
+            new Tin("CY", "61234567I"),
+            new Tin("CY", "91234567O"),
+
             new Tin("DE", "86095742719"), // doppelte Ziffer : 7
             new Tin("DE", "47036892816"), // doppelte Ziffer : 8
             new Tin("DE", "65929970489"), // keine doppelte Ziffer, dreifache Ziffer : 9
@@ -146,6 +151,9 @@ public class TINValidatorTest {
             new Tin("??", "abc"),                   // non ISO country
             new Tin("BG", "8508010133"),            // BG ID-Card Specimen
             new Tin("BG", "7608010133"),            // BG Passport Specimen
+            new Tin("CY", "30010823A"),             // VATIN
+            new Tin("CY", "10259033P"),             // VATIN
+            new Tin("CY", "12000139V"),             // starts with 12 : not TIN nor VATIN
             new Tin("EE", "75001010007"),           // invalid 7 (sex+century)
             new Tin("FI", "120464T126J"),           // T is not valid
             new Tin("FI", "120464Z126J"),           // Z is not valid
