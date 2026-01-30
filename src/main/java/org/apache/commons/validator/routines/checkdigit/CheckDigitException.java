@@ -60,6 +60,14 @@ public class CheckDigitException extends Exception {
     }
 
     /**
+     * Convenient message text "Invalid Check Digit Value [charValue]"
+     * @param charValue the invalid character string
+     * @return the message text
+     */
+    public static final String invalidCheckDigitValue(final int charValue) {
+        return START_WITH_INVALID + "Check Digit Value \"" + charValue + "\"";
+    }
+    /**
      * Convenient message text "Invalid Character [character]"
      * @param character the invalid character string
      * @return the message text

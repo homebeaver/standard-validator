@@ -61,7 +61,7 @@ public final class Modulus11DKCheckDigit extends Modulus11XCheckDigit {
     /**
      * Calculates the <i>weighted</i> value of a character in the code at a specified position.
      *
-     * <p>TID, VATID digits are weighted by their position from right to left.
+     * <p>TIN, VATID digits are weighted by their position from right to left.
      * There is no check digit on the right pos 1. 
      * And the lowest right pos is 2 and has the weight 1.
      * The next weight is 2 for right pos 3 and so on to right pos 8, Then we repeat the weight 2, 3, ...
@@ -124,7 +124,7 @@ public final class Modulus11DKCheckDigit extends Modulus11XCheckDigit {
         if (charValue == 0) {
             return super.toCheckDigit(charValue);
         }
-        throw new CheckDigitException("Invalid Check Digit Value =" + +charValue);
+        throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }
 
 }
