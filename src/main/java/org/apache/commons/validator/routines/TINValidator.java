@@ -226,7 +226,7 @@ public class TINValidator {
 //    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
 
     private static final String HR = "HR";
-    private static final String REGEX_HR = "[1-9]\\d{10}";
+    private static final String REGEX_HR = "[0-9]\\d{10}";
 
     private static final String LV = "LV";
     /**
