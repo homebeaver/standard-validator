@@ -29,16 +29,16 @@ import org.junit.jupiter.api.BeforeEach;
 
  * </pre>
  */
-public class VATidCYCheckDigitTest extends AbstractCheckDigitTest {
+public class Modulus26CYCheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
      */
     @BeforeEach
     protected void setUp() {
-        routine = VATidCYCheckDigit.getInstance();
+        routine = Modulus26CYCheckDigit.getInstance();
         valid = new String[] {"30010823A", "10259033P"
-            , "61234567I" // is not valid because starts with "6", checked in VATINValidator
+                , "00010823U", "60010823I", "61234567I", "91234567O" // TIN because starts with "0", "6", "9"
         };
         invalid = new String[] {"12000139V" // starts with "12"
             , "00000000A" // sum is zero

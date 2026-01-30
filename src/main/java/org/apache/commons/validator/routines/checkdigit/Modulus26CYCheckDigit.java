@@ -20,7 +20,7 @@ import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Cypriot VAT identification number (VATIN) Check Digit calculation/validation.
+ * Cypriot Tax identification number (TIN) and VATIN Check Digit calculation/validation.
  * <p>
  * Arithmos Egrafis FPA (ΦΠΑ)
  * </p>
@@ -31,12 +31,12 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidCYCheckDigit extends ModulusCheckDigit {
+public final class Modulus26CYCheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = -844683638838062022L;
 
     /** Singleton Check Digit instance */
-    private static final VATidCYCheckDigit INSTANCE = new VATidCYCheckDigit();
+    private static final Modulus26CYCheckDigit INSTANCE = new Modulus26CYCheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -47,40 +47,24 @@ public final class VATidCYCheckDigit extends ModulusCheckDigit {
     }
 
     static final int LEN = 9; // with Check Digit
-    static final int MODULUS_26 = 26;
 
     /** Weighting given to digits depending on their left position */
     private static final int[] POSITION_WEIGHT = { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21 };
-    private static final String CHECK_CHARACTER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String INVALID_START_WITH = "12";
     private static final String INVALID_START_MSG = "Invalid code, not allowed to start with '12' :";
 
     /**
-     * Constructs a modulus 11 Check Digit routine.
+     * Constructs a modulus Check Digit routine.
      */
-    private VATidCYCheckDigit() {
-        super(MODULUS_26);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to get the non numeric check character
-     * </p>
-     */
-    @Override
-    protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        if (charValue >= 0 && charValue <= CHECK_CHARACTER.length() - 1) {
-            return "" + CHECK_CHARACTER.charAt(charValue);
-        }
-        throw new CheckDigitException("Invalid Check Digit Value =" + charValue);
+    private Modulus26CYCheckDigit() {
+        super(RADIX_26);
     }
 
     /**
      * Calculates the <i>weighted</i> value of a character in the
      * code at a specified position.
      *
-     * <p>For VATID digits are weighted by their position from left to right.</p>
+     * <p>TIN and VATID digits are weighted by their position from left to right.</p>
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right
@@ -132,6 +116,20 @@ public final class VATidCYCheckDigit extends ModulusCheckDigit {
         } catch (final CheckDigitException ex) {
             return false;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to get the non numeric check character
+     * </p>
+     */
+    @Override
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        if (charValue >= 0 && charValue <= ALPHABETIC.length() - 1) {
+            return "" + ALPHABETIC.charAt(charValue);
+        }
+        throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }
 
 }
