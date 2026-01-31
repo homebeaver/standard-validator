@@ -53,6 +53,7 @@ public class VATidCZCheckDigitTest extends AbstractCheckDigitTest {
             , "6852294449", "6956220612", "7211240180"
             , "7704063345"
             , "9982319996" // RČ theoretical maximum (a women, born 1999-12-31)
+            , "9301125207" // Vzor_OP_2021_1_revers.jpg
             };
         invalid = new String[] {"99999994" // legal entities : first char cannot be '9'
             , "395601439" // LEN9ICO without check digit, Female born 1939-06-01

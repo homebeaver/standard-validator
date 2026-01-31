@@ -51,6 +51,9 @@ public class TINValidatorTest {
     // Eclipse 3.6 allows you to turn off formatting by placing a special comment, like
     // @formatter:off
     private static final Tin[] VALID_TIN_FIXTURES = {
+            new Tin("CZ", "930112/5207"), // Vzor_OP_2021_1_revers.jpg
+            new Tin("CZ", "710319/2745"),
+            new Tin("CZ", "685229/4449"),
             new Tin("AT", "98-123/4560"), // FA-NNN/NNNP
             new Tin("AT", "98 123/4560"), // FA NNN/NNNP
             new Tin("AT", "98 1234560"), // FA NNNNNNP
@@ -155,6 +158,7 @@ public class TINValidatorTest {
             new Tin("CY", "30010823A"),             // VATIN
             new Tin("CY", "10259033P"),             // VATIN
             new Tin("CY", "12000139V"),             // starts with 12 : not TIN nor VATIN
+            new Tin("CZ", "795229/0292"), // invalid date 29.Feb.1979 (female: 02+50)
             new Tin("EE", "75001010007"),           // invalid 7 (sex+century)
             new Tin("FI", "120464T126J"),           // T is not valid
             new Tin("FI", "120464Z126J"),           // Z is not valid

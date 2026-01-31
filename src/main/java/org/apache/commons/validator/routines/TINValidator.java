@@ -33,6 +33,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
@@ -190,6 +191,14 @@ public class TINValidator {
     private static final String CY = "CY";
     private static final String REGEX_CY = "[069]\\d{7}[A-Z]";
 
+    private static final String CZ = "CZ";
+    /**
+     * CZ Identifikační číslo osoby IČO
+     * See <a href="https://cs.wikipedia.org/wiki/Identifika%C4%8Dn%C3%AD_%C4%8D%C3%ADslo_osoby">Wikipedia</a>
+     * `YYgXDD/SSSp` : elf Zeichen, incl. `/` (non-capturing)
+     */
+    private static final String REGEX_CZ = "(\\d{4})([0-3]\\d)(?:/)(\\d{4})";
+
     private static final String DE = "DE";
     private static final String REGEX_DE = "[1-9]\\d{10}";
 
@@ -270,6 +279,7 @@ public class TINValidator {
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
             new Validator(CY, Modulus26CYCheckDigit.getInstance(), 9, REGEX_CY),
+            new Validator(CZ, VATidCZCheckDigit.getInstance(), 11, REGEX_CZ),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
             new Validator(EE, VATidLTCheckDigit.getInstance(), 11, REGEX_EE),
@@ -391,6 +401,10 @@ public class TINValidator {
                 }
             }
             return false;
+        } else if (CZ.equals(cc)) {
+            // eliminate non digits ( in non-capturing group )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
         } else if (DK.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
