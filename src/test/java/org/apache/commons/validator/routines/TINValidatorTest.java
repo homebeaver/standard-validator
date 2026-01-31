@@ -51,9 +51,6 @@ public class TINValidatorTest {
     // Eclipse 3.6 allows you to turn off formatting by placing a special comment, like
     // @formatter:off
     private static final Tin[] VALID_TIN_FIXTURES = {
-            new Tin("CZ", "930112/5207"), // Vzor_OP_2021_1_revers.jpg
-            new Tin("CZ", "710319/2745"),
-            new Tin("CZ", "685229/4449"),
             new Tin("AT", "98-123/4560"), // FA-NNN/NNNP
             new Tin("AT", "98 123/4560"), // FA NNN/NNNP
             new Tin("AT", "98 1234560"), // FA NNNNNNP
@@ -84,6 +81,12 @@ public class TINValidatorTest {
             new Tin("CY", "60010823I"),
             new Tin("CY", "61234567I"),
             new Tin("CY", "91234567O"),
+
+            new Tin("CZ", "930112/5207"), // Vzor_OP_2021_1_revers.jpg
+            new Tin("CZ", "710319/2745"),
+            new Tin("CZ", "685229/4449"),
+            new Tin("CZ", "695622/0612"),
+            new Tin("CZ", "723124/0181"), // male, born=1972/11/24 (serial numbers get depleted for a day)
 
             new Tin("DE", "86095742719"), // doppelte Ziffer : 7
             new Tin("DE", "47036892816"), // doppelte Ziffer : 8
