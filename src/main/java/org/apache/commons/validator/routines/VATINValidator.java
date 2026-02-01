@@ -164,7 +164,7 @@ public class VATINValidator {
             new Validator("RO", VATidROCheckDigit.getInstance(), 12, "[1-9](\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?\\d"),
             new Validator("SE", LuhnCheckDigit.getInstance(), 14, "[1-9]\\d{9}01"),
             new Validator("SI", VATidSICheckDigit.getInstance(), 10, "[1-9]\\d{7}"),
-            // 2nd digit: one of 2, 3, 4, 7, 8, 9
+            // 3rd digit: one of 2, 3, 4, 7, 8, 9
             new Validator("SK", VATidSKCheckDigit.getInstance(), 12, "[1-9]\\d[2-4,7-9]\\d{7}"),
             new Validator("XI", VATidGBCheckDigit.getInstance(), 14, "(\\d{3})?\\d{9}"),
     };

@@ -22,9 +22,9 @@ import org.junit.jupiter.api.BeforeEach;
  * SK VAT Id Check Digit Tests.
  * <pre>
     SK 2120567108 : valide Markon s.r.o. Bratislava
-    SK 2021896096 : valide SEDLÁČEK, advokátska kancelária s.r.o
-    SK 4030000007 : valide, aber ungültig. Aus bmf.gv.at
-    SK 2022749619 : valide, aber ungültig. Aus https://old.formvalidation.io/validators/vat/
+    SK 2021896096 : valide SEDLÁČEK, advokátska kancelária s.r.o (auch als TIN valide)
+    SK 4030000007 : valide, aber VATIN ungültig. Aus bmf.gv.at (als TIN ok)
+    SK 2022749619 : valide, aber VATIN ungültig. Aus https://old.formvalidation.io/validators/vat/ (als TIN ok)
  * </pre>
  */
 public class VATidSKCheckDigitTest extends AbstractCheckDigitTest {
@@ -40,6 +40,9 @@ public class VATidSKCheckDigitTest extends AbstractCheckDigitTest {
             , "2120567108", "2021896096", "4030000007", "2022749619"
             , "1111111111" // here valid, NOT valid, because 3rd digit is 1, checked in VATINValidator
             , "9999999999" // theoretical maximum
+            , "6001018760" // TID
+            , "9111011250" // TID erfunden, valide und gültig
+            , "0101010008" // TID erfunden, valide nicht gültig
             };
         invalid = new String[] {"999X999999", "0000000010"};
     }

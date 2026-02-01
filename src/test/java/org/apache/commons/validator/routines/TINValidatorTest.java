@@ -145,6 +145,12 @@ public class TINValidatorTest {
             new Tin("SE", "720310+1212"), // +
             new Tin("SE", "820821-2384"),
             new Tin("SE", "870314-2391"),
+
+            new Tin("SK", "600101/8760"),
+            new Tin("SK", "2021896096"),
+            new Tin("SK", "4030000007"),
+            new Tin("SK", "2022749619"),
+            new Tin("SK", "911101/1250"),
     };
     // @formatter:on
 

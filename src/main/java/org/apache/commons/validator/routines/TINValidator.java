@@ -34,10 +34,12 @@ import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidPTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -222,6 +224,10 @@ public class TINValidator {
     /* wie LT */
     private static final String REGEX_EE = REGEX_LT;
 
+    private static final String EL = "EL";
+    private static final String GR = "GR";
+    private static final String REGEX_EL = "\\d{9}";
+
     private static final String ES = "ES";
     private static final String REGEX_ES = "[A-Z0-9]\\d{7}[A-Z0-9]";
 
@@ -274,6 +280,9 @@ public class TINValidator {
      */
     private static final String REGEX_SE = "(\\d{6})(?:-|\\+)?(\\d{4})";
 
+    private static final String SK = "SK";
+    private static final String REGEX_SK = "([1-9]\\d)(\\d{4})(?:/?)(\\d{4})";
+
     private static final Validator[] DEFAULT_VALIDATORS = {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
@@ -283,8 +292,10 @@ public class TINValidator {
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
             new Validator(EE, VATidLTCheckDigit.getInstance(), 11, REGEX_EE),
+            new Validator(EL, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Modulus31CheckDigit.getInstance(), 11, REGEX_FI),
+            new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
@@ -292,6 +303,7 @@ public class TINValidator {
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
+            new Validator(SK, VATidSKCheckDigit.getInstance(), 11, REGEX_SK),
     };
 
     /** The singleton instance which uses the default formats */
@@ -413,6 +425,10 @@ public class TINValidator {
             // eliminate non digit Century indicator ( regex without non-capturing group )
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
         } else if (SE.equals(cc)) {
+            // eliminate non digits ( in non-capturing group )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
+        } else if (SK.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
             return validator.routine.isValid(cde);
