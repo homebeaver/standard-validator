@@ -98,6 +98,13 @@ public class TINValidatorTest {
             new Tin("DK", "1111111118"),
             new Tin("DK", "111111-1118"),
 
+            new Tin("EL", "123456783"),
+            new Tin("EL", "040127797"),
+            new Tin("EL", "023456780"),
+            new Tin("GR", "123456783"),
+            new Tin("GR", "040127797"),
+            new Tin("GR", "023456780"),
+
             new Tin("ES", "A60195278"), // LIDL SUPERMERCADOS, S.A.U.
             new Tin("ES", "54362315K"), // Españoles con DNI
             new Tin("ES", "B58378431"), // Sociedades de responsabilidad limitada
