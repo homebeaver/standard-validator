@@ -29,7 +29,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * </p>
  * <p>
  * A prominent possible subclass is {@link ISBN10CheckDigit}).
- * This module simplifies some VATIN calculations.
+ * This module simplifies some VATIN and TIN calculations.
  * </p>
  *
  * @since 1.10.0
