@@ -38,7 +38,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidPTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
 
 /**
@@ -263,6 +263,9 @@ public class TINValidator {
      */
     private static final String REGEX_PL = "(\\d{6})(\\d{5})";
 
+    private static final String PT = "PT";
+    private static final String REGEX_PT = REGEX_NL;
+
     private static final String RO = "RO";
     /**
      * RO Codul de Inregistrare Fiscală (CIF), Număr de Identificare Fiscală (NIF) and Cod Numeric Personal (CNP)
@@ -299,8 +302,9 @@ public class TINValidator {
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
-            new Validator(NL, VATidPTCheckDigit.getInstance(), 9, REGEX_NL),
+            new Validator(NL, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_NL),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
+            new Validator(PT, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_PT),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
             new Validator(SK, VATidSKCheckDigit.getInstance(), 11, REGEX_SK),

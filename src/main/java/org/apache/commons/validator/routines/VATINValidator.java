@@ -43,7 +43,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidMTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidNLCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidPLCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidPTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSICheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
@@ -160,7 +160,7 @@ public class VATINValidator {
             new Validator("MT", VATidMTCheckDigit.getInstance(), 14, "\\d{8}"),
             new Validator("NL", VATidNLCheckDigit.getInstance(), 14, "\\d{9}B\\d{2}"),
             new Validator("PL", VATidPLCheckDigit.getInstance(), 12, "\\d{10}"),
-            new Validator("PT", VATidPTCheckDigit.getInstance(), 11, "\\d{9}"),
+            new Validator("PT", Modulus11iWeightCheckDigit.getInstance(), 11, "\\d{9}"),
             new Validator("RO", VATidROCheckDigit.getInstance(), 12, "[1-9](\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?(\\d)?\\d"),
             new Validator("SE", LuhnCheckDigit.getInstance(), 14, "[1-9]\\d{9}01"),
             new Validator("SI", VATidSICheckDigit.getInstance(), 10, "[1-9]\\d{7}"),

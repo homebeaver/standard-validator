@@ -38,11 +38,12 @@ public class VATidPTCheckDigitTest extends AbstractCheckDigitTest {
     */
     @BeforeEach
     protected void setUp() {
-        routine = VATidPTCheckDigit.getInstance();
+        routine = Modulus11iWeightCheckDigit.getInstance();
         valid = new String[] {"000000019" // theoretical minimum
             , "502757191", "136695973", "501964843", "504308548", "510728189"
             , "000000310" // checkdigit zero
             , "123456789" // funny
+            , "300000006" // TIN
             , "999999990" // theoretical maximum
             };
         invalid = new String[] {"0", "99999999X"};
