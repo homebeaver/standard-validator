@@ -166,7 +166,7 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
         if (charValue >= 0 && charValue <= 9) { // CHECKSTYLE IGNORE MagicNumber
             return Integer.toString(charValue);
         }
-        throw new CheckDigitException("Invalid Check Digit Value =" + +charValue);
+        throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }
 
     /**
