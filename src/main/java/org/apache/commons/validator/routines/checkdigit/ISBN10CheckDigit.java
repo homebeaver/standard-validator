@@ -41,8 +41,8 @@ package org.apache.commons.validator.routines.checkdigit;
  *
  * @since 1.4
  */
-@Deprecated
-public final class ISBN10CheckDigit extends ModulusCheckXDigit {
+@Deprecated // use Modulus11XCheckDigit
+public final class ISBN10CheckDigit extends Modulus11XCheckDigit {
 
     private static final long serialVersionUID = 8000855044504864964L;
 
@@ -53,24 +53,24 @@ public final class ISBN10CheckDigit extends ModulusCheckXDigit {
      * Constructs a modulus 11 Check Digit routine for ISBN-10.
      */
     public ISBN10CheckDigit() {
-        super();
+//        super();
     }
 
-    /**
-     * Calculates the <i>weighted</i> value of a character in the
-     * code at a specified position.
-     *
-     * <p>For ISBN-10 (from right to left) digits are weighted
-     * by their position.</p>
-     *
-     * @param charValue The numeric value of the character.
-     * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The position of the character in the code, counting from right to left
-     * @return The weighted value of the character.
-     */
-    @Override
-    protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        return charValue * rightPos;
-    }
+//    /**
+//     * Calculates the <i>weighted</i> value of a character in the
+//     * code at a specified position.
+//     *
+//     * <p>For ISBN-10 (from right to left) digits are weighted
+//     * by their position.</p>
+//     *
+//     * @param charValue The numeric value of the character.
+//     * @param leftPos The position of the character in the code, counting from left to right
+//     * @param rightPos The position of the character in the code, counting from right to left
+//     * @return The weighted value of the character.
+//     */
+//    @Override
+//    protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
+//        return charValue * rightPos;
+//    }
 
 }
