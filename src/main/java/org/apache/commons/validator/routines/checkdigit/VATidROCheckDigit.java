@@ -30,7 +30,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidROCheckDigit extends Modulus11XCheckDigit {
+public final class VATidROCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = 159727558301530535L;
 
@@ -49,6 +49,7 @@ public final class VATidROCheckDigit extends Modulus11XCheckDigit {
      * Constructs a new instance.
      */
     private VATidROCheckDigit() {
+        super(MODULUS_11);
     }
 
     private static final int LEN = 10; // with Check Digit
@@ -130,12 +131,12 @@ public final class VATidROCheckDigit extends Modulus11XCheckDigit {
     /**
      * {@inheritDoc}
      * <p>
-     * Override to handle charValue X.
+     * Override to handle charValue 10.
      * </p>
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        return charValue == X ? "0" : super.toCheckDigit(charValue);
+        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
     }
 
 }

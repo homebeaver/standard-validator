@@ -41,12 +41,18 @@ public class VATidPTCheckDigitTest extends AbstractCheckDigitTest {
         routine = Modulus11iWeightCheckDigit.getInstance();
         valid = new String[] {"000000019" // theoretical minimum
             , "502757191", "136695973", "501964843", "504308548", "510728189"
-            , "000000310" // checkdigit zero
             , "123456789" // funny
             , "300000006" // TIN
+            , "100000240" // natürl.Person check digit Value = 10 , VATIN ungültig
+            , "510727140" // jur.Person check digit Value = 10 , VATIN ungültig
+            , "501728210" // jur.Person check digit Value = 10 , VATIN gültig
+            , "503067490" // jur.Person check digit Value = 0 , VATIN gültig
+            , "15012670"             // SI VAT Id invalid, because check digit Value = 0
+            , "15012557", "15012620" // SI VAT Id Check Digit Tests
+            , "000000310" // checkdigit zero
             , "999999990" // theoretical maximum
             };
-        invalid = new String[] {"0", "99999999X"};
+        invalid = new String[] {"0", "99999999X"}; //, "15012670"};
     }
 
 }

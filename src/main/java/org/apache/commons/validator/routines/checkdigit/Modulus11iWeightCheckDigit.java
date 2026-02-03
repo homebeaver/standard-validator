@@ -16,6 +16,8 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericValidator;
+
 /**
  * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
  * <p>
@@ -35,8 +37,7 @@ package org.apache.commons.validator.routines.checkdigit;
  *
  * @since 1.10.0
  */
-//public final class VATidPTCheckDigit extends Modulus11XCheckDigit { TODO rename to Modulus11iWeightCheckDigit
-public final class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
+public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = 3389131219768039368L;
 
@@ -54,7 +55,7 @@ public final class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
     /**
      * Constructs a new instance.
      */
-    private Modulus11iWeightCheckDigit() {
+    Modulus11iWeightCheckDigit() {
         super(MODULUS_11);
     }
 
@@ -77,7 +78,29 @@ public final class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
+// if(charValue == 0 || charValue == 10) System.out.println(">>>>>> charValue="+charValue); // XXX
         return charValue == 10 ? "0" : super.toCheckDigit(charValue);
+    }
+
+    /*
+     * Valide Prüfziffern "0" ergeben sich aus check charValue 0 oder 10.
+     * Die Methode der Oberklasse erkennt nur die einstellige 0, nicht die 10.
+     * Daher muss sie überschrieben werden
+     */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isValid(final String code) {
+        if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        try {
+            final String cd = calculate(code.substring(0, code.length() - 1));
+            return code.endsWith(cd);
+        } catch (final CheckDigitException ex) {
+            return false;
+        }
     }
 
 }

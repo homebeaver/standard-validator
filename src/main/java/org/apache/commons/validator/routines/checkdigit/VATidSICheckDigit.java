@@ -16,10 +16,8 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
-
 /**
- * Slovenian VAT identification number (VATIN) Check Digit calculation/validation.
+ * Slovenian TIN and VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
  * davčna številka (DDV)
  * </p>
@@ -30,7 +28,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidSICheckDigit extends Modulus11XCheckDigit {
+public final class VATidSICheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = -6973418403542365911L;
 
@@ -53,22 +51,6 @@ public final class VATidSICheckDigit extends Modulus11XCheckDigit {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        try {
-            final String cd = calculate(code.substring(0, code.length() - 1));
-            return code.endsWith(cd);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
      * <p>
      * Override because charValue 0 is an invalid check digit value and X is mapped to 0.
      * </p>
@@ -76,9 +58,9 @@ public final class VATidSICheckDigit extends Modulus11XCheckDigit {
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         if (charValue == 0) {
-            throw new CheckDigitException("Invalid Check Digit Value =" + +charValue);
+            throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(+charValue));
         }
-        return super.toCheckDigit(charValue % X);
+        return super.toCheckDigit(charValue);
     }
 
 }

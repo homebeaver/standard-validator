@@ -29,12 +29,12 @@ package org.apache.commons.validator.routines.checkdigit;
  * </p>
  * <p>
  * A prominent possible subclass is {@link ISBN10CheckDigit}).
- * This module simplifies some VATIN and TIN calculations.
+// * This module simplifies some VATIN and TIN calculations.
  * </p>
  *
  * @since 1.10.0
  */
-public class Modulus11XCheckDigit extends ModulusCheckDigit {
+public class Modulus11XCheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 5214797259628194566L;
 
@@ -54,7 +54,7 @@ public class Modulus11XCheckDigit extends ModulusCheckDigit {
         return INSTANCE;
     }
     Modulus11XCheckDigit() {
-        super(MODULUS_11);
+        super();
     }
 
     /**
@@ -66,17 +66,6 @@ public class Modulus11XCheckDigit extends ModulusCheckDigit {
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         return charValue == X ? "X" : super.toCheckDigit(charValue);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle weights as right position.
-     * </p>
-     */
-    @Override
-    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        return charValue * rightPos;
     }
 
 }

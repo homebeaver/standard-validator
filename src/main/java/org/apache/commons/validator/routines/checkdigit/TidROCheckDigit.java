@@ -33,7 +33,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 2.10.6
  */
-public final class TidROCheckDigit extends Modulus11XCheckDigit {
+public final class TidROCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = 8937961504560395464L;
 
@@ -52,6 +52,7 @@ public final class TidROCheckDigit extends Modulus11XCheckDigit {
      * Constructs a new instance.
      */
     private TidROCheckDigit() {
+        super(MODULUS_11);
     }
 
     /** Weighting given to digits depending on their left position */
@@ -81,7 +82,7 @@ public final class TidROCheckDigit extends Modulus11XCheckDigit {
         if (GenericValidator.isBlankOrNull(code)) {
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
-        return toCheckDigit(INSTANCE.calculateModulus(code, false));
+        return toCheckDigit(calculateModulus(code, false));
     }
 
     /**
@@ -103,12 +104,12 @@ public final class TidROCheckDigit extends Modulus11XCheckDigit {
     /**
      * {@inheritDoc}
      * <p>
-     * Override to handle charValue X.
+     * Override to handle charValue 10.
      * </p>
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        return charValue == X ? "0" : super.toCheckDigit(charValue);
+        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
     }
 
 }

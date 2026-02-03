@@ -34,7 +34,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 2.10.6
  */
-public final class Modulus11DKCheckDigit extends Modulus11XCheckDigit {
+public final class Modulus11DKCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = -2476335527498714738L;
 
@@ -53,6 +53,7 @@ public final class Modulus11DKCheckDigit extends Modulus11XCheckDigit {
      * Constructs a new instance.
      */
     private Modulus11DKCheckDigit() {
+        super(MODULUS_11);
     }
 
     /** Weighting given to digits depending on their right position */

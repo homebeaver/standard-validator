@@ -20,7 +20,7 @@ import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Slovakia VAT identification number (VATIN) Check Digit calculation/validation.
+ * Slovakian TIN and VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
  * Identifikačné číslo pre daň z pridanej hodnoty (IČ DPH).
  * The IČ DPH is a 10-digit number used for VAT purposes. It has a straightforward checksum.
@@ -32,7 +32,8 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidSKCheckDigit extends Modulus11XCheckDigit {
+// aus super erbe ich nur die nicht benötigte Implementierung von weightedValue
+public final class VATidSKCheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 5022933940504538766L;
 
@@ -103,7 +104,7 @@ public final class VATidSKCheckDigit extends Modulus11XCheckDigit {
         if (charValue == 0) {
             return super.toCheckDigit(charValue);
         }
-        throw new CheckDigitException("Invalid Check Digit Value = " + +charValue);
+        throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }
 
 }

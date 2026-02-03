@@ -27,7 +27,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidLTCheckDigit extends Modulus11XCheckDigit {
+public final class VATidLTCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = -5818846157214697674L;
 
@@ -46,6 +46,7 @@ public final class VATidLTCheckDigit extends Modulus11XCheckDigit {
      * Constructs a new instance.
      */
     private VATidLTCheckDigit() {
+        super(MODULUS_11);
     }
 
     private static final int POS9 = 9;
@@ -70,9 +71,9 @@ public final class VATidLTCheckDigit extends Modulus11XCheckDigit {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);
         }
         final int modulusResult = calculateModulus1(code, false);
-        if (modulusResult == X) { // recalculate with increased weights
+        if (modulusResult == 10) { // recalculate with increased weights
             final int r2 = calculateModulus(code, false);
-            return toCheckDigit(r2 == X ? 0 : r2);
+            return toCheckDigit(r2 == 10 ? 0 : r2);
         }
         return toCheckDigit(modulusResult);
     }

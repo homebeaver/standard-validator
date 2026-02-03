@@ -35,7 +35,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidNLCheckDigit extends Modulus11XCheckDigit {
+public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 2429529612265735976L;
 
@@ -125,8 +125,8 @@ public final class VATidNLCheckDigit extends Modulus11XCheckDigit {
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        if (charValue == X) {
-            throw new CheckDigitException("Invalid Check Digit Value =" + +charValue);
+        if (charValue == 10) {
+            throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
         }
         return super.toCheckDigit(charValue);
     }
