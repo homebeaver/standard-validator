@@ -41,6 +41,7 @@ package org.apache.commons.validator.routines.checkdigit;
  *
  * @since 1.4
  */
+@Deprecated // use Modulus11XCheckDigit
 public final class Mod11XISBN10CheckDigit extends Modulus11XCheckDigit {
 
     private static final long serialVersionUID = 8000855044504864964L;
@@ -56,25 +57,25 @@ public final class Mod11XISBN10CheckDigit extends Modulus11XCheckDigit {
         return INSTANCE;
     }
 
-    /**
-     * <p>Convert a character at a specified position to an
-     * integer value.</p>
-     *
-     * <p>Character 'X' check digit converted to 10.</p>
-     *
-     * @param character The character to convert.
-     * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The position of the character in the code, counting from right to left
-     * @return The integer value of the character.
-     * @throws CheckDigitException if an error occurs.
-     */
-    @Override
-    protected int toInt(final char character, final int leftPos, final int rightPos)
-            throws CheckDigitException {
-        if (rightPos == 1 && character == 'X') {
-            return X;
-        }
-        return super.toInt(character, leftPos, rightPos);
-    }
+//    /**
+//     * <p>Convert a character at a specified position to an
+//     * integer value.</p>
+//     *
+//     * <p>Character 'X' check digit converted to 10.</p>
+//     *
+//     * @param character The character to convert.
+//     * @param leftPos The position of the character in the code, counting from left to right
+//     * @param rightPos The position of the character in the code, counting from right to left
+//     * @return The integer value of the character.
+//     * @throws CheckDigitException if an error occurs.
+//     */
+//    @Override
+//    protected int toInt(final char character, final int leftPos, final int rightPos)
+//            throws CheckDigitException {
+//        if (rightPos == 1 && character == 'X') {
+//            return X;
+//        }
+//        return super.toInt(character, leftPos, rightPos);
+//    }
 
 }

@@ -41,6 +41,7 @@ package org.apache.commons.validator.routines.checkdigit;
  *
  * @since 1.4
  */
+@Deprecated
 public final class ISBN10CheckDigit extends ModulusCheckXDigit {
 
     private static final long serialVersionUID = 8000855044504864964L;

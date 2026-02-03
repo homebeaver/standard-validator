@@ -40,7 +40,7 @@ public final class ISBNCheckDigit extends AbstractCheckDigit implements Serializ
     private static final long serialVersionUID = 1391849166205184558L;
 
     /** Singleton ISBN-10 Check Digit instance */
-    public static final CheckDigit ISBN10_CHECK_DIGIT = ISBN10CheckDigit.ISBN10_CHECK_DIGIT;
+    public static final CheckDigit ISBN10_CHECK_DIGIT = Modulus11XCheckDigit.getInstance();
 
     /** Singleton ISBN-13 Check Digit instance */
     public static final CheckDigit ISBN13_CHECK_DIGIT = EAN13CheckDigit.EAN13_CHECK_DIGIT;
