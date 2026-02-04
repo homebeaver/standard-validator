@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * ISSN Check Digit Test.
+ * Modulus11XCheckDigit (ISSN Check Digit) Test.
  */
 class ISSNCheckDigitTest extends AbstractCheckDigitTest {
 
@@ -28,7 +28,7 @@ class ISSNCheckDigitTest extends AbstractCheckDigitTest {
      */
     @BeforeEach
     protected void setUp() {
-        routine = ISSNCheckDigit.getInstance();
+        routine = Modulus11XCheckDigit.getInstance();
         valid = new String[] { "03178471", "1050124X", "15626865", "10637710", "17487188", "02642875", "17500095", "11881534", "19111479", "19111460",
                 "00016772", "1365201X", };
         invalid = new String[] { "03178472", // wrong check
