@@ -30,6 +30,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iLeftCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
@@ -243,6 +244,9 @@ public class TINValidator {
     private static final String HR = "HR";
     private static final String REGEX_HR = "[0-9]\\d{10}";
 
+    private static final String HU = "HU";
+    private static final String REGEX_HU = "8\\d{9}";
+
     private static final String LV = "LV";
     /**
      * LV personas kods
@@ -300,6 +304,7 @@ public class TINValidator {
             new Validator(FI, Modulus31CheckDigit.getInstance(), 11, REGEX_FI),
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
+            new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_NL),

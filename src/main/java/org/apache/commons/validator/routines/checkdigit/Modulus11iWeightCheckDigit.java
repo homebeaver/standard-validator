@@ -53,10 +53,19 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
     }
 
     /**
+     * {@code true} if use positionWeights from right to left
+     */
+    private final boolean useRightPos;
+
+    /**
      * Constructs a new instance.
      */
     Modulus11iWeightCheckDigit() {
+        this(true);
+    }
+    Modulus11iWeightCheckDigit(boolean useRightPos) {
         super(MODULUS_11);
+        this.useRightPos = useRightPos;
     }
 
     /**
@@ -67,7 +76,12 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        return charValue * rightPos;
+        if (useRightPos) {
+            return charValue * rightPos;
+        }
+        // use leftPos
+//	    System.out.println("weightedValue use leftPos >>>>>> charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
+        return rightPos == 1 ? 0 : charValue * leftPos;
     }
 
     /**
@@ -78,7 +92,7 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-// if(charValue == 0 || charValue == 10) System.out.println(">>>>>> charValue="+charValue); // XXX
+//	    if(charValue == 0 || charValue == 10) System.out.println("toCheckDigit >>>>>> charValue="+charValue); // XXX
         return charValue == 10 ? "0" : super.toCheckDigit(charValue);
     }
 

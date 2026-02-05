@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * ISBN-10 Check Digit Test.
+ * Modulus11XCheckDigit (ISBN-10) Check Digit Test.
  */
 class ISBN10CheckDigitTest extends AbstractCheckDigitTest {
 

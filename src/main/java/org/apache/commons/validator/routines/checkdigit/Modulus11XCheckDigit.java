@@ -24,12 +24,11 @@ package org.apache.commons.validator.routines.checkdigit;
  * </p>
  * <p>
  * Check digit calculation is based on <em>modulus 11</em> with digits being weighted
- * based by their position, from right to left with the first digit being weighted  1,
+ * based by their position, from right to left (the default) with the right most digit being weighted 1,
  * the second 2 and so on. If the check digit is calculated as "10" it is converted to "X".
  * </p>
  * <p>
  * A prominent possible subclass is {@link ISBN10CheckDigit}).
-// * This module simplifies some VATIN and TIN calculations.
  * </p>
  *
  * @since 1.10.0
@@ -54,7 +53,10 @@ public class Modulus11XCheckDigit extends Modulus11iWeightCheckDigit {
         return INSTANCE;
     }
     Modulus11XCheckDigit() {
-        super();
+        this(true);
+    }
+    Modulus11XCheckDigit(boolean useRightPos) {
+        super(useRightPos);
     }
 
     /**

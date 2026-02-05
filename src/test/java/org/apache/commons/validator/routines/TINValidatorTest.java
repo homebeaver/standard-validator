@@ -122,6 +122,8 @@ public class TINValidatorTest {
             new Tin("HR", "33392005961"), // NASTAVNI ZAVOD ZA JAVNO ZDRAVSTVO DR. ANDRIJA ŠTA, Zagreb
             new Tin("HR", "05781305459"),
 
+            new Tin("HU", "8234560018"),
+
             new Tin("LT", "33309240064"), // wikipedia
             new Tin("LT", "46411231034"),
             new Tin("EE", "47101010033"), // EE wie LT

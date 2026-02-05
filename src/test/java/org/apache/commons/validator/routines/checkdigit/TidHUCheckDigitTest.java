@@ -16,39 +16,43 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * EC Index Number Check Digit Tests.
+ * HU TAX Id (TIN) Check Digit Tests.
  */
-public class ECIndexNumberCheckDigitTest extends AbstractCheckDigitTest {
+public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
 
+    // some examples for ECIndexNumber
     private static final String HYDROGEN = "001001009"; // the first entry
     private static final String LITHIUM = "003001004";
     private static final String HCL = "01700201X"; // Hydrochloric acid, Salzsäure
     private static final String ARSENIC = "03300100X";
     private static final String KRESOXIM = "607310000"; // kresoxim-methyl
     private static final String ASBESTOS = "650013006";
-    private static final String MAX = "999999995"; // theoretical
 
     /**
      * Sets up routine & valid codes.
      */
     @BeforeEach
     protected void setUp() {
-        routine = Modulus11XiLeftCheckDigit.getInstance();
+        routine = Modulus11iLeftCheckDigit.getInstance();
         valid = new String[] { "8234560018" // valid TIN_HU
             , "11" // theoretical min , check digit is weight
-            , "012" // check digit is weight
-            , "0013" // check digit is weight
-            , "00014" // check digit is weight
-            , "000015" // check digit is weight
-            , "0000016" // check digit is weight
-            , "00000017" // check digit is weight
-            , "000000018" // check digit is weight
-            , "0000000019" // check digit is weight
-            , "0000000001X" // check digit is weight 10=X
-            , HYDROGEN, LITHIUM, HCL, ARSENIC, KRESOXIM, ASBESTOS, MAX};
+            , "012" // check digit is weight , too short for TIN_HU
+            , "0013" // check digit is weight , too short for TIN_HU
+            , "00014" // check digit is weight , too short for TIN_HU
+            , "000015" // check digit is weight , too short for TIN_HU
+            , "0000016" // check digit is weight , too short for TIN_HU
+            , "00000017" // check digit is weight , too short for TIN_HU
+            , "000000018" // check digit is weight , too short for TIN_HU
+            , "0000000019" // check digit is weight , invalid as TIN_HU because prefix not 8
+            , "8999999998" // theoretical max
+            ,  HYDROGEN, LITHIUM, KRESOXIM, ASBESTOS};
+        invalid = new String[] { "0000000001X" , HCL, ARSENIC };
     }
 
 }

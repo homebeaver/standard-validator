@@ -18,7 +18,7 @@ package org.apache.commons.validator.routines;
 
 import java.io.Serializable;
 
-import org.apache.commons.validator.routines.checkdigit.ECIndexNumberCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11XiLeftCheckDigit;
 
 /**
  * <b>EC index number</b> validation.
@@ -76,8 +76,8 @@ public final class ECIndexNumberValidator implements Serializable {
      */
     static final String ECI_REGEX = "^(?:" + GROUP + DASH + GROUP + DASH + "(\\d{2})" + DASH + "([0-9X]))$";
 
-    static final CodeValidator VALIDATOR = new CodeValidator(ECI_REGEX, ECIndexNumberCheckDigit.LEN,
-        ECIndexNumberCheckDigit.getInstance());
+    static final CodeValidator VALIDATOR = new CodeValidator(ECI_REGEX, 9,
+        Modulus11XiLeftCheckDigit.getInstance());
 
     /**
      * Constructs a validator.

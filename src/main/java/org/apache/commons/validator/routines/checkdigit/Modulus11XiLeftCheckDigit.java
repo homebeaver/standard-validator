@@ -20,61 +20,42 @@ import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.ECIndexNumberValidator;
 
 /**
- * Modulus 11 <b>EC index number</b> Check Digit calculation/validation.
- *
+ * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
  * <p>
+ * Digits are weighted based by their position, from left to right with the 
+ * first digit being weighted 1, the second 2 and so on. Check digit can have a value of "X" (10).
+ * </p>
+ * <p>
+ * This module is used to calculate <b>EC index numbers</b>. 
  * EC Index Numbers are a numeric code except for the last (check) digit
  * which can have a value of "X".
  * <br>
- * Note that these <b>do not validate</b> the input for syntax.
+ * Note that these module <b>do not validate</b> the input for syntax.
  * Such validation is performed by the {@link ECIndexNumberValidator}
  * </p>
  *
  * @since 1.9.0
  */
-public final class ECIndexNumberCheckDigit extends ModulusCheckXDigit {
+public final class Modulus11XiLeftCheckDigit extends Modulus11XCheckDigit {
 
     private static final long serialVersionUID = 2078815937513115949L;
 
     /** Singleton Check Digit instance */
-    private static final ECIndexNumberCheckDigit INSTANCE = new ECIndexNumberCheckDigit();
+    private static final Modulus11XiLeftCheckDigit INSTANCE = new Modulus11XiLeftCheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
-     * @return A singleton instance of the EC Index Number validator.
+     * @return A singleton instance of the class.
      */
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
 
     /**
-     * EC index number consists of 4 groups of nine numbers separated by dashes (-).
-     * Example: lithium is 003-001-00-4
-     * The length without dashes.
-     */
-    public static final int LEN = 9;
-
-    /**
      * Constructs a modulus 11 Check Digit routine.
      */
-    private ECIndexNumberCheckDigit() {
-        super();
-    }
-
-    /**
-     * Calculates the <i>weighted</i> value of a character in the
-     * code at a specified position.
-     *
-     * <p>For EC index number digits are weighted by their position from left to right.</p>
-     *
-     * @param charValue The numeric value of the character.
-     * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The positionof the character in the code, counting from right to left
-     * @return The weighted value of the character.
-     */
-    @Override
-    protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        return leftPos >= LEN ? 0 : charValue * leftPos;
+    private Modulus11XiLeftCheckDigit() {
+        super(false); // useRightPos = false : handle weights as left position
     }
 
     /**
@@ -87,25 +68,6 @@ public final class ECIndexNumberCheckDigit extends ModulusCheckXDigit {
         }
         int modulusResult = INSTANCE.calculateModulus(code, false);
         return toCheckDigit(modulusResult);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        if (code.length() != LEN) {
-            return false;
-        }
-        try {
-            final int modulusResult = INSTANCE.calculateModulus(code, true);
-            return toCheckDigit(modulusResult).equals(code.substring(code.length() - 1));
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
     }
 
 }
