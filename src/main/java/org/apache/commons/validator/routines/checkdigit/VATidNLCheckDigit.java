@@ -120,7 +120,7 @@ public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
     /**
      * {@inheritDoc}
      * <p>
-     * Override because charValue X is an invalid check digit value.
+     * Override because charValue 10 is an invalid check digit value.
      * </p>
      */
     @Override
