@@ -27,6 +27,7 @@ import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
@@ -241,6 +242,14 @@ public class TINValidator {
     private static final String REGEX_FI = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])([5-9]\\d\\+|\\d\\d[-U-Y]|[0-2]\\d[A-F])(\\d{3}[A-Z0-9])";
 //    "(\\d{6})(\\+|-|[A-FU-Y])?(\\d{3})([A-Z0-9])"; // simpler
 
+    private static final String FR = "FR";
+    /**
+     * FR numéro d’identification fiscale (NIF)
+     * See <a href="https://fr.wikipedia.org/wiki/Num%C3%A9ro_d%27immatriculation_fiscale">Wikipedia</a>
+     * `99 99 999 999 ppp` : der Leerstellen sind optional (non-capturing)
+     */
+    private static final String REGEX_FR = "([0-3]\\d)(?:\\s?)(\\d{2})(?:\\s?)(\\d{3})(?:\\s?)(\\d{3})(?:\\s?)(\\d{3})";
+
     private static final String HR = "HR";
     private static final String REGEX_HR = "[0-9]\\d{10}";
 
@@ -302,6 +311,7 @@ public class TINValidator {
             new Validator(EL, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Modulus31CheckDigit.getInstance(), 11, REGEX_FI),
+            new Validator(FR, Modulus511CheckDigit.getInstance(), 13, REGEX_FR),
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
@@ -433,6 +443,10 @@ public class TINValidator {
         } else if (FI.equals(cc)) {
             // eliminate non digit Century indicator ( regex without non-capturing group )
             return validator.routine.isValid(code.replaceAll(REGEX_NON_DIGITS, "")+code.substring(code.length()-1));
+        } else if (FR.equals(cc)) {
+            // eliminate non digits ( in non-capturing group )
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
         } else if (SE.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
