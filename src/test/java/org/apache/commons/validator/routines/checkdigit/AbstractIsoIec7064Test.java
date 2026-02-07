@@ -113,6 +113,9 @@ public abstract class AbstractIsoIec7064Test {
             final String check = checkDigit(fullCode);
             for (int i = 0; i < POSSIBLE_CHECK_DIGITS.length(); i++) {
                 String c = checkDigitLth == 1 ? "" : POSSIBLE_CHECK_DIGITS.substring(i, i + 1);
+                if (checkDigitLth == 3) {
+                    c = "0" + c; // bei 3-stelligen Prüfziffern
+                }
                 for (int j = 0; j < POSSIBLE_CHECK_DIGITS.length(); j++) {
                     final String curr = POSSIBLE_CHECK_DIGITS.substring(j, j + 1) + c;
                     if (!curr.equals(check)) {
