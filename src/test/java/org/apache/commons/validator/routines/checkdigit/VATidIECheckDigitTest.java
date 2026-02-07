@@ -19,16 +19,16 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * IE VAT Id Check Digit Tests.
+ * IE TIN and VAT Id Check Digit Tests.
  * <pre>
 
+    IE 8473625E : achtstellig, als VATIN ungültig aus pruefziffernberechnung.de
+    IE 3628739L : achtstellig, als VATIN ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
+    IE 3628739UA : neunstellig, als VATIN ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
+    IE 6433435OA : valide, aber als VATIN ungültig, aus https://old.formvalidation.io/validators/vat/
     IE 9700053D : gültig APPLE DISTRIBUTION INTERNATIONAL LTD, HOLLYHILL INDUSTRIAL ESTATE, CORK
     IE 6388047V : gültig GOOGLE IRELAND LIMITED
-    IE 8473625E : achtstellig, ungültig aus pruefziffernberechnung.de
-    IE 3628739L : achtstellig, ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
-    IE 3628739UA : neunstellig, ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
     IE 6433435F : gültig EOBO LIMITED, SHANNON aus https://old.formvalidation.io/validators/vat/
-    IE 6433435OA : valide, aber ungültig, aus https://old.formvalidation.io/validators/vat/
     IE 9950958B : gültig HAUPPAUGE DIGITAL EUROPE SARL, DUBLIN aus adresslabor.de und
     IE 2251597K, 8Y93637V (old Style), 6693587J alle ungültig
 
@@ -42,9 +42,10 @@ public class VATidIECheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = VATidIECheckDigit.getInstance();
-        valid = new String[] {"3628739L", "3628739UA"
-            , "9700053D", "6388047V", "8473625E"
-            , "6433435F", "6433435OA", "0936378V"
+        valid = new String[] { "1234567FA" // TIN aus https://en.wikipedia.org/wiki/Personal_Public_Service_Number
+            , "8473625E", "3628739L", "3628739UA", "6433435OA"
+            , "9700053D", "6388047V"
+            , "6433435F", "0936378V"
             };
         invalid = new String[] {"99509582" // check digit 2 instead B
             , "0000000IA" // sum is zero
