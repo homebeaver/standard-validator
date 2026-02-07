@@ -41,6 +41,7 @@ public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
     protected void setUp() {
         routine = Modulus11iLeftCheckDigit.getInstance();
         valid = new String[] { "8234560018" // valid TIN_HU
+            , "8400000021" // TIN_HU, born 8.Jul.1976
             , "11" // theoretical min , check digit is weight
             , "012" // check digit is weight , too short for TIN_HU
             , "0013" // check digit is weight , too short for TIN_HU
