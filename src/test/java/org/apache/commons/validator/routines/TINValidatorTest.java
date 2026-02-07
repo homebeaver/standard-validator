@@ -121,6 +121,9 @@ public class TINValidatorTest {
 
             new Tin("FR", "3023217600053"),
             new Tin("FR", "30 23 217 600 053"),
+            new Tin("FR", "12 34 567 890 123"), // aus TIN_-_country_sheet_FR_de.pdf
+            new Tin("FR", "00 01 123 456 789"), // aus TIN_-_country_sheet_FR_de.pdf
+            new Tin("FR", "07 01 987 765 432"), // aus TIN_-_country_sheet_FR_de.pdf
             new Tin("FR", "0000000001 001"),
             new Tin("FR", "3999999999 331"),
 
