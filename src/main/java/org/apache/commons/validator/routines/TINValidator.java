@@ -25,22 +25,23 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iLeftCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
+import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidIECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
 
 /**
@@ -256,6 +257,14 @@ public class TINValidator {
     private static final String HU = "HU";
     private static final String REGEX_HU = "8\\d{9}";
 
+    private static final String IE = "IE";
+    /**
+     * IE Personal Public Service Number (PPS)
+     * See <a href="https://en.wikipedia.org/wiki/Personal_Public_Service_Number">Wikipedia</a>
+     * `1234567PA` : acht oder neun Zeichen, P ist aus Pos 8 (!)
+     */
+    private static final String REGEX_IE = "\\d{7}[A-W]([A-I])?";
+
     private static final String LV = "LV";
     /**
      * LV personas kods
@@ -315,6 +324,7 @@ public class TINValidator {
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
+            new Validator(IE, VATidIECheckDigit.getInstance(), 11, REGEX_IE),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_NL),
