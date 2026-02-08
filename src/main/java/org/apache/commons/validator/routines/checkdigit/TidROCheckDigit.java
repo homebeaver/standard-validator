@@ -26,7 +26,7 @@ import org.apache.commons.validator.GenericValidator;
  * Cod Numeric Personal (CNP)
  * </p>
  * <p>
- * See <a href="https://ro.wikipedia.org/wiki/Num%C4%83r_de_identificare_fiscal%C4%83">Wikipedia - NIF (ro)r</a>
+ * See <a href="https://ro.wikipedia.org/wiki/Num%C4%83r_de_identificare_fiscal%C4%83">Wikipedia - NIF (ro)</a>
  * and <a href="https://en.wikipedia.org/wiki/National_identification_number#Romania">Wikipedia - CNP (en)</a>
  * for more details.
  * </p>
