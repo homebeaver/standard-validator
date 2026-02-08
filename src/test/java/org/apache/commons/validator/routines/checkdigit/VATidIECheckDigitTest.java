@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
  * <pre>
 
     IE 8473625E : achtstellig, als VATIN ungültig aus pruefziffernberechnung.de
+       8473625EW : "W" at pos 9 (in numbers assigned before 1 January 2013)
     IE 3628739L : achtstellig, als VATIN ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
     IE 3628739UA : neunstellig, als VATIN ungültig aus BMF_UID_Konstruktionsregeln.pdf bmf.gv.at
     IE 6433435OA : valide, aber als VATIN ungültig, aus https://old.formvalidation.io/validators/vat/
@@ -43,7 +44,7 @@ public class VATidIECheckDigitTest extends AbstractCheckDigitTest {
     protected void setUp() {
         routine = VATidIECheckDigit.getInstance();
         valid = new String[] { "1234567FA" // TIN aus https://en.wikipedia.org/wiki/Personal_Public_Service_Number
-            , "8473625E", "3628739L", "3628739UA", "6433435OA"
+            , "8473625E", "8473625EW", "3628739L", "3628739UA", "6433435OA"
             , "9700053D", "6388047V"
             , "6433435F", "0936378V"
             };

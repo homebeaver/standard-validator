@@ -49,7 +49,10 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
     private static final String CHECK_CHARACTER = "WABCDEFGHIJKLMNOPQRSTUV";
     // the optional 9th character is non numeric
     static final int POS9 = 9;
-    private static final String LETTER9TONUMBER = "ABCDEFGHI";
+    /*
+     * if a "W" exists (in numbers assigned before 1 January 2013) the assigned numeric value will be zero
+     */
+    private static final String LETTER9TONUMBER = "WABCDEFGHI";
 
     /**
      * {@inheritDoc}
@@ -77,7 +80,7 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
             return Character.getNumericValue(character);
         }
         if (leftPos == POS9) {
-            return 1 + LETTER9TONUMBER.indexOf(character);
+            return LETTER9TONUMBER.indexOf(character);
         }
         throw new CheckDigitException(CheckDigitException.invalidCharacter(character, leftPos));
     }
@@ -132,7 +135,8 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
      */
     @Override
     public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
+//        System.out.println("EUG >>>>>>>>>>>>>> for code \"" + code + "\" returns " );
+       if (GenericValidator.isBlankOrNull(code)) {
             return false;
         }
         if (code.length() <= LEN) {

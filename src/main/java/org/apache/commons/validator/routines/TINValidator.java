@@ -79,7 +79,7 @@ public class TINValidator {
          * Netherlands are currently the shortest (including countryCode).
          */
         private static final int MIN_LEN = 9;
-        private static final int MAX_LEN = 16;
+        private static final int MAX_LEN = 17;
 
         final String countryCode;
         final RegexValidator regexValidator;
@@ -261,9 +261,9 @@ public class TINValidator {
     /**
      * IE Personal Public Service Number (PPS)
      * See <a href="https://en.wikipedia.org/wiki/Personal_Public_Service_Number">Wikipedia</a>
-     * `1234567PA` : acht oder neun Zeichen, P ist aus Pos 8 (!)
+     * `1234567PA` : acht oder neun Zeichen, P ist auf Pos 8 (!)
      */
-    private static final String REGEX_IE = "\\d{7}[A-W]([A-I])?";
+    private static final String REGEX_IE = "(\\d{7}[A-W])([A-IW])?";
 
     private static final String LV = "LV";
     /**
@@ -320,7 +320,7 @@ public class TINValidator {
             new Validator(EL, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Modulus31CheckDigit.getInstance(), 11, REGEX_FI),
-            new Validator(FR, Modulus511CheckDigit.getInstance(), 13, REGEX_FR),
+            new Validator(FR, Modulus511CheckDigit.getInstance(), 17, REGEX_FR),
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),

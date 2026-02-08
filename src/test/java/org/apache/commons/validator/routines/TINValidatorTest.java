@@ -121,9 +121,9 @@ public class TINValidatorTest {
 
             new Tin("FR", "3023217600053"),
             new Tin("FR", "30 23 217 600 053"),
-            new Tin("FR", "12 34 567 890 123"), // aus TIN_-_country_sheet_FR_de.pdf
-            new Tin("FR", "00 01 123 456 789"), // aus TIN_-_country_sheet_FR_de.pdf
-            new Tin("FR", "07 01 987 765 432"), // aus TIN_-_country_sheet_FR_de.pdf
+            new Tin("FR", "12 34 567 890 066"), // aus TIN_-_country_sheet_FR_de.pdf PZ:066
+            new Tin("FR", "00 01 123 456 278"), // aus TIN_-_country_sheet_FR_de.pdf PZ:278
+            new Tin("FR", "07 01 987 765 493"), // aus TIN_-_country_sheet_FR_de.pdf PZ:493
             new Tin("FR", "0000000001 001"),
             new Tin("FR", "3999999999 331"),
 
@@ -135,6 +135,7 @@ public class TINValidatorTest {
 
             new Tin("IE", "1234567FA"),
             new Tin("IE", "8473625E"),
+            new Tin("IE", "8473625EW"), // "W" at pos 9 (in numbers assigned before 1 January 2013)
 
             new Tin("LT", "33309240064"), // wikipedia
             new Tin("LT", "46411231034"),
@@ -262,7 +263,7 @@ public class TINValidatorTest {
         assertNull(validator.setValidator("DE", -1, "", null), "no longer present");
     }
 
-    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 9 to 16 inclusive:";
+    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 9 to 17 inclusive:";
 
     @Test
     public void testSetValidatorLen35() {
@@ -295,7 +296,7 @@ public class TINValidatorTest {
     public void testValid() {
         for (final Tin f : VALID_TIN_FIXTURES) {
             LOG.info("testValid:" + f);
-//            assertTrue(VALIDATOR.isValid(f.countryCode, f.code), "CheckDigit fail: " + f.toString());
+            assertTrue(VALIDATOR.isValid(f.countryCode, f.code), "CheckDigit fail: " + f.toString());
             assertTrue(VALIDATOR.hasValidator(f.countryCode), "Missing validator: " + f.toString());
         }
     }
