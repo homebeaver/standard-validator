@@ -42,7 +42,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -332,7 +332,7 @@ public class TINValidator {
             new Validator(PT, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_PT),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
-            new Validator(SK, VATidSKCheckDigit.getInstance(), 11, REGEX_SK),
+            new Validator(SK, TidVATidSKCheckDigi.getInstance(), 11, REGEX_SK),
     };
 
     /** The singleton instance which uses the default formats */

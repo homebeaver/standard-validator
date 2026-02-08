@@ -22,23 +22,25 @@ import org.apache.commons.validator.GenericValidator;
 /**
  * Slovakian TIN and VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
+ * Daňové identifikačné číslo (DIČ) is the TIN.
  * Identifikačné číslo pre daň z pridanej hodnoty (IČ DPH).
  * The IČ DPH is a 10-digit number used for VAT purposes. It has a straightforward checksum.
  * </p>
  * <p>
- * See <a href="https://en.wikipedia.org/wiki/VAT_identification_number">Wikipedia</a>
+ * See <a href="https://en.wikipedia.org/wiki/National_identification_number#Slovakia">Wikipedia - TIN</a>
+ * or <a href="https://en.wikipedia.org/wiki/VAT_identification_number">Wikipedia - VATIN</a>
  * for more details.
  * </p>
  *
  * @since 1.10.0
  */
 // aus super erbe ich nur die nicht benötigte Implementierung von weightedValue
-public final class VATidSKCheckDigit extends Modulus11iWeightCheckDigit {
+public final class TidVATidSKCheckDigi extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 5022933940504538766L;
 
     /** Singleton Check Digit instance */
-    private static final VATidSKCheckDigit INSTANCE = new VATidSKCheckDigit();
+    private static final TidVATidSKCheckDigi INSTANCE = new TidVATidSKCheckDigi();
 
     /**
      * Gets the singleton instance of this validator.
@@ -51,7 +53,7 @@ public final class VATidSKCheckDigit extends Modulus11iWeightCheckDigit {
     /**
      * Constructs a new instance.
      */
-    private VATidSKCheckDigit() {
+    private TidVATidSKCheckDigi() {
     }
 
     /**

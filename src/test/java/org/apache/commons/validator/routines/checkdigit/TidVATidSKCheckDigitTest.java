@@ -19,7 +19,7 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * SK VAT Id Check Digit Tests.
+ * SK Tax Id (DIČ) and VAT Id (VATIN) Check Digit Tests.
  * <pre>
     SK 2120567108 : valide Markon s.r.o. Bratislava
     SK 2021896096 : valide SEDLÁČEK, advokátska kancelária s.r.o (auch als TIN valide)
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
     SK 2022749619 : valide, aber VATIN ungültig. Aus https://old.formvalidation.io/validators/vat/ (als TIN ok)
  * </pre>
  */
-public class VATidSKCheckDigitTest extends AbstractCheckDigitTest {
+public class TidVATidSKCheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
@@ -35,7 +35,7 @@ public class VATidSKCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         checkDigitLth = 0;
-        routine = VATidSKCheckDigit.getInstance();
+        routine = TidVATidSKCheckDigi.getInstance();
         valid = new String[] {"0000000011", "11" // theoretical minimum
             , "2120567108", "2021896096", "4030000007", "2022749619"
             , "1111111111" // here valid, NOT valid, because 3rd digit is 1, checked in VATINValidator
