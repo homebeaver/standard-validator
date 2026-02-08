@@ -20,20 +20,23 @@ import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Irish VAT identification number (VATIN) Check Digit calculation/validation.
+ * Irish Tax identification number (TIN) and VATIN Check Digit calculation/validation.
  * <p>
- * See <a href="https://en.wikipedia.org/wiki/VAT_identification_number">Wikipedia - VAT IN</a>
+ * Personal Public Service Number (PPS)
+ * </p>
+ * <p>
+ * See <a href="https://en.wikipedia.org/wiki/Personal_Public_Service_Number">Wikipedia - PPSN</a>
  * for more details.
  * </p>
  *
  * @since 1.10.0
  */
-public final class VATidIECheckDigit extends ModulusCheckDigit {
+public final class Modulus23IECheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = 4007034045902340075L;
 
     /** Singleton Check Digit instance */
-    private static final VATidIECheckDigit INSTANCE = new VATidIECheckDigit();
+    private static final Modulus23IECheckDigit INSTANCE = new Modulus23IECheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -44,9 +47,6 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
     }
 
     static final int LEN = 7; // without Check Digit
-    static final int MODULUS_23 = 23;
-    // the 8th char is the non numeric check character given by the pos
-    private static final String CHECK_CHARACTER = "WABCDEFGHIJKLMNOPQRSTUV";
     // the optional 9th character is non numeric
     static final int POS9 = 9;
     /*
@@ -62,8 +62,8 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        if (charValue >= 0 && charValue <= CHECK_CHARACTER.length() - 1) {
-            return "" + CHECK_CHARACTER.charAt(charValue);
+        if (charValue >= 0 && charValue < ALPHABETIC23.length()) {
+            return "" + ALPHABETIC23.charAt(charValue);
         }
         throw new CheckDigitException("Invalid Check Digit Value =" + charValue);
     }
@@ -89,7 +89,7 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
     /**
      * Constructs a Check Digit routine.
      */
-    private VATidIECheckDigit() {
+    private Modulus23IECheckDigit() {
         super(MODULUS_23);
     }
 
@@ -135,7 +135,6 @@ public final class VATidIECheckDigit extends ModulusCheckDigit {
      */
     @Override
     public boolean isValid(final String code) {
-//        System.out.println("EUG >>>>>>>>>>>>>> for code \"" + code + "\" returns " );
        if (GenericValidator.isBlankOrNull(code)) {
             return false;
         }

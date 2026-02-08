@@ -36,7 +36,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidFICheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidFRCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidGBCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidIECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
@@ -150,7 +150,7 @@ public class VATINValidator {
             new Validator("FR", VATidFRCheckDigit.getInstance(), 13, "[A-Z0-9]{2}\\d{9}"),
             new Validator("HR", Modulus11TenCheckDigit.getInstance(), 13, "\\d{11}"),
             new Validator("HU", new ModulusTenCheckDigit(new int[] { 1, 3, 7, 9 }, true), 10, "\\d{8}"),
-            new Validator("IE", VATidIECheckDigit.getInstance(), 11, "\\d{7}[A-W]([A-I])?"),
+            new Validator("IE", Modulus23IECheckDigit.getInstance(), 11, "\\d{7}[A-W]([A-I])?"),
             new Validator("IT", LuhnCheckDigit.getInstance(), 13, "\\d{11}"),
             // optional Group for Temporarily Registered Taxpayers with 12 digits, C11==1
             new Validator("LT", VATidLTCheckDigit.getInstance(), 14, "\\d{9}([0-9]1[0-9])?"),

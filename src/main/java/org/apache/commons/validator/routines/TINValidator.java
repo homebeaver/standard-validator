@@ -39,7 +39,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidIECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSKCheckDigit;
@@ -324,7 +324,7 @@ public class TINValidator {
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
-            new Validator(IE, VATidIECheckDigit.getInstance(), 11, REGEX_IE),
+            new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_NL),

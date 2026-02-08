@@ -35,14 +35,14 @@ import org.junit.jupiter.api.BeforeEach;
 
  * </pre>
  */
-public class VATidIECheckDigitTest extends AbstractCheckDigitTest {
+public class Modulus23IECheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
      */
     @BeforeEach
     protected void setUp() {
-        routine = VATidIECheckDigit.getInstance();
+        routine = Modulus23IECheckDigit.getInstance();
         valid = new String[] { "1234567FA" // TIN aus https://en.wikipedia.org/wiki/Personal_Public_Service_Number
             , "8473625E", "8473625EW", "3628739L", "3628739UA", "6433435OA"
             , "9700053D", "6388047V"
@@ -53,7 +53,7 @@ public class VATidIECheckDigitTest extends AbstractCheckDigitTest {
             };
     }
 
-    private static final int LENGTH9 = VATidIECheckDigit.LEN + 2;
+    private static final int LENGTH9 = Modulus23IECheckDigit.LEN + 2;
 
     /**
      * {@inheritDoc}
@@ -68,7 +68,7 @@ public class VATidIECheckDigitTest extends AbstractCheckDigitTest {
         }
         if (code.length() >= LENGTH9) {
             // set checkDigit to 0
-            return code.substring(0, VATidIECheckDigit.LEN) + 0 + code.substring(VATidIECheckDigit.LEN + 1);
+            return code.substring(0, Modulus23IECheckDigit.LEN) + 0 + code.substring(Modulus23IECheckDigit.LEN + 1);
         }
         return super.removeCheckDigit(code);
     }

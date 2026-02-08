@@ -100,4 +100,12 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
      */
     String ALPHANUMERIC31 = NUMERIC + "ABCDEFHJKLMNPRSTUVWXY";
     int MODULUS_31 = ALPHANUMERIC31.length();
+
+    /**
+     * Alphabetic character set used for Modulus 23 check digit (Irish PPS-Number).
+     * <p>
+     * The non numeric check character is given by the pos
+     */
+    String ALPHABETIC23 = "WABCDEFGHIJKLMNOPQRSTUV";
+    int MODULUS_23 = ALPHABETIC23.length();
 }
