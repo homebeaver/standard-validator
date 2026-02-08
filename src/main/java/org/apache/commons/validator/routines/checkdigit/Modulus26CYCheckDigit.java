@@ -126,7 +126,7 @@ public final class Modulus26CYCheckDigit extends ModulusCheckDigit implements Is
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        if (charValue >= 0 && charValue <= ALPHABETIC.length() - 1) {
+        if (charValue >= 0 && charValue < ALPHABETIC.length()) {
             return "" + ALPHABETIC.charAt(charValue);
         }
         throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
