@@ -33,6 +33,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidITCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
@@ -265,6 +266,14 @@ public class TINValidator {
      */
     private static final String REGEX_IE = "(\\d{7}[A-W])([A-IW])?";
 
+    private static final String IT = "IT";
+    /**
+     * IT Codice fiscale
+     * See <a href="https://it.wikipedia.org/wiki/Codice_fiscale">Wikipedia</a>
+     * `SSSNNN99M99Z999P`` : P ist Alpha
+     */
+    private static final String REGEX_IT = "([A-Z]{6})(\\d{2}[A-EHLMPRST]\\d{2})([A-Z]\\d{3}[A-Z])";
+
     private static final String LV = "LV";
     /**
      * LV personas kods
@@ -325,6 +334,7 @@ public class TINValidator {
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
             new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
+            new Validator(IT, TidITCheckDigit.getInstance(), 16, REGEX_IT),
             new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_NL),

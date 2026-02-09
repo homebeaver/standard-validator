@@ -137,6 +137,11 @@ public class TINValidatorTest {
             new Tin("IE", "8473625E"),
             new Tin("IE", "8473625EW"), // "W" at pos 9 (in numbers assigned before 1 January 2013)
 
+            new Tin("IT", "MRTMTT91D08F205J"), // Matteo Moretti (male), born in Milan on 8 Apr.1991
+            new Tin("IT", "MLLSNT82P65Z404U"), // Samantha Miller (female), born in the USA on 25 Sep.1982
+            new Tin("IT", "MRYWLM80A01H501H"),
+            new Tin("IT", "MRNLCU00A01H501J"),
+
             new Tin("LT", "33309240064"), // wikipedia
             new Tin("LT", "46411231034"),
             new Tin("EE", "47101010033"), // EE wie LT
