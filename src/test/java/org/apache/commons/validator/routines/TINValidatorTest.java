@@ -141,6 +141,8 @@ public class TINValidatorTest {
             new Tin("IT", "MLLSNT82P65Z404U"), // Samantha Miller (female), born in the USA on 25 Sep.1982
             new Tin("IT", "MRYWLM80A01H501H"),
             new Tin("IT", "MRNLCU00A01H501J"),
+            new Tin("IT", "MRNLCU00A01H50MB"), // Omocodia zu MRNLCU00A01H501
+            new Tin("IT", "MRWYLM80AL1H501S"), // Omocodia zu MRWYLM80AL1H501
 
             new Tin("LT", "33309240064"), // wikipedia
             new Tin("LT", "46411231034"),
@@ -207,6 +209,7 @@ public class TINValidatorTest {
             new Tin("FI", "131052A308T"), // born 2052 (!)
             new Tin("FI", "120464F126J"), // born 2064 (!)
             new Tin("FI", "211271-426U"),           // specimen invalid CD
+            new Tin("IT", "MRWYLM80AU1H501B"),      // Omocodia 80AU1 == 81.Jan.1980 invalid
             new Tin("RO", "1541115881234"),         // invalid region1
             new Tin("RO", "0541115221231"),         // invalid gender: 0 
     };

@@ -272,7 +272,9 @@ public class TINValidator {
      * See <a href="https://it.wikipedia.org/wiki/Codice_fiscale">Wikipedia</a>
      * `SSSNNN99M99Z999P`` : P ist Alpha
      */
-    private static final String REGEX_IT = "([A-Z]{6})(\\d{2}[A-EHLMPRST]\\d{2})([A-Z]\\d{3}[A-Z])";
+    private static final String OD = "[LMNP-V0-9]"; // Omocodia digit
+    private static final String O3 = "[LMNP-T0-7]"; // Omocodia 0-3 + 4-7 (female)
+    private static final String REGEX_IT = "([A-Z]{6})("+OD+"{2}[A-EHLMPRST]"+O3+OD+")([A-Z]"+OD+"{3}[A-Z])";
 
     private static final String LV = "LV";
     /**

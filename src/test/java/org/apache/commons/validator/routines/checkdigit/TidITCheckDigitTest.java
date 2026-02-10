@@ -37,6 +37,9 @@ public class TidITCheckDigitTest extends AbstractCheckDigitTest {
         valid = new String[] { "MRTMTT91D08F205J"
             , "MRYWLM80A01H501H"
             , "MRWYLM80A01H501H"
+            , "MRNLCU00A01H50MB" // Omocodia zu MRNLCU00A01H501
+            , "MRWYLM80AL1H501S" // Omocodia 80AL1 == 01.Jan.1980 (male)
+            , "MRWYLM80AU1H501B" // Omocodia 80AU1 == 81.Jan.1980 invalid
             };
     }
 
