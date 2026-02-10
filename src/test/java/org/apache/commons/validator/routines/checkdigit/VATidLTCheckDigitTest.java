@@ -32,18 +32,18 @@ public class VATidLTCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = VATidLTCheckDigit.getInstance();
-        valid = new String[] {"213179412" // aus BMF_UID_Konstruktionsregeln.pdf
-            , "290061371314" // 12-stellig aus BMF_UID_Konstruktionsregeln.pdf
-            , "100014579016" // Senoji rotonda
-            , "100008668610" // Geltonas namas
+        valid = new String[] {"213179412" // 9-stellig aus BMF_UID_Konstruktionsregeln.pdf 2 Phasen
             , "119511515" // Klaipėdos universitetas
             , "582708716" // ASIMA
             , "237153113" // RIMI
             , "230335113" // maxima
             , "321389515" // kautra
+            , "290061371314" // 12-stellig aus BMF_UID_Konstruktionsregeln.pdf
+            , "100014579016" // Senoji rotonda
+            , "100008668610" // Geltonas namas
             , "100008668621"
             , "100001919017"
-            , "33309240064", "46411231034" // LT TIN
+            , "33309240064", "46411231034", "38409152012" // 11-stellig LT TIN
             , "75001010007" // valide aber ungültig wg präfix 7
             , "47101010033", "47302200234", "37605030299", "49403136515", "49403136526", "37107290014"
             };
