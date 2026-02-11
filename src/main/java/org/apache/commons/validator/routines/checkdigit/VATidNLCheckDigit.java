@@ -16,7 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
@@ -35,7 +34,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
+public final class VATidNLCheckDigit extends Modulus11iBSNCheckDigit {
 
     private static final long serialVersionUID = 2429529612265735976L;
 
@@ -54,6 +53,7 @@ public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
      * Constructs a new instance.
      */
     private VATidNLCheckDigit() {
+        super();
     }
 
     private static final int LEN = 9; // with Check Digit, but without suffix "B99"
@@ -64,7 +64,7 @@ public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
         if (leftPos < LEN) {
-            return charValue * rightPos;
+            return super.weightedValue(charValue, leftPos, rightPos);
         }
         return 0; // ignore charValue outside the LEN
     }
@@ -80,11 +80,7 @@ public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
         if (code.length() == LEN + 1 && code.charAt(LEN) == 'B') {
             return Modulus97CheckDigit.getInstance().calculate("NL" + code);
         }
-        // Satisfy testZeroSum
-        if (GenericTypeValidator.formatLong(code) == 0) {
-            throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-        }
-        return toCheckDigit(INSTANCE.calculateModulus(code, false));
+        return super.calculate(code);
     }
 
     /**
@@ -108,13 +104,8 @@ public final class VATidNLCheckDigit extends Modulus11iWeightCheckDigit {
         if (code.length() <= 1) { // minimum length
             return false;
         }
-        try {
-            final int cd = INSTANCE.calculateModulus(code, true);
-            final boolean isvalid = code.endsWith(toCheckDigit(cd));
-            return isvalid ? isvalid : Modulus97CheckDigit.getInstance().isValid("NL" + ocode);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
+        final boolean isvalid = super.isValid(code);
+        return isvalid ? isvalid : Modulus97CheckDigit.getInstance().isValid("NL" + ocode);
     }
 
     /**

@@ -31,7 +31,7 @@ import org.apache.commons.validator.GenericValidator;
  * </p>
  * @since 2.10.5
  */
-public final class Modulus11iBSNCheckDigit extends ModulusCheckDigit {
+public class Modulus11iBSNCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = 6574749379620087578L;
 
