@@ -181,6 +181,9 @@ public class TINValidatorTest {
             new Tin("SE", "820821-2384"),
             new Tin("SE", "870314-2391"),
 
+            new Tin("SI", "15012557"),
+            new Tin("SI", "59082437"),
+
             new Tin("SK", "600101/8760"),
             new Tin("SK", "2021896096"),
             new Tin("SK", "4030000007"),
@@ -272,7 +275,7 @@ public class TINValidatorTest {
         assertNull(validator.setValidator("DE", -1, "", null), "no longer present");
     }
 
-    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 9 to 17 inclusive:";
+    private static final String INVALID_LENGTH = "Invalid length parameter, must be in range 8 to 17 inclusive:";
 
     @Test
     public void testSetValidatorLen35() {

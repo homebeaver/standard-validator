@@ -44,6 +44,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.VATidSICheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 
 /**
@@ -78,9 +79,9 @@ public class TINValidator {
     public static class Validator {
         /*
          * The minimum length does not appear to be defined.
-         * Netherlands are currently the shortest (including countryCode).
+         * Slovenia are currently the shortest.
          */
-        private static final int MIN_LEN = 9;
+        private static final int MIN_LEN = 8;
         private static final int MAX_LEN = 17;
 
         final String countryCode;
@@ -317,6 +318,9 @@ public class TINValidator {
      */
     private static final String REGEX_SE = "(\\d{6})(?:-|\\+)?(\\d{4})";
 
+    private static final String SI = "SI";
+    private static final String REGEX_SI = "[1-9]\\d{7}";
+
     private static final String SK = "SK";
     private static final String REGEX_SK = "([1-9]\\d)(\\d{4})(?:/?)(\\d{4})";
 
@@ -345,6 +349,7 @@ public class TINValidator {
             new Validator(PT, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_PT),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
+            new Validator(SI, VATidSICheckDigit.getInstance(), 8, REGEX_SI),
             new Validator(SK, TidVATidSKCheckDigi.getInstance(), 11, REGEX_SK),
     };
 
