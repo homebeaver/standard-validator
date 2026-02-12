@@ -42,7 +42,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 
@@ -328,7 +328,7 @@ public class TINValidator {
             new Validator(CZ, VATidCZCheckDigit.getInstance(), 11, REGEX_CZ),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
             new Validator(DK, Modulus11DKCheckDigit.getInstance(), 11, REGEX_DK),
-            new Validator(EE, VATidLTCheckDigit.getInstance(), 11, REGEX_EE),
+            new Validator(EE, Modulus11iTwoPhaseCheckDigit.getInstance(), 11, REGEX_EE),
             new Validator(EL, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(ES, VATidESCheckDigit.getInstance(), 11, REGEX_ES),
             new Validator(FI, Modulus31CheckDigit.getInstance(), 11, REGEX_FI),
@@ -338,7 +338,7 @@ public class TINValidator {
             new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
             new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
             new Validator(IT, TidITCheckDigit.getInstance(), 16, REGEX_IT),
-            new Validator(LT, VATidLTCheckDigit.getInstance(), 11, REGEX_LT),
+            new Validator(LT, Modulus11iTwoPhaseCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iBSNCheckDigit.getInstance(), 9, REGEX_NL),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),

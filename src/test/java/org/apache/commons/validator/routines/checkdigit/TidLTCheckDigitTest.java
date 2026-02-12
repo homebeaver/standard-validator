@@ -19,19 +19,18 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * LT VAT Id Check Digit Tests.
+ * LT TIN and VAT Id Check Digit Tests.
  * <p>
- * VATidLTCheckDigit is also used by LT TIN (asmens kodas)
- * and EE isikukood IK
+ * Modulus11iTwoPhaseCheckDigit is also used by EE_TIN isikukood IK
  */
-public class VATidLTCheckDigitTest extends AbstractCheckDigitTest {
+public class TidLTCheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
      */
     @BeforeEach
     protected void setUp() {
-        routine = VATidLTCheckDigit.getInstance();
+        routine = Modulus11iTwoPhaseCheckDigit.getInstance();
         valid = new String[] {"213179412" // 9-stellig aus BMF_UID_Konstruktionsregeln.pdf 2 Phasen
             , "119511515" // Klaipėdos universitetas
             , "582708716" // ASIMA
@@ -45,7 +44,7 @@ public class VATidLTCheckDigitTest extends AbstractCheckDigitTest {
             , "100001919017"
             , "33309240064", "46411231034", "38409152012" // 11-stellig LT TIN
             , "75001010007" // valide aber ungültig wg präfix 7
-            , "47101010033", "47302200234", "37605030299", "49403136515", "49403136526", "37107290014"
+            , "47101010033", "47302200234", "37605030299", "49403136515", "49403136526", "37107290014" // TIN_EE
             };
         invalid = new String[] {"07091910933", "11"};
     }

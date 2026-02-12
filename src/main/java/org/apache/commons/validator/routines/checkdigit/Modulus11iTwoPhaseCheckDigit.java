@@ -27,12 +27,12 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidLTCheckDigit extends Modulus11iLeftCheckDigit {
+public final class Modulus11iTwoPhaseCheckDigit extends Modulus11iLeftCheckDigit {
 
     private static final long serialVersionUID = -5818846157214697674L;
 
     /** Singleton Check Digit instance */
-    private static final VATidLTCheckDigit INSTANCE = new VATidLTCheckDigit();
+    private static final Modulus11iTwoPhaseCheckDigit INSTANCE = new Modulus11iTwoPhaseCheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -45,7 +45,7 @@ public final class VATidLTCheckDigit extends Modulus11iLeftCheckDigit {
     /**
      * Constructs a new instance.
      */
-    private VATidLTCheckDigit() {
+    private Modulus11iTwoPhaseCheckDigit() {
         super();
     }
 

@@ -37,7 +37,7 @@ import org.apache.commons.validator.routines.checkdigit.VATidFICheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidFRCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidGBCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
-import org.apache.commons.validator.routines.checkdigit.VATidLTCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidMTCheckDigit;
@@ -153,7 +153,7 @@ public class VATINValidator {
             new Validator("IE", Modulus23IECheckDigit.getInstance(), 11, "\\d{7}[A-W]([A-I])?"),
             new Validator("IT", LuhnCheckDigit.getInstance(), 13, "\\d{11}"),
             // optional Group for Temporarily Registered Taxpayers with 12 digits, C11==1
-            new Validator("LT", VATidLTCheckDigit.getInstance(), 14, "\\d{9}([0-9]1[0-9])?"),
+            new Validator("LT", Modulus11iTwoPhaseCheckDigit.getInstance(), 14, "\\d{9}([0-9]1[0-9])?"),
             new Validator("LU", VATidLUCheckDigit.getInstance(), 13, "\\d{8}"),
             // first digit [4-9] : legal entity , [0-3] : natural person
             new Validator("LV", VATidLVCheckDigit.getInstance(), 13, "\\d\\d{10}"),
