@@ -19,10 +19,9 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
+ * Check digit calculation based on <em>modulus 11</em> and weights based on the digit position.
  * <p>
- * Digits are weighted based by their position, from right to left with the 
- * first digit being weighted 1, the second 2 and so on.
+ * Digits are weighted based by their position, from right to left.
  * </p>
  * <p>
  * This module is used to calculate some VATIN and TIN check digits. For instance:
@@ -53,19 +52,10 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
     }
 
     /**
-     * {@code true} if use positionWeights from right to left
-     */
-    private final boolean useRightPos;
-
-    /**
      * Constructs a new instance.
      */
     Modulus11iWeightCheckDigit() {
-        this(true);
-    }
-    Modulus11iWeightCheckDigit(boolean useRightPos) {
         super(MODULUS_11);
-        this.useRightPos = useRightPos;
     }
 
     /**
@@ -76,12 +66,8 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        if (useRightPos) {
-            return charValue * rightPos;
-        }
-        // use leftPos
-//	    System.out.println("weightedValue use leftPos >>>>>> charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
-        return rightPos == 1 ? 0 : charValue * leftPos;
+//	    System.out.println("weightedValue use useRightPos >>>>>> charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
+        return charValue * rightPos;
     }
 
     /**

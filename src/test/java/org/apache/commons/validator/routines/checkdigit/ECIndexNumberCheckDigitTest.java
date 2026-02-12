@@ -24,12 +24,13 @@ import org.junit.jupiter.api.BeforeEach;
 public class ECIndexNumberCheckDigitTest extends AbstractCheckDigitTest {
 
     private static final String HYDROGEN = "001001009"; // the first entry
-    private static final String LITHIUM = "003001004";
-    private static final String HCL = "01700201X"; // Hydrochloric acid, Salzsäure
-    private static final String ARSENIC = "03300100X";
+    private static final String LITHIUM  = "003001004";
     private static final String KRESOXIM = "607310000"; // kresoxim-methyl
     private static final String ASBESTOS = "650013006";
-    private static final String MAX = "999999995"; // theoretical
+    // with X:
+    private static final String HCL     = "01700201X"; // Hydrochloric acid, Salzsäure
+    private static final String ARSENIC = "03300100X";
+    private static final String MAX     = "999999995"; // theoretical
 
     /**
      * Sets up routine & valid codes.
@@ -48,7 +49,8 @@ public class ECIndexNumberCheckDigitTest extends AbstractCheckDigitTest {
             , "000000018" // check digit is weight
             , "0000000019" // check digit is weight
             , "0000000001X" // check digit is weight 10=X
-            , HYDROGEN, LITHIUM, HCL, ARSENIC, KRESOXIM, ASBESTOS, MAX};
+            , HYDROGEN, LITHIUM, HCL, ARSENIC, KRESOXIM, ASBESTOS, MAX
+            };
     }
 
 }

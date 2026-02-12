@@ -19,10 +19,12 @@ package org.apache.commons.validator.routines.checkdigit;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
+ * Check digit calculation based on <em>modulus 11</em> and weights based on the digit position.
  * <p>
- * Digits are weighted based by their position, from right to left with the 
- * first digit being weighted 1, the second 2 and so on.
+ * Digits are weighted based by their position, from right to left like is the super class.
+ * The difference to <em>i-weighted</em> super class is how the check digit is calculated.
+ * Here the check digit is modulus 11 of the weighted sum. In super however the check digit is
+ * <code>(11 - modulusResult) % 11</code>
  * </p>
  * <p>
  * This module is used to calculate the TIN_NL Burgerservicenummer (BSN) check digits.
@@ -31,7 +33,7 @@ import org.apache.commons.validator.GenericValidator;
  * </p>
  * @since 2.10.5
  */
-public class Modulus11iBSNCheckDigit extends ModulusCheckDigit {
+public class Modulus11iBSNCheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 6574749379620087578L;
 
@@ -50,18 +52,7 @@ public class Modulus11iBSNCheckDigit extends ModulusCheckDigit {
      * Constructs a new instance.
      */
     Modulus11iBSNCheckDigit() {
-        super(MODULUS_11);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Implement to handle weights as right position.
-     * </p>
-     */
-    @Override
-    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        return charValue * rightPos;
+        super();
     }
 
     /**
@@ -72,40 +63,7 @@ public class Modulus11iBSNCheckDigit extends ModulusCheckDigit {
         if (GenericValidator.isBlankOrNull(code)) {
             throw new CheckDigitException(CheckDigitException.MISSING_CODE);
         }
-        final int modulusResult = calculateModulus(code, false);
-        return toCheckDigit(modulusResult);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle charValue 10.
-     * </p>
-     */
-    @Override
-    protected String toCheckDigit(final int charValue) throws CheckDigitException {
-        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
-    }
-
-    /*
-     * Valide Prüfziffern "0" ergeben sich aus check charValue 0 oder 10.
-     * Die Methode der Oberklasse erkennt nur die einstellige 0, nicht die 10.
-     * Daher muss sie überschrieben werden
-     */
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        try {
-            final String cd = calculate(code.substring(0, code.length() - 1));
-            return code.endsWith(cd);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
+        return toCheckDigit(calculateModulus(code, false));
     }
 
 }

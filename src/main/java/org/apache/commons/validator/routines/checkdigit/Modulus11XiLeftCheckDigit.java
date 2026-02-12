@@ -16,7 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.ECIndexNumberValidator;
 
 /**
@@ -36,9 +35,14 @@ import org.apache.commons.validator.routines.ECIndexNumberValidator;
  *
  * @since 1.9.0
  */
-public final class Modulus11XiLeftCheckDigit extends Modulus11XCheckDigit {
+public final class Modulus11XiLeftCheckDigit extends Modulus11iLeftCheckDigit {
 
     private static final long serialVersionUID = 2078815937513115949L;
+
+    /**
+     * The ALPHABET for the check digit is a number or X which indicates ten.
+     */
+    static final int X = 10;
 
     /** Singleton Check Digit instance */
     private static final Modulus11XiLeftCheckDigit INSTANCE = new Modulus11XiLeftCheckDigit();
@@ -55,19 +59,32 @@ public final class Modulus11XiLeftCheckDigit extends Modulus11XCheckDigit {
      * Constructs a modulus 11 Check Digit routine.
      */
     private Modulus11XiLeftCheckDigit() {
-        super(false); // useRightPos = false : handle weights as left position
+        super(); // handle weights as left position
     }
 
     /**
      * {@inheritDoc}
+     * <p>
+     * Override to handle weights as left position.
+     * </p>
      */
     @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        int modulusResult = INSTANCE.calculateModulus(code, false);
-        return toCheckDigit(modulusResult);
+    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
+//        int weight = leftPos;
+//	    System.out.println("weightedValue use leftPos weight "+weight+" charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
+        return rightPos == 1 ? 0 : charValue * leftPos;
     }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle charValue X.
+     * </p>
+     */
+    @Override
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        return charValue == X ? "X" : super.toCheckDigit(charValue);
+    }
+
 
 }

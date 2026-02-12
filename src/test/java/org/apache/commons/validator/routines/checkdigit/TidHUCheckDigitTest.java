@@ -16,23 +16,21 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
- * HU TAX Id (TIN) Check Digit Tests.
+ * Modulus11iLeftCheckDigit and HU TAX Id (TIN) Tests.
  */
 public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
 
     // some examples for ECIndexNumber
     private static final String HYDROGEN = "001001009"; // the first entry
-    private static final String LITHIUM = "003001004";
-    private static final String HCL = "01700201X"; // Hydrochloric acid, Salzsäure
-    private static final String ARSENIC = "03300100X";
+    private static final String LITHIUM  = "003001004";
     private static final String KRESOXIM = "607310000"; // kresoxim-methyl
     private static final String ASBESTOS = "650013006";
+    // with X not valid in Modulus11iLeftCheckDigit:
+    private static final String HCL     = "01700201X"; // Hydrochloric acid, Salzsäure
+    private static final String ARSENIC = "03300100X";
 
     /**
      * Sets up routine & valid codes.
@@ -40,7 +38,8 @@ public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = Modulus11iLeftCheckDigit.getInstance();
-        valid = new String[] { "8234560018" // valid TIN_HU
+        valid = new String[] { "119511515" // LT VATID
+            , "8234560018" // valid TIN_HU
             , "8400000021" // TIN_HU, born 8.Jul.1976
             , "11" // theoretical min , check digit is weight
             , "012" // check digit is weight , too short for TIN_HU
@@ -52,7 +51,8 @@ public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
             , "000000018" // check digit is weight , too short for TIN_HU
             , "0000000019" // check digit is weight , invalid as TIN_HU because prefix not 8
             , "8999999998" // theoretical max
-            ,  HYDROGEN, LITHIUM, KRESOXIM, ASBESTOS};
+            ,  HYDROGEN, LITHIUM, KRESOXIM, ASBESTOS
+            };
         invalid = new String[] { "0000000001X" , HCL, ARSENIC };
     }
 

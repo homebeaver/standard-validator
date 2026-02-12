@@ -27,7 +27,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidLTCheckDigit extends ModulusCheckDigit {
+public final class VATidLTCheckDigit extends Modulus11iLeftCheckDigit {
 
     private static final long serialVersionUID = -5818846157214697674L;
 
@@ -46,7 +46,7 @@ public final class VATidLTCheckDigit extends ModulusCheckDigit {
      * Constructs a new instance.
      */
     private VATidLTCheckDigit() {
-        super(MODULUS_11);
+        super();
     }
 
     private static final int POS9 = 9;
@@ -79,7 +79,7 @@ public final class VATidLTCheckDigit extends ModulusCheckDigit {
     }
 
     /*
-     * weighted values are 1 2 3 4 5 6 7 8 9 1 2
+     * weighted values are 1 2 3 4 5 6 7 8 9 then 1 2 3 ...
      * leftPos > LEN9 ? leftPos - LEN9 : leftPos
      *
      * For the second calculateModulus method the weighted values are increase by 2,
@@ -90,7 +90,7 @@ public final class VATidLTCheckDigit extends ModulusCheckDigit {
         for (int i = 0; i < code.length() - (includesCheckDigit ? 1 : 0); i++) {
             final int leftPos = i + 1;
             final int charValue = toInt(code.charAt(i), leftPos, -1);
-            total += charValue * (leftPos > POS9 ? leftPos - POS9 : leftPos);
+            total += super.weightedValue(charValue, leftPos, -i);
         }
         if (total == 0) {
             throw new CheckDigitException(CheckDigitException.ZERO_SUM);

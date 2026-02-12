@@ -16,8 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
  * <p>
@@ -32,7 +30,7 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 2.10.6
  */
-public class Modulus11iLeftCheckDigit extends Modulus11iWeightCheckDigit {
+public class Modulus11iLeftCheckDigit extends Modulus11iBSNCheckDigit {
 
     private static final long serialVersionUID = -6055173352252600811L;
 
@@ -47,19 +45,23 @@ public class Modulus11iLeftCheckDigit extends Modulus11iWeightCheckDigit {
         return INSTANCE;
     }
     Modulus11iLeftCheckDigit() {
-        super(false); // useRightPos = false : handle weights as left position
+        super();
     }
 
     /**
      * {@inheritDoc}
+     * <p>
+     * Override to handle weights 1 2 3 4 5 6 7 8 9, then 1 2 3 ... as left position.
+     * </p>
      */
     @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
+    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
+        if (leftPos > 18) {
+            throw new CheckDigitException("Code is longer than 18 chars");
         }
-        int modulusResult = INSTANCE.calculateModulus(code, false);
-        return toCheckDigit(modulusResult);
+        int weight = leftPos > 9 ? leftPos - 9 : leftPos;
+//	    System.out.println("weightedValue use leftPos weight "+weight+" charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
+        return rightPos == 1 ? 0 : charValue * weight;
     }
 
     /**

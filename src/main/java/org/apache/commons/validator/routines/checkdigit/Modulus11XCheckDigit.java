@@ -52,11 +52,9 @@ public class Modulus11XCheckDigit extends Modulus11iWeightCheckDigit {
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
+
     Modulus11XCheckDigit() {
-        this(true);
-    }
-    Modulus11XCheckDigit(boolean useRightPos) {
-        super(useRightPos);
+        super();
     }
 
     /**
