@@ -48,8 +48,8 @@ public final class Modulus26CYCheckDigit extends ModulusCheckDigit implements Is
 
     static final int LEN = 9; // with Check Digit
 
-    /** Weighting given to digits depending on their left position */
-    private static final int[] POSITION_WEIGHT = { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21 };
+    /** Weighting given to add digits depending on their value */
+    private static final int[] ODD_DIGIT_WEIGHT = { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21 };
     private static final String INVALID_START_WITH = "12";
     private static final String INVALID_START_MSG = "Invalid code, not allowed to start with '12' :";
 
@@ -61,10 +61,10 @@ public final class Modulus26CYCheckDigit extends ModulusCheckDigit implements Is
     }
 
     /**
-     * Calculates the <i>weighted</i> value of a character in the
-     * code at a specified position.
+     * Calculates the <i>weighted</i> value of a character.
      *
-     * <p>TIN and VATID digits are weighted by their position from left to right.</p>
+     * <p>The weight for an even value is the value itself.
+     * Odd values are weighted by their value as defined in <code>ODD_DIGIT_WEIGHT</code>.</p>
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right
@@ -73,10 +73,7 @@ public final class Modulus26CYCheckDigit extends ModulusCheckDigit implements Is
      */
     @Override
     protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        if (leftPos % 2 == 0) {
-            return charValue;
-        }
-        return POSITION_WEIGHT[charValue];
+        return (leftPos % 2 == 0) ? charValue : ODD_DIGIT_WEIGHT[charValue];
     }
 
     /**

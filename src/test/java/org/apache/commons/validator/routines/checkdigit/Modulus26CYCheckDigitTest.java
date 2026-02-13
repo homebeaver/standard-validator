@@ -42,6 +42,7 @@ public class Modulus26CYCheckDigitTest extends AbstractCheckDigitTest {
         };
         invalid = new String[] {"12000139V" // starts with "12"
             , "00000000A" // sum is zero
+            , "I0000000A" // Invalid Character 'I' at pos 1
         };
     }
 
