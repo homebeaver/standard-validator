@@ -27,6 +27,7 @@ import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iBSNCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidLUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iLeftCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
@@ -278,6 +279,12 @@ public class TINValidator {
     private static final String O3 = "[LMNP-T0-7]"; // Omocodia 0-3 + 4-7 (female)
     private static final String REGEX_IT = "([A-Z]{6})("+OD+"{2}[A-EHLMPRST]"+O3+OD+")([A-Z]"+OD+"{3}[A-Z])";
 
+    private static final String LU = "LU";
+    /**
+     * LU : elf oder 13 Ziffern
+     */
+    private static final String REGEX_LU = "(\\d{11})(?:\\d[2])";
+
     private static final String LV = "LV";
     /**
      * LV personas kods
@@ -343,6 +350,7 @@ public class TINValidator {
             new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
             new Validator(IT, TidITCheckDigit.getInstance(), 16, REGEX_IT),
             new Validator(LT, Modulus11iTwoPhaseCheckDigit.getInstance(), 11, REGEX_LT),
+            new Validator(LU, TidLUCheckDigit.getInstance(), 13, REGEX_LU),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iBSNCheckDigit.getInstance(), 9, REGEX_NL),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
