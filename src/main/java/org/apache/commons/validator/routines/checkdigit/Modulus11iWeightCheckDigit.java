@@ -66,7 +66,7 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-//	    System.out.println("weightedValue use useRightPos >>>>>> charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
+//	    System.out.println("Modulus11iWeightCheckDigit::weightedValue use useRightPos >>>>>> charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
         return charValue * rightPos;
     }
 
