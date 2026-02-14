@@ -16,9 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -32,57 +29,16 @@ public class TidLUCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = TidLUCheckDigit.getInstance();
-        checkDigitLth = 2; // oder 1
-        valid = new String[] { "12345678903" // erfunden 11-stellig
-            , "1020304050668" // Prüfziffern OK, TIN nicht valide TODO Datum prüfen
-            , "1020123150693" // Prüfziffern OK, Jahr nicht plausibel, TIN nicht valide
+        checkDigitLth = 2;
+        valid = new String[] { "1980122200100" // erfunden Datum 1980.12.22
+            , "1900010150631" // Prüfziffern OK, Jahr plausibel, TIN gültig
+            , "1800010150643" // TIN gültig
             , "2026021550630" // TIN gültig
-            , "1980122200100" // TIN gültig
             };
-    }
-
-    @Override
-    protected String removeCheckDigit(final String code) {
-        if (code == null || code.length() <= checkDigitLth) {
-            return null;
-        }
-        return code.substring(0, code.length() - (code.length() > 11 ? 2 : 1));
-    }
-
-    @Override
-    protected String checkDigit(final String code) {
-        if (code == null || code.length() <= checkDigitLth) {
-            return "";
-        }
-        final int start = code.length() - (code.length() > 11 ? 2 : 1);
-        return code.substring(start);
-    }
-
-    private static final String POSSIBLE_CHECK_CIPHERS = "0123456789X";
-    @Override
-    protected String[] createInvalidCodes(final String[] codes) {
-        final List<String> list = new ArrayList<>();
-        if (checkDigitLth == 0) {
-            return list.toArray(new String[0]);
-        }
-
-        // create invalid check digit values
-        for (final String fullCode : codes) {
-            final String code = removeCheckDigit(fullCode);
-            final String check = checkDigit(fullCode);
-            for (int i = 0; i < POSSIBLE_CHECK_CIPHERS.length(); i++) {
-                String c = fullCode.length() > 11 ? POSSIBLE_CHECK_CIPHERS.substring(i, i + 1) : "";
-                for (int j = 0; j < POSSIBLE_CHECK_CIPHERS.length(); j++) {
-                    final String curr = POSSIBLE_CHECK_CIPHERS.substring(j, j + 1) + c;
-                    if (!curr.equals(check)) {
-                        list.add(createCode(code, curr));
-                    }
-                }
-            }
-        }
-
-        System.out.println("EUG " + list.size() + " createInvalidCodes created.");
-        return list.toArray(new String[0]);
+        invalid = new String[] { "1020304050668" // Prüfziffern OK, TIN nicht valide wg. Datum
+            , "1020123150693" // Prüfziffern OK, Jahr nicht plausibel, TIN nicht valide
+            , "1799123150688" // Prüfziffern OK, Jahr nicht plausibel, TIN nicht valide
+            };
     }
 
 }

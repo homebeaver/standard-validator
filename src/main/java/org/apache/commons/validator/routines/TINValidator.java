@@ -280,10 +280,7 @@ public class TINValidator {
     private static final String REGEX_IT = "([A-Z]{6})("+OD+"{2}[A-EHLMPRST]"+O3+OD+")([A-Z]"+OD+"{3}[A-Z])";
 
     private static final String LU = "LU";
-    /**
-     * LU : elf oder 13 Ziffern
-     */
-    private static final String REGEX_LU = "(\\d{11})(?:\\d[2])";
+    private static final String REGEX_LU = "\\d{13}";
 
     private static final String LV = "LV";
     /**

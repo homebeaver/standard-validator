@@ -153,9 +153,10 @@ public class TINValidatorTest {
             new Tin("EE", "49403136526"),
             new Tin("EE", "37107290014"), // teppo
 
-            new Tin("LU", "12345678903"), // TIN for non-natural person
-            new Tin("LU", "2026021550630"),
             new Tin("LU", "1980122200100"),
+            new Tin("LU", "1900010150631"),
+            new Tin("LU", "1800010150643"),
+            new Tin("LU", "2026021550630"),
 
             new Tin("LV", "32132113936"),
             new Tin("LV", "32503511782"),
