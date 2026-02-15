@@ -27,26 +27,26 @@ import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iBSNCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidLUCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus11iLeftCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidHUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidITCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidLUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidELCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidESCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus23IECheckDigit;
-import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidLVCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidSICheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 
 /**
  * Tax identification number (TIN) Validator.
@@ -259,7 +259,11 @@ public class TINValidator {
     private static final String REGEX_HR = "[0-9]\\d{10}";
 
     private static final String HU = "HU";
-    private static final String REGEX_HU = "8\\d{9}";
+    /**
+     * HU adóazonosító jel or Adószám
+     * `8gebtt999p` : "8\\d{9}"  or `1234567p-y-zz` : "\\d{8}" , aus `-y-zz` wird die Prüfziffer nicht berechenet
+     */
+    private static final String REGEX_HU = "(\\d{8})(\\d{2}|(?:-[1-5]-[0-5]\\d?))";
 
     private static final String IE = "IE";
     /**
@@ -343,7 +347,7 @@ public class TINValidator {
             new Validator(FR, Modulus511CheckDigit.getInstance(), 17, REGEX_FR),
             new Validator(GR, VATidELCheckDigit.getInstance(), 9, REGEX_EL),
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
-            new Validator(HU, Modulus11iLeftCheckDigit.getInstance(), 10, REGEX_HU),
+            new Validator(HU, TidHUCheckDigit.getInstance(), 13, REGEX_HU),
             new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
             new Validator(IT, TidITCheckDigit.getInstance(), 16, REGEX_IT),
             new Validator(LT, Modulus11iTwoPhaseCheckDigit.getInstance(), 11, REGEX_LT),
@@ -480,6 +484,12 @@ public class TINValidator {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
             return validator.routine.isValid(cde);
+        } else if (HU.equals(cc)) {
+            // eliminate non-capturing group )
+            String cde = regexValidator.validate(code);
+            int pos = cde.indexOf('-');
+//          System.out.println(code + " ====> " + cde + " pos="+ pos + (pos == -1 ? cde : cde.substring(0, pos)));
+            return validator.routine.isValid(pos == -1 ? cde : cde.substring(0, pos));
         } else if (SE.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);

@@ -132,6 +132,9 @@ public class TINValidatorTest {
 
             new Tin("HU", "8234560018"),
             new Tin("HU", "8400000021"),
+            new Tin("HU", "10663103-2-18"), // jur.Person
+            new Tin("HU", "12188224-2-43"),
+            new Tin("HU", "21588017-2-44"),
 
             new Tin("IE", "1234567FA"),
             new Tin("IE", "8473625E"),
