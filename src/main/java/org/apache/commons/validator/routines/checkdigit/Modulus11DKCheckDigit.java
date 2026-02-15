@@ -32,6 +32,7 @@ import org.apache.commons.validator.GenericValidator;
  * for more details.
  * </p>
  *
+ * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
 public final class Modulus11DKCheckDigit extends ModulusCheckDigit {

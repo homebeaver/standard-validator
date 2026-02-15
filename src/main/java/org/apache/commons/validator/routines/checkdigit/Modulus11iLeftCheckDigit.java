@@ -28,6 +28,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * for more details.
  * </p>
  *
+ * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
 public class Modulus11iLeftCheckDigit extends Modulus11iBSNCheckDigit {

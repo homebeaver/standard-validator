@@ -23,6 +23,9 @@ import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
  * <p>
  * The social insurance number (SIN) is a unique identifier and has become a national identification number,
  * see <A HREF="https://en.wikipedia.org/wiki/Social_insurance_number">Wikipedia</A>.
+ *
+ * @author EUG https://github.com/homebeaver
+ * @since 2.10.6
  */
 public class SINValidator {
 

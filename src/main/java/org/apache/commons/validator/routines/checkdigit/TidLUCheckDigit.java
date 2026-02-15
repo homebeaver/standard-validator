@@ -29,9 +29,10 @@ import org.apache.commons.validator.routines.DateValidator;
  * calculated on the 11 first digits.
  * </p>
  * 
- * @since 2.10.5
+ * @author EUG https://github.com/homebeaver
+ * @since 2.10.6
  */
-// super class with two check digits
+// super class has check digit with length 2
 public class TidLUCheckDigit extends IsoIecPure97System {
 
     private static final long serialVersionUID = 7056068269876852557L;
