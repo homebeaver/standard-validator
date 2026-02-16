@@ -26,12 +26,12 @@
  -->
   <groupId>io.github.homebeaver</groupId> 
   <artifactId>standard-validator</artifactId>
-  <version>2.10.6</version>
+  <version>2.10.7-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>standard-validator</name>
   <description>A Java library to calculate and validate standardized check digits. 
-ISO/IEC 7064 System, Luhn, ICAO etc</description>
+ISO/IEC 7064 System, Luhn, ICAO (ISO/IEC 7501) etc</description>
   <url>https://github.com/homebeaver/standard-validator</url>
   <inceptionYear>2002</inceptionYear> <!-- apache commons-validator -->
   <!-- <inceptionYear>2012</inceptionYear> iso7064 by danieltwagner -->
