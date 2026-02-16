@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.apache.commons.validator.routines.checkdigit.EAN13CheckDigit;
-import org.apache.commons.validator.routines.checkdigit.ISBN10CheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11XCheckDigit;
 
 /**
  * <strong>ISBN-10</strong> and <strong>ISBN-13</strong> Code Validation.
@@ -120,7 +120,7 @@ public class ISBNValidator implements Serializable {
     }
 
     /** ISBN-10 Code Validator */
-    private final CodeValidator isbn10Validator = new CodeValidator(ISBN10_REGEX, 10, ISBN10CheckDigit.ISBN10_CHECK_DIGIT);
+    private final CodeValidator isbn10Validator = new CodeValidator(ISBN10_REGEX, 10, Modulus11XCheckDigit.getInstance());
 
     /** ISBN-13 Code Validator */
     private final CodeValidator isbn13Validator = new CodeValidator(ISBN13_REGEX, 13, EAN13CheckDigit.EAN13_CHECK_DIGIT);

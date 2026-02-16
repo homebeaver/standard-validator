@@ -30,9 +30,6 @@ import org.apache.commons.validator.GenericValidator;
  * See <a href="https://en.wikipedia.org/wiki/VAT_identification_number">Wikipedia - VAT IN for Portugal</a>
  * for more details.
  * </p>
- * <p>
- * A prominent possible subclass is {@link ISBN10CheckDigit}).
- * </p>
  *
  * @since 1.10.0
  */

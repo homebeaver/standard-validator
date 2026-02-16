@@ -24,13 +24,28 @@ package org.apache.commons.validator.routines.checkdigit;
  * </p>
  * <p>
  * Check digit calculation is based on <em>modulus 11</em> with digits being weighted
- * based by their position, from right to left (the default) with the right most digit being weighted 1,
+ * based by their position, from right to left with the right most digit being weighted 1,
  * the second 2 and so on. If the check digit is calculated as "10" it is converted to "X".
  * </p>
  * <p>
- * A prominent possible subclass is {@link ISBN10CheckDigit}).
+ * A prominent usage are the ISBN-10 and the ISSN Number. ISBN-10 Numbers are a numeric codes 
+ * except for the last (check) digit which can have a value of "X".
  * </p>
+ * <p>
+ * <b>N.B.</b> From 1st January 2007 the book industry will start to use a new 13 digit
+ * ISBN number (rather than this 10 digit ISBN number) which uses the EAN-13 / UPC
+ * (see {@link EAN13CheckDigit}) standard.
+ * <p>
+ * For further information see:
+ * <ul>
+ *   <li><a href="https://en.wikipedia.org/wiki/ISBN">Wikipedia - International
+ *       Standard Book Number (ISBN)</a>.</li>
+ *   <li><a href="http://www.isbn.org/standards/home/isbn/transition.asp">ISBN-13
+ *       Transition details</a>.</li>
+ * </ul>
  *
+ * @see Modulus11iWeightCheckDigit#weightedValue(int, int, int)
+ * 
  * @since 1.10.0
  */
 public class Modulus11XCheckDigit extends Modulus11iWeightCheckDigit {
