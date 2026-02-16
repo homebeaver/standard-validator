@@ -27,7 +27,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus11XCheckDigit;
  * <strong>ISBN-10</strong> and <strong>ISBN-13</strong> Code Validation.
  * <p>
  * This validator validates the code is either a valid ISBN-10
- * (using a {@link CodeValidator} with the {@link ISBN10CheckDigit})
+ * (using a {@link CodeValidator} with the {@link Modulus11XCheckDigit})
  * or a valid ISBN-13 code (using a {@link CodeValidator} with
  * the {@link EAN13CheckDigit} routine).
  * <p>
