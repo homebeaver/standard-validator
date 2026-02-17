@@ -24,7 +24,7 @@ package org.apache.commons.validator.routines.checkdigit;
  * Nmomsregistreringsnummer (SE-nr.)
  * </p>
  * <p>
- * See <a href="https://da.wikipedia.org/wiki/CPR-nummer">Wikipedia - CPR-numme (da)r</a>
+ * See <a href="https://da.wikipedia.org/wiki/CPR-nummer">Wikipedia - CPR-numme (da)</a>
  * and <a href="https://en.wikipedia.org/wiki/VAT_identification_number">Wikipedia - VAT IN (en)</a>
  * for more details.
  * </p>
