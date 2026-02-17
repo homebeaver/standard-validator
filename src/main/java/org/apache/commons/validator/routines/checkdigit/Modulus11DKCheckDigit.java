@@ -16,9 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericTypeValidator;
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Danish Tax identification number (TIN) and VATIN Check Digit calculation/validation.
  * <p>
@@ -35,7 +32,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public final class Modulus11DKCheckDigit extends ModulusCheckDigit {
+public final class Modulus11DKCheckDigit extends Modulus11iBSNCheckDigit {
 
     private static final long serialVersionUID = -2476335527498714738L;
 
@@ -54,19 +51,26 @@ public final class Modulus11DKCheckDigit extends ModulusCheckDigit {
      * Constructs a new instance.
      */
     private Modulus11DKCheckDigit() {
-        super(MODULUS_11);
+        super();
     }
 
-    /** Weighting given to digits depending on their right position */
-    private static final int[] POSITION_WEIGHT = { 2, 3, 4, 5, 6, 7 };
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override because there is no checkdigit.
+     * </p>
+     */
+    @Override
+    protected int getCheckdigitLength() {
+        return 0;
+    }
 
     /**
      * Calculates the <i>weighted</i> value of a character in the code at a specified position.
      *
      * <p>TIN, VATID digits are weighted by their position from right to left.
-     * There is no check digit on the right pos 1. 
-     * And the lowest right pos is 2 and has the weight 1.
-     * The next weight is 2 for right pos 3 and so on to right pos 8, Then we repeat the weight 2, 3, ...
+     * There is no check digit at the right most pos where the weight is 1.
+     * The next weight is 2, 3, .. to 7, Then we repeat the weight 2, 3, ...
      * </p>
      *
      * @param charValue The numeric value of the character.
@@ -76,55 +80,22 @@ public final class Modulus11DKCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        final int weight = rightPos < 3 ? 1 : POSITION_WEIGHT[(rightPos - 3) % POSITION_WEIGHT.length];
+        final int weight = rightPos < 8 ?  rightPos : 2 + (rightPos - 2) % 6;
+//	    System.out.println("Modulus11DKCheckDigit::weight="+weight + " charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
         return charValue * weight;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        // Satisfy testZeroSum
-        final Long l = GenericTypeValidator.formatLong(code);
-        if (l == null) {
-            throw new CheckDigitException(CheckDigitException.invalidCode(code));
-        }
-        if (l == 0) {
-            throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-        }
-        return toCheckDigit(INSTANCE.calculateModulus(code, false));
-    }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Override because valid codes has "0" calculated check digit
-     * and hence Danish TIN/VATIN does not contain a check digit.
-     * </p>
-     */
-    @Override
-    public boolean isValid(final String code) {
-        try {
-            return "0".equals(calculate(code));
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override because charValue 0 is the only valid check digit value.
+     * Override because charValue 0 is the only valid check digit value and there is no checkdigit.
      * </p>
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         if (charValue == 0) {
-            return super.toCheckDigit(charValue);
+            return ("");
         }
         throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }

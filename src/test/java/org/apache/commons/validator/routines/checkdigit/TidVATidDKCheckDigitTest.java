@@ -38,7 +38,7 @@ public class TidVATidDKCheckDigitTest extends AbstractCheckDigitTest {
     }
 
     protected String checkDigit(final String code) {
-        return "0"; // No check digit in DK TIN / VATIN, it is always 0.
+        return ""; // No check digit in DK TIN / VATIN, it is always 0.
     }
 
 }
