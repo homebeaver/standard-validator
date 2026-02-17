@@ -21,7 +21,7 @@ import org.apache.commons.validator.GenericValidator;
 /**
  * Check digit calculation based on <em>modulus 11</em> and weights based on the digit position.
  * <p>
- * Digits are weighted based by their position, from right to left like is the super class.
+ * Digits are weighted based by their position, from right to left like in the super class.
  * The difference to <em>i-weighted</em> super class is how the check digit is calculated.
  * Here the check digit is modulus 11 of the weighted sum. In super however the check digit is
  * <code>(11 - modulusResult) % 11</code>
