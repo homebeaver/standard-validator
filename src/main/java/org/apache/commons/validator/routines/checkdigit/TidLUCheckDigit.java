@@ -40,8 +40,8 @@ public class TidLUCheckDigit extends IsoIecPure97System {
     /** Singleton Check Digit instance */
     private static final TidLUCheckDigit INSTANCE = new TidLUCheckDigit();
     // used for TIN checkdigits
-    private static final ModulusCheckDigit LUHN = new LuhnCheckDigit();
-    private static final VerhoeffCheckDigit VERHOEFF = new VerhoeffCheckDigit();
+    private static final CheckDigit LUHN = LuhnCheckDigit.getInstance();
+    private static final CheckDigit VERHOEFF = VerhoeffCheckDigit.VERHOEFF_CHECK_DIGIT;
     private static final String YMD_PATTERN = "yyyyMMdd";
 
     /**
