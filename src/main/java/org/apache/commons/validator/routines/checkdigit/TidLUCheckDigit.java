@@ -16,14 +16,13 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.DateValidator;
 
 /**
  * Check digit calculation based on <em>modulus 11</em> for Luxembourg TIN numbers.
  * <p>
  * The TID number has 13 digits (9999999999999), the 2 last digits are check digits.
- * The 12 th digit is a check digit calculated on the basis of the algorithm “de Luhn 10”,
+ * The 12th digit is a check digit calculated on the basis of the algorithm “de Luhn 10”,
  * calculated on the 11 first digits.
  * The 13th digit is a check digit calculated on the basis of the algorithm “de Verhoeff”,
  * calculated on the 11 first digits.
@@ -32,8 +31,7 @@ import org.apache.commons.validator.routines.DateValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-// super class has check digit with length 2
-public class TidLUCheckDigit extends IsoIecPure97System {
+public class TidLUCheckDigit extends Modulus11iWeightCheckDigit {
 
     private static final long serialVersionUID = 7056068269876852557L;
 
@@ -61,6 +59,17 @@ public class TidLUCheckDigit extends IsoIecPure97System {
 
     /**
      * {@inheritDoc}
+     * <p>
+     * Override because there are two checkdigits.
+     * </p>
+     */
+    @Override
+    protected int getCheckdigitLength() {
+        return 2;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String calculate(final String code) throws CheckDigitException {
@@ -81,27 +90,6 @@ public class TidLUCheckDigit extends IsoIecPure97System {
             throw new CheckDigitException(CheckDigitException.invalidCode(code, "Date " + date + " is not valid year."));
         }
         return luhnCd + verhoeffCd;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle CheckdigitLength
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        try {
-            if (code.length() < getCheckdigitLength()) {
-                throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
-            }
-            final String cd = calculate(code.substring(0, code.length() - getCheckdigitLength()));
-            return code.endsWith(cd);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
     }
 
 }
