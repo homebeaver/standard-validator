@@ -174,6 +174,9 @@ public class TINValidatorTest {
             new Tin("NL", "111222333"),
             new Tin("NL", "123456782"),
 
+            new Tin("NO", "091285 17526"),
+            new Tin("NO", "09128517526"),
+
             new Tin("PL", "44051401458"), // wikipedia
             new Tin("PL", "26083006995"),
             new Tin("PL", "55030101193"), // wikipedia

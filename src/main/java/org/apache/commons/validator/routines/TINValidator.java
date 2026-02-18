@@ -39,6 +39,7 @@ import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidHUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidITCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidLUCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidNOCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
@@ -306,6 +307,14 @@ public class TINValidator {
     private static final String NL = "NL";
     private static final String REGEX_NL = "\\d{9}";
 
+    private static final String NO = "NO";
+    /**
+     * NO fødselsnummer
+     * See <a href="https://no.wikipedia.org/wiki/F%C3%B8dselsnummer">Wikipedia</a>
+     * `DDMMYY ZZGPP` : 6 + 5 Zeichen, mit zwei Prüfziffern
+     */
+    private static final String REGEX_NO = "([0-3]\\d[0-1]\\d{3})(?:\\s?)(\\d{5})";
+
     private static final String PL = "PL";
     private static final int[] PL_WEIGHTS = new int[] { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
     /**
@@ -364,6 +373,7 @@ public class TINValidator {
             new Validator(LU, TidLUCheckDigit.getInstance(), 13, REGEX_LU),
             new Validator(LV, VATidLVCheckDigit.getInstance(), 11, REGEX_LV),
             new Validator(NL, Modulus11iBSNCheckDigit.getInstance(), 9, REGEX_NL),
+            new Validator(NO, TidNOCheckDigit.getInstance(), 12, REGEX_NO),
             new Validator(PL, new ModulusTenCheckDigit(PL_WEIGHTS, false), 11, REGEX_PL),
             new Validator(PT, Modulus11iWeightCheckDigit.getInstance(), 9, REGEX_PT),
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
@@ -500,6 +510,9 @@ public class TINValidator {
             int pos = cde.indexOf('-');
             return validator.routine.isValid(pos == -1 ? cde : cde.substring(0, pos));
         } else if (IS.equals(cc)) {
+            String cde = regexValidator.validate(code);
+            return validator.routine.isValid(cde);
+        } else if (NO.equals(cc)) {
             String cde = regexValidator.validate(code);
 //          System.out.println(code + " ====> " + cde);
             return validator.routine.isValid(cde);
