@@ -280,7 +280,7 @@ public class TINValidator {
      * See <a href="https://is.wikipedia.org/wiki/Kennitala">Wikipedia</a>
      * `DDMMYY-NNPc` : 6 + 4 Zeichen, c hat keinen Einflß auf P
      */
-    private static final String REGEX_IS = "([0-8]\\d[0-1]\\d{3})-?(\\d{3})[089]?";
+    private static final String REGEX_IS = "([0-8]\\d[0-1]\\d{3})(?:-?)(\\d{3})[089]?";
 
     private static final String IT = "IT";
     /**

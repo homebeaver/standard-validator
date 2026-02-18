@@ -141,6 +141,7 @@ public class TINValidatorTest {
             new Tin("IE", "8473625EW"), // "W" at pos 9 (in numbers assigned before 1 January 2013)
 
             new Tin("IS", "120160-3389"),
+            new Tin("IS", "1201603389"),
             new Tin("IS", "581113-1290"),
 
             new Tin("IT", "MRTMTT91D08F205J"), // Matteo Moretti (male), born in Milan on 8 Apr.1991
