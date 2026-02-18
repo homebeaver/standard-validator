@@ -29,7 +29,6 @@ public class TidISCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         routine = Modulus11i2to7CheckDigit.getInstance();
-//        checkDigitLth = 2;
         valid = new String[] { "19" // 2*1 = 2 ; 11-2 = 9
             , "120160338" // 120160-3389
             , "121212129" // 121212-1239 ???
@@ -40,14 +39,14 @@ public class TidISCheckDigitTest extends AbstractCheckDigitTest {
             , "310896209" // 310896-2099 person
             , "000000310" // 3*3 + 2*1 = 11 ; 11 mod 11 = 0
             , "000000400" // 3*4 + 2*0 = 12 ; 12 mod 11 = 1
-            , "000002011" // 4*2 + 2*1 = 10 ; 10 mod 11 = 10 ==> 11 - 1
             , "540269750" // 540269-7509
             , "09128517526" // TIN_NO
             };
-//        invalid = new String[] { "1020304050668" // Prüfziffern OK, TIN nicht valide wg. Datum
-//            , "1020123150693" // Prüfziffern OK, Jahr nicht plausibel, TIN nicht valide
-//            , "1799123150688" // Prüfziffern OK, Jahr nicht plausibel, TIN nicht valide
-//            };
+        invalid = new String[] { "121212123"
+            , "051268144"
+            , "120174338"
+            , "000002011" // 4*2 + 2*1 = 10 ; 10 mod 11 = 10 ==> PZ wird nicht vergeben
+            };
     }
 
 }
