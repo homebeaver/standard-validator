@@ -26,6 +26,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.IsoIecHybrid1110System;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11DKCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.Modulus11i2to7CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iBSNCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iTwoPhaseCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus11iWeightCheckDigit;
@@ -273,6 +274,14 @@ public class TINValidator {
      */
     private static final String REGEX_IE = "(\\d{7}[A-W])([A-IW])?";
 
+    private static final String IS = "IS";
+    /**
+     * IS kennitala
+     * See <a href="https://is.wikipedia.org/wiki/Kennitala">Wikipedia</a>
+     * `DDMMYY-NNPc` : 6 + 4 Zeichen, c hat keinen Einflß auf P
+     */
+    private static final String REGEX_IS = "([0-8]\\d[0-1]\\d{3})-?(\\d{3})[089]?";
+
     private static final String IT = "IT";
     /**
      * IT Codice fiscale
@@ -349,6 +358,7 @@ public class TINValidator {
             new Validator(HR, IsoIecHybrid1110System.getInstance(), 11, REGEX_HR),
             new Validator(HU, TidHUCheckDigit.getInstance(), 13, REGEX_HU),
             new Validator(IE, Modulus23IECheckDigit.getInstance(), 11, REGEX_IE),
+            new Validator(IS, Modulus11i2to7CheckDigit.getInstance(), 11, REGEX_IS),
             new Validator(IT, TidITCheckDigit.getInstance(), 16, REGEX_IT),
             new Validator(LT, Modulus11iTwoPhaseCheckDigit.getInstance(), 11, REGEX_LT),
             new Validator(LU, TidLUCheckDigit.getInstance(), 13, REGEX_LU),
@@ -488,8 +498,11 @@ public class TINValidator {
             // eliminate non-capturing group )
             String cde = regexValidator.validate(code);
             int pos = cde.indexOf('-');
-//          System.out.println(code + " ====> " + cde + " pos="+ pos + (pos == -1 ? cde : cde.substring(0, pos)));
             return validator.routine.isValid(pos == -1 ? cde : cde.substring(0, pos));
+        } else if (IS.equals(cc)) {
+            String cde = regexValidator.validate(code);
+//          System.out.println(code + " ====> " + cde);
+            return validator.routine.isValid(cde);
         } else if (SE.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
