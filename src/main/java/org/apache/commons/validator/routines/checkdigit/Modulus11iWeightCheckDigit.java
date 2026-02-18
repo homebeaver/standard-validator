@@ -93,6 +93,9 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
             return false;
         }
         try {
+            if (code.length() < getCheckdigitLength()) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
+            }
             final String cd = calculate(code.substring(0, code.length() - getCheckdigitLength()));
             return code.endsWith(cd);
         } catch (final CheckDigitException ex) {
