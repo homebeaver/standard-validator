@@ -16,8 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Iceland Tax identification number (TIN) Check Digit calculation/validation (kennitala).
  * <p>
@@ -73,18 +71,19 @@ public class Modulus11i2to7CheckDigit extends Modulus11iWeightCheckDigit {
         return charValue * weight;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle charValue 10.
+     * </p>
+     */
     @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+//	    System.out.println("toCheckDigit >>>>>> charValue="+charValue);
+        if (charValue == 1) {
+          throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
         }
-        final int modulusResult = calculateModulus(code, false);
-        if (modulusResult == 10) {
-            // bei 10 keine Prüfziffer vergeben
-            throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(modulusResult));
-        }
-        final int charValue = (getModulus() - modulusResult) % getModulus();
-        return toCheckDigit(charValue);
+        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
     }
 
 }
