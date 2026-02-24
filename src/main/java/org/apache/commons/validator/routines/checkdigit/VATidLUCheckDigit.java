@@ -16,11 +16,10 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Luxemburg VAT identification number (VATIN) Check Digit calculation/validation.
+ * Luxembourg VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
  * Numéro d'identification à la taxe sur la valeur ajoutée {@code 123456pp}.
  * </p>
@@ -49,9 +48,6 @@ public final class VATidLUCheckDigit extends ModulusCheckDigit implements IsoIec
         return INSTANCE;
     }
 
-    static final int CHECKDIGIT_LEN = 2;
-    static final int MODULUS_89 = 89;
-
     /**
      * Constructs a Check Digit routine.
      */
@@ -59,57 +55,53 @@ public final class VATidLUCheckDigit extends ModulusCheckDigit implements IsoIec
         super(MODULUS_89);
     }
 
-    private final int checkdigitLength = CHECKDIGIT_LEN;
-    public int getCheckdigitLength() {
-        return checkdigitLength;
-    }
-
-    protected int getRadix() {
-        return RADIX_10;
-    }
-
-    protected String getCharacterSet() {
-        return NUMERIC;
-    }
-
     @Override
-    protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        if (rightPos <= CHECKDIGIT_LEN) {
-            return 0;
-        }
-        int res = charValue;
-        for ( int i = 1; i < rightPos - CHECKDIGIT_LEN; i++) {
-            res = res * 10;
-        }
-        return res;
+    protected int getCheckdigitLength() {
+        return RADIX_2;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implement not used abstract method.
+     * </p>
+     */
     @Override
-    protected String toCheckDigit(final int checksum) throws CheckDigitException {
-        String chars = getCharacterSet();
-        if (getCheckdigitLength() == 2) {
-            int second = checksum % getRadix();
-            int first = (checksum - second) / getRadix();
-            return "" + chars.charAt(first) + chars.charAt(second);
-        } else {
-            return "" + chars.charAt(checksum);
+    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
+        return charValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle numeric value of code.
+     * </p>
+     */
+    @Override
+    protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
+        try {
+            long l = Long.parseLong(code); // throws NumberFormatException
+            if (l == 0) {
+                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
+            }
+            return (int) (l % getModulus()); // MODULUS reminder
+        } catch (final NumberFormatException ex) {
+            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
+            // Expected exception for high codes f.i. 99999999999999999999999
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
     }
 
     /**
      * {@inheritDoc}
+     * <p>
+     * Override to handle charValues between 0 and 96.
+     * </p>
      */
     @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        if (code.length() < CHECKDIGIT_LEN) {
-            throw new CheckDigitException(CheckDigitException.invalidCode(code, "too short"));
-        }
-        final int mr = calculateModulus(code, false);
-        // Modulus result mr can be 0 - the CheckDigit is "00"
-        return toCheckDigit(mr);
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        int cdv = charValue == 0 ? 0 : getModulus() - charValue;
+        return "" + (cdv / RADIX_10) + (cdv % RADIX_10);
     }
 
     /**
@@ -120,19 +112,13 @@ public final class VATidLUCheckDigit extends ModulusCheckDigit implements IsoIec
         if (GenericValidator.isBlankOrNull(code)) {
             return false;
         }
-        if (code.length() < CHECKDIGIT_LEN) {
+        if (code.length() <= getCheckdigitLength()) {
             return false;
         }
-
-        final String check = code.substring(code.length() - CHECKDIGIT_LEN);
-        final Integer icheck = GenericTypeValidator.formatInt(check);
-        // formatInt accepts "+0" as 0, avoid this
-        if (icheck == null || !Character.isDigit(check.charAt(0))) {
-            return false;
-        }
+        String checkDigit = code.substring(code.length() - getCheckdigitLength());
         try {
-            final int mr = calculateModulus(code, true);
-            return icheck.intValue() == mr;
+            String cd = calculate(code.substring(0, code.length() - getCheckdigitLength())); // throws CheckDigitException
+            return cd.equals(checkDigit);
         } catch (final CheckDigitException ex) {
             return false;
         }

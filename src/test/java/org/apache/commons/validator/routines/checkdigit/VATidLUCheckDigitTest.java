@@ -34,16 +34,17 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class VATidLUCheckDigitTest extends AbstractCheckDigitTest {
 
-    public VATidLUCheckDigitTest() {
-        checkDigitLth = VATidLUCheckDigit.CHECKDIGIT_LEN;
-    }
-
+//    public VATidLUCheckDigitTest() {
+//        checkDigitLth = VATidLUCheckDigit.CHECKDIGIT_LEN;
+//    }
+//
    /**
      * Sets up routine & valid codes.
      */
     @BeforeEach
     protected void setUp() {
         routine = VATidLUCheckDigit.getInstance();
+        checkDigitLth = ((VATidLUCheckDigit) routine).getCheckdigitLength();
         valid = new String[] {"25180625", "15027442", "16063074", "15894580", "13669580", "10000356", "14729500"};
         invalid = new String[] {"00000000"};
     }
