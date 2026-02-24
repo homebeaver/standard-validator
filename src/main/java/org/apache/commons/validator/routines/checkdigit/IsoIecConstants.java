@@ -85,6 +85,11 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
     int MODULUS_97 = 97;
 
     /**
+     * The modulus used for French Numéro d'immatriculation fiscale (NIF).
+     */
+    int MODULUS_511 = 511;
+
+    /**
      * The modulus used for pure ISO/IEC 7064, MOD 661-26.
      */
     int MODULUS_661 = 661;
@@ -96,6 +101,7 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
 
     /**
      * The radix used for pure ISO/IEC 7064, MOD 11-2 and ISO/IEC 7064, MOD 37-2.
+     * Also used for check digit length.
      */
     int RADIX_2 = 2;
 
@@ -103,6 +109,11 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
      * The radix used for pure ISO/IEC 7064, MOD 97-10.
      */
     int RADIX_10 = NUMERIC.length();
+
+    /**
+     * The radix used for French Numéro d'immatriculation fiscale (NIF).
+     */
+    int RADIX_100 = RADIX_10 * RADIX_10;
 
     /**
      * The radix used for pure ISO/IEC 7064, MOD 661-26.
