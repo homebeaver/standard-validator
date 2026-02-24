@@ -16,8 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Belgian VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
@@ -35,7 +33,8 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-public final class VATidBECheckDigit extends ModulusCheckDigit implements IsoIecConstants {
+// VATidBECheckDigit is Modulus97 and check digit length is 2 : can subclass Modulus31CheckDigit
+public final class VATidBECheckDigit extends Modulus31CheckDigit {
 
     private static final long serialVersionUID = 4622288405648808179L;
 
@@ -65,38 +64,6 @@ public final class VATidBECheckDigit extends ModulusCheckDigit implements IsoIec
     /**
      * {@inheritDoc}
      * <p>
-     * Implement not used abstract method.
-     * </p>
-     */
-    @Override
-    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        return charValue;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle numeric value of code.
-     * </p>
-     */
-    @Override
-    protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
-        try {
-            long l = Long.parseLong(code); // throws NumberFormatException
-            if (l == 0) {
-                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-            }
-            return (int) (l % getModulus()); // MODULUS reminder
-        } catch (final NumberFormatException ex) {
-            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
-            // Expected exception for high codes f.i. 99999999999999999999999
-            throw new CheckDigitException(CheckDigitException.invalidCode(code));
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
      * Override to handle charValues between 0 and 96.
      * </p>
      */
@@ -104,26 +71,6 @@ public final class VATidBECheckDigit extends ModulusCheckDigit implements IsoIec
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         int cdv = charValue == 0 ? getModulus() : charValue;
         return "" + (cdv / RADIX_10) + (cdv % RADIX_10);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        if (code.length() < getCheckdigitLength()) {
-            return false;
-        }
-        String checkDigit = code.substring(code.length() - getCheckdigitLength());
-        try {
-            String cd = calculate(code.substring(0, code.length() - getCheckdigitLength())); // throws CheckDigitException
-            return cd.equals(checkDigit);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
     }
 
 }

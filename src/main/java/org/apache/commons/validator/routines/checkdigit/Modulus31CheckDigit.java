@@ -29,7 +29,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public final class Modulus31CheckDigit extends ModulusCheckDigit implements IsoIecConstants {
+public class Modulus31CheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = -6810195028611194540L;
 
@@ -47,8 +47,11 @@ public final class Modulus31CheckDigit extends ModulusCheckDigit implements IsoI
     /**
      * Constructs a Check Digit routine.
      */
+    Modulus31CheckDigit(final int modulus) {
+        super(modulus);
+    }
     private Modulus31CheckDigit() {
-        super(MODULUS_31);
+        this(MODULUS_31);
     }
 
     /**
@@ -102,7 +105,7 @@ public final class Modulus31CheckDigit extends ModulusCheckDigit implements IsoI
         if (GenericValidator.isBlankOrNull(code)) {
             return false;
         }
-        if (code.length() <= getCheckdigitLength()) {
+        if (code.length() < getCheckdigitLength()) {
             return false;
         }
         String checkDigit = code.substring(code.length() - getCheckdigitLength());
