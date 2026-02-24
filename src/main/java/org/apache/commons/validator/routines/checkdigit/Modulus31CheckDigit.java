@@ -29,7 +29,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public class Modulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecConstants {
+public final class Modulus31CheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = -6810195028611194540L;
 
@@ -43,43 +43,39 @@ public class Modulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecC
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
-    Modulus31CheckDigit() {
-        super(MODULUS_31, 1);
+
+    /**
+     * Constructs a Check Digit routine.
+     */
+    private Modulus31CheckDigit() {
+        super(MODULUS_31);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Overridden because not used for moduli-31 calculation
+     * Implement not used abstract method.
+     * </p>
      */
     @Override
-    protected int getRadix() {
-        return MODULUS_31;
+    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
+        return charValue;
     }
 
     /**
-     * Check characters are “0” to “9” plus 21 ALPHABETIC chars.
-     * @return a String containing characters the check digit is build from.
-     * This is {@link IsoIecConstants#ALPHANUMERIC31}
+     * {@inheritDoc}
+     * <p>
+     * Override to handle numeric value of code.
+     * </p>
      */
     @Override
-    protected String getCharacterSet() {
-        return ALPHANUMERIC31;
-    }
-
-    // XXX ähnlich zu VATIN_BE
-    @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
+    protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         try {
             long l = Long.parseLong(code); // throws NumberFormatException
             if (l == 0) {
                 throw new CheckDigitException(CheckDigitException.ZERO_SUM);
             }
-            int r = (int) (l % getModulus()); // MODULUS reminder
-            return toCheckDigit(r);
+            return (int) (l % getModulus()); // MODULUS reminder
         } catch (final NumberFormatException ex) {
             System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
             // Expected exception for high codes f.i. 99999999999999999999999
@@ -89,10 +85,24 @@ public class Modulus31CheckDigit extends IsoIec7064PureSystem implements IsoIecC
 
     /**
      * {@inheritDoc}
+     * <p>
+     * Override to map charValue to alphanumerics.
+     * </p>
+     */
+    @Override
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        return "" + ALPHANUMERIC31.charAt(getModulus() - charValue);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean isValid(final String code) {
         if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        if (code.length() <= getCheckdigitLength()) {
             return false;
         }
         String checkDigit = code.substring(code.length() - getCheckdigitLength());

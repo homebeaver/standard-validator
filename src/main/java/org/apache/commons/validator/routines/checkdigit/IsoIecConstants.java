@@ -57,6 +57,7 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
      * Alphanumeric character set used for Modulus 31 check digit (Finish HETU).
      * <p>
      * Does not use G, I, O, Q and Z to avoid confusion with 6, 1, 0 and 7.
+     * @see Modulus31CheckDigit
      */
     String ALPHANUMERIC31 = NUMERIC + "ABCDEFHJKLMNPRSTUVWXY";
     int MODULUS_31 = ALPHANUMERIC31.length();
