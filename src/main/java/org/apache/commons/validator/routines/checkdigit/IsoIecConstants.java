@@ -54,6 +54,27 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
     String ALPHANUMERIC_PLUS_STAR = ALPHANUMERIC + '*';
 
     /**
+     * Alphanumeric character set used for Modulus 31 check digit (Finish HETU).
+     * <p>
+     * Does not use G, I, O, Q and Z to avoid confusion with 6, 1, 0 and 7.
+     */
+    String ALPHANUMERIC31 = NUMERIC + "ABCDEFHJKLMNPRSTUVWXY";
+    int MODULUS_31 = ALPHANUMERIC31.length();
+
+    /**
+     * Alphabetic character set used for Modulus 23 check digit (Irish PPS-Number).
+     * <p>
+     * The non numeric check character is given by the pos
+     */
+    String ALPHABETIC23 = "WABCDEFGHIJKLMNOPQRSTUV";
+    int MODULUS_23 = ALPHABETIC23.length();
+
+    /**
+     * The modulus used for Luxembourg VAT identification number (VATIN).
+     */
+    int MODULUS_89 = 89;
+
+    /**
      * The modulus used for pure ISO/IEC 7064, MOD 37-2.
      */
     int MODULUS_37 = 37;
@@ -93,19 +114,4 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
      */
     int RADIX_36 = ALPHANUMERIC.length();
 
-    /**
-     * Alphanumeric character set used for Modulus 31 check digit (Finish HETU).
-     * <p>
-     * Does not use G, I, O, Q and Z to avoid confusion with 6, 1, 0 and 7.
-     */
-    String ALPHANUMERIC31 = NUMERIC + "ABCDEFHJKLMNPRSTUVWXY";
-    int MODULUS_31 = ALPHANUMERIC31.length();
-
-    /**
-     * Alphabetic character set used for Modulus 23 check digit (Irish PPS-Number).
-     * <p>
-     * The non numeric check character is given by the pos
-     */
-    String ALPHABETIC23 = "WABCDEFGHIJKLMNOPQRSTUV";
-    int MODULUS_23 = ALPHABETIC23.length();
 }
