@@ -16,9 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericTypeValidator;
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Slovakian TIN and VAT identification number (VATIN) Check Digit calculation/validation.
  * <p>
@@ -34,8 +31,8 @@ import org.apache.commons.validator.GenericValidator;
  *
  * @since 1.10.0
  */
-// aus super erbe ich nur die nicht benötigte Implementierung von weightedValue
-public final class TidVATidSKCheckDigi extends Modulus11iWeightCheckDigit {
+//TidVATidSKCheckDigi is Modulus97 and check digit length is 2 : can subclass Modulus31CheckDigit
+public final class TidVATidSKCheckDigi extends Modulus31CheckDigit {
 
     private static final long serialVersionUID = 5022933940504538766L;
 
@@ -54,57 +51,30 @@ public final class TidVATidSKCheckDigi extends Modulus11iWeightCheckDigit {
      * Constructs a new instance.
      */
     private TidVATidSKCheckDigi() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        // Satisfy testZeroSum
-        final Long l = GenericTypeValidator.formatLong(code);
-        if (l == null) {
-            throw new CheckDigitException(CheckDigitException.invalidCode(code));
-        }
-        if (l == 0) {
-            throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-        }
-        try {
-            return toCheckDigit((int) (l % MODULUS_11));
-        } catch (final CheckDigitException ex) {
-            throw new CheckDigitException(CheckDigitException.invalidCode(code, "is not multiple of 11"));
-        }
+        super(MODULUS_11);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Override because valid codes has "0" calculated check digit
-     * and hence Slovakian VATIN does not contain a check digit.
+     * Override because there is no checkdigit.
      * </p>
      */
     @Override
-    public boolean isValid(final String code) {
-        try {
-            return "0".equals(calculate(code));
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
+    protected int getCheckdigitLength() {
+        return 0;
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Override because charValue 0 is the only valid check digit value.
+     * Override because charValue 0 is the only valid check digit value and there is no checkdigit.
      * </p>
      */
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         if (charValue == 0) {
-            return super.toCheckDigit(charValue);
+            return ("");
         }
         throw new CheckDigitException(CheckDigitException.invalidCheckDigitValue(charValue));
     }

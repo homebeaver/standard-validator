@@ -48,7 +48,7 @@ public class TidVATidSKCheckDigitTest extends AbstractCheckDigitTest {
     }
 
     protected String checkDigit(final String code) {
-        return "0"; // No check digit in SK VATIN, it is always 0.
+        return ""; // No check digit in SK VATIN, it is always empty.
     }
 
 }
