@@ -16,6 +16,7 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
@@ -74,7 +75,11 @@ public class Modulus31CheckDigit extends ModulusCheckDigit implements IsoIecCons
     @Override
     protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         try {
-            long l = Long.parseLong(code); // throws NumberFormatException
+            // Satisfy testZeroSum
+            final Long l = GenericTypeValidator.formatLong(code);
+            if (l == null) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code));
+            }
             if (l == 0) {
                 throw new CheckDigitException(CheckDigitException.ZERO_SUM);
             }
