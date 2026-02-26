@@ -65,20 +65,7 @@ public final class Modulus511CheckDigit extends Modulus31CheckDigit {
     @Override
     protected String toCheckDigit(final int charValue) throws CheckDigitException {
         int cdv = charValue == 0 ? 0 : getModulus() - charValue;
-        if (cdv > 99) {
-            // dreistellig
-            int _23 = cdv % RADIX_100;
-            int first = (cdv - _23) / RADIX_100;
-            int third =  _23 % RADIX_10;
-            int second = (_23 - third) / RADIX_10;
-            return "" + first + second + third;
-        } else if (cdv > 9) {
-            // zweistellig
-            int third = cdv % RADIX_10;
-            int second = (cdv - third) / RADIX_10;
-            return "0" + second + third;
-        }
-        return "00" + cdv;
+        return String.format("%03d", cdv);
     }
 
 }
