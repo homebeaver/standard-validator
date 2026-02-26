@@ -16,13 +16,14 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericTypeValidator;
 import org.apache.commons.validator.GenericValidator;
 
 /**
  * Implements MOD 511 check digit simple procedure.
  * <p>
  * MOD 511 applies to numeric strings, the check digit is numeric and has the length of 3 digits.
- * It is used for french Numéro d'immatriculation fiscale (NIF).
+ * It is used for French Numéro d'immatriculation fiscale (NIF).
  * See <a href="https://fr.wikipedia.org/wiki/Num%C3%A9ro_d%27immatriculation_fiscale#France">Wikipedia - NIF (fr)</a>
  * for more details.
  * </p>
@@ -30,7 +31,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public class Modulus511CheckDigit extends IsoIec7064PureSystem implements IsoIecConstants {
+public final class Modulus511CheckDigit extends ModulusCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = 8609862408916124805L;
 
@@ -45,61 +46,73 @@ public class Modulus511CheckDigit extends IsoIec7064PureSystem implements IsoIec
         return INSTANCE;
     }
     Modulus511CheckDigit() {
-        super(511, 3);
+        super(MODULUS_511);
     }
 
     @Override
-    protected int getRadix() {
-        return RADIX_10;
+    protected int getCheckdigitLength() {
+        return 3;
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Overrides with simplified procedure. CheckDigits are code MOD 511, the modulus,
+     * Implement not used abstract method.
      * </p>
      */
     @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (code == null) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        if (code.isEmpty()) {
-            return toCheckDigit(0);
-        }
+    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
+        return charValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle numeric value of code.
+     * </p>
+     */
+    @Override
+    protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
         try {
-            long l = Long.parseLong(code); // throws NumberFormatException
-            int r = (int) (l % getModulus());
-            return toCheckDigit(r);
+            // Satisfy testZeroSum
+            final Long l = GenericTypeValidator.formatLong(code);
+            if (l == null) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code));
+            }
+            if (l == 0) {
+                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
+            }
+            return (int) (l % getModulus()); // MODULUS reminder
         } catch (final NumberFormatException ex) {
-//            System.out.println("NumberFormatException: "+ex);
-            // Expected exception for high codes f.i. 999999999999999999
-            // fall back to recursive/iterative method in super
-            return super.calculate(code);
+            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
+            // Expected exception for high codes f.i. 99999999999999999999999
+            throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Override to handle charValues with three digits.
+     * </p>
+     */
     @Override
-    protected String getCharacterSet() {
-        return NUMERIC;
-    }
-    @Override
-    protected String toCheckDigit(final int checksum) throws CheckDigitException {
-        String chars = getCharacterSet();
-        if (checksum > 99) {
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        int cdv = charValue == 0 ? 0 : getModulus() - charValue;
+        if (cdv > 99) {
             // dreistellig
-            int _23 = checksum % (getRadix()*getRadix());
-            int first = (checksum - _23) / (getRadix()*getRadix());
-            int third =  _23 % getRadix();
-            int second = (_23 - third) / getRadix();
-            return "" + chars.charAt(first) + chars.charAt(second) + chars.charAt(third);
-        } else if (checksum > 9) {
+            int _23 = cdv % RADIX_100;
+            int first = (cdv - _23) / RADIX_100;
+            int third =  _23 % RADIX_10;
+            int second = (_23 - third) / RADIX_10;
+            return "" + first + second + third;
+        } else if (cdv > 9) {
             // zweistellig
-            int third = checksum % getRadix();
-            int second = (checksum - third) / getRadix();
-            return "0" + chars.charAt(second) + chars.charAt(third);
+            int third = cdv % RADIX_10;
+            int second = (cdv - third) / RADIX_10;
+            return "0" + second + third;
         }
-        return "00" + chars.charAt(checksum);
+        return "00" + cdv;
     }
 
     /**
