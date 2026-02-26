@@ -87,6 +87,7 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
 
     /**
      * The modulus used for French Numéro d'immatriculation fiscale (NIF).
+     * @see Modulus511CheckDigit
      */
     int MODULUS_511 = 511;
 

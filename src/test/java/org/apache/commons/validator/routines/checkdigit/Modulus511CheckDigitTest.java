@@ -16,8 +16,10 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,8 +92,8 @@ public class Modulus511CheckDigitTest extends AbstractIsoIec7064Test {
             assertFalse(routin2.isValid(zeroSum), "isValid() Zero Sum");
         }
         // nothing is thrown because check digit is calculated for "0000000000"
-//      Exception e = assertThrows(Exception.class, () -> routine.calculate(zeroSum), "Zero Sum");
-//      assertEquals("Invalid code, sum is zero", e.getMessage(), "isValid() Zero Sum");
+        Exception e = assertThrows(Exception.class, () -> routine.calculate(zeroSum), "Zero Sum");
+        assertEquals("Invalid code, sum is zero", e.getMessage());
         try {
             final String actual = routine.calculate(zeroSum);
             System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual);
@@ -101,8 +103,8 @@ public class Modulus511CheckDigitTest extends AbstractIsoIec7064Test {
                 System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual2);
                 assertNotNull(actual2);
             }
-        } catch (CheckDigitException e) {
-        	System.out.println("testZeroSum for code \"" + zeroSum + "\" threw " + e);
+        } catch (CheckDigitException ex) {
+        	System.out.println("testZeroSum for code \"" + zeroSum + "\" threw " + ex);
         }
     }
 

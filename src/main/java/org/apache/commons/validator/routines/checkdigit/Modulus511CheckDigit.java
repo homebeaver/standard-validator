@@ -16,9 +16,6 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericTypeValidator;
-import org.apache.commons.validator.GenericValidator;
-
 /**
  * Implements MOD 511 check digit simple procedure.
  * <p>
@@ -31,7 +28,8 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public final class Modulus511CheckDigit extends ModulusCheckDigit implements IsoIecConstants {
+//Modulus511CheckDigit is Modulus511 and check digit length is 3 : can subclass Modulus31CheckDigit
+public final class Modulus511CheckDigit extends Modulus31CheckDigit {
 
     private static final long serialVersionUID = 8609862408916124805L;
 
@@ -45,6 +43,10 @@ public final class Modulus511CheckDigit extends ModulusCheckDigit implements Iso
     public static CheckDigit getInstance() {
         return INSTANCE;
     }
+
+    /**
+     * Constructs a Check Digit routine.
+     */
     Modulus511CheckDigit() {
         super(MODULUS_511);
     }
@@ -52,42 +54,6 @@ public final class Modulus511CheckDigit extends ModulusCheckDigit implements Iso
     @Override
     protected int getCheckdigitLength() {
         return 3;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Implement not used abstract method.
-     * </p>
-     */
-    @Override
-    protected int weightedValue(int charValue, int leftPos, int rightPos) throws CheckDigitException {
-        return charValue;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle numeric value of code.
-     * </p>
-     */
-    @Override
-    protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
-        try {
-            // Satisfy testZeroSum
-            final Long l = GenericTypeValidator.formatLong(code);
-            if (l == null) {
-                throw new CheckDigitException(CheckDigitException.invalidCode(code));
-            }
-            if (l == 0) {
-                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-            }
-            return (int) (l % getModulus()); // MODULUS reminder
-        } catch (final NumberFormatException ex) {
-            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
-            // Expected exception for high codes f.i. 99999999999999999999999
-            throw new CheckDigitException(CheckDigitException.invalidCode(code));
-        }
     }
 
     /**
@@ -113,26 +79,6 @@ public final class Modulus511CheckDigit extends ModulusCheckDigit implements Iso
             return "0" + second + third;
         }
         return "00" + cdv;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        if (code.length() < getCheckdigitLength()) {
-            return false;
-        }
-        String checkDigit = code.substring(code.length() - getCheckdigitLength());
-        try {
-            String cd = calculate(code.substring(0, code.length() - getCheckdigitLength())); // throws CheckDigitException
-            return cd.equals(checkDigit);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
     }
 
 }
