@@ -77,6 +77,10 @@ public class TINValidatorTest {
             new Tin("BG", "7901050017"),
             new Tin("BG", "0847038794"), // Пример bg.eikipedia
 
+            new Tin("BR", "043.033.407-90"),
+            new Tin("BR", "280.012.389-38"),
+            new Tin("BR", "123.456.789-09"),
+
             new Tin("CY", "00010823U"),
             new Tin("CY", "60010823I"),
             new Tin("CY", "61234567I"),

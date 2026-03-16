@@ -35,6 +35,7 @@ import org.apache.commons.validator.routines.checkdigit.Modulus26CYCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus31CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.Modulus511CheckDigit;
 import org.apache.commons.validator.routines.checkdigit.ModulusTenCheckDigit;
+import org.apache.commons.validator.routines.checkdigit.TidBRCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidDECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidHUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidITCheckDigit;
@@ -199,6 +200,14 @@ public class TINValidator {
  */
     private static final String REGEX_BG = "\\d{4}[0-3]\\d{5}";
 
+    private static final String BR = "BR";
+    /**
+     * BR Cadastro de Pessoas Físicas (CPF)
+     * See <a href="https://pt.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas">Wikipedia</a>
+     * 123.456.789-PP with non-capturing groups - '9' is tax region
+     */
+    private static final String REGEX_BR = "(\\d{3})(?:\\.)(\\d{3})(?:\\.)(\\d{3})(?:-)(\\d{2})";
+
     private static final String CY = "CY";
     private static final String REGEX_CY = "[069]\\d{7}[A-Z]";
 
@@ -354,6 +363,7 @@ public class TINValidator {
             new Validator(AT, LuhnCheckDigit.getInstance(), 11, REGEX_AT),
             new Validator(BE, VATidBECheckDigit.getInstance(), 15, REGEX_BE),
             new Validator(BG, VATidBGCheckDigit.getInstance(), 10, REGEX_BG),
+            new Validator(BR, TidBRCheckDigit.getInstance(), 14, REGEX_BR),
             new Validator(CY, Modulus26CYCheckDigit.getInstance(), 9, REGEX_CY),
             new Validator(CZ, VATidCZCheckDigit.getInstance(), 11, REGEX_CZ),
             new Validator(DE, TidDECheckDigit.getInstance(), 11, REGEX_DE),
@@ -489,6 +499,10 @@ public class TINValidator {
                 }
             }
             return false;
+        } else if (BR.equals(cc)) {
+            String cde = regexValidator.validate(code);
+//          System.out.println(code + " ====> " + cde);
+            return validator.routine.isValid(cde);
         } else if (CZ.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
             String cde = regexValidator.validate(code);
@@ -514,7 +528,6 @@ public class TINValidator {
             return validator.routine.isValid(cde);
         } else if (NO.equals(cc)) {
             String cde = regexValidator.validate(code);
-//          System.out.println(code + " ====> " + cde);
             return validator.routine.isValid(cde);
         } else if (SE.equals(cc)) {
             // eliminate non digits ( in non-capturing group )
