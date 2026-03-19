@@ -24,7 +24,7 @@ import org.apache.commons.validator.GenericValidator;
  * There are two checkdigits, both weighted with right position.
  * </p>
  * <p>
- * See <a href="https://pt.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas">Wikipedia (pt)r</a>
+ * See <a href="https://pt.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas">Wikipedia (pt)</a>
  * for more details.
  * </p>
  *
