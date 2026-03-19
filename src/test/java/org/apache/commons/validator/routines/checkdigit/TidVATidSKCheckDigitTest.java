@@ -35,7 +35,7 @@ public class TidVATidSKCheckDigitTest extends AbstractCheckDigitTest {
     @BeforeEach
     protected void setUp() {
         checkDigitLth = 0;
-        routine = TidVATidSKCheckDigi.getInstance();
+        routine = TidVATidSKCheckDigit.getInstance();
         valid = new String[] {"0000000011", "11" // theoretical minimum
             , "2120567108", "2021896096", "4030000007", "2022749619"
             , "1111111111" // here valid, NOT valid, because 3rd digit is 1, checked in VATINValidator

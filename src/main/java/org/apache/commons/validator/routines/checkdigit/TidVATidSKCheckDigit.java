@@ -31,13 +31,15 @@ package org.apache.commons.validator.routines.checkdigit;
  *
  * @since 1.10.0
  */
-//TidVATidSKCheckDigi is Modulus97 and check digit length is 2 : can subclass Modulus31CheckDigit
-public final class TidVATidSKCheckDigi extends Modulus31CheckDigit {
+/* 
+ * use calculateModulus from Modulus31CheckDigit
+ */
+public final class TidVATidSKCheckDigit extends Modulus31CheckDigit {
 
     private static final long serialVersionUID = 5022933940504538766L;
 
     /** Singleton Check Digit instance */
-    private static final TidVATidSKCheckDigi INSTANCE = new TidVATidSKCheckDigi();
+    private static final TidVATidSKCheckDigit INSTANCE = new TidVATidSKCheckDigit();
 
     /**
      * Gets the singleton instance of this validator.
@@ -50,7 +52,7 @@ public final class TidVATidSKCheckDigi extends Modulus31CheckDigit {
     /**
      * Constructs a new instance.
      */
-    private TidVATidSKCheckDigi() {
+    private TidVATidSKCheckDigit() {
         super(MODULUS_11);
     }
 

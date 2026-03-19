@@ -42,7 +42,7 @@ import org.apache.commons.validator.routines.checkdigit.TidITCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidLUCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidNOCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.TidROCheckDigit;
-import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigi;
+import org.apache.commons.validator.routines.checkdigit.TidVATidSKCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBECheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidBGCheckDigit;
 import org.apache.commons.validator.routines.checkdigit.VATidCZCheckDigit;
@@ -389,7 +389,7 @@ public class TINValidator {
             new Validator(RO, TidROCheckDigit.getInstance(), 13, REGEX_RO),
             new Validator(SE, LuhnCheckDigit.getInstance(), 11, REGEX_SE),
             new Validator(SI, VATidSICheckDigit.getInstance(), 8, REGEX_SI),
-            new Validator(SK, TidVATidSKCheckDigi.getInstance(), 11, REGEX_SK),
+            new Validator(SK, TidVATidSKCheckDigit.getInstance(), 11, REGEX_SK),
     };
 
     /** The singleton instance which uses the default formats */
