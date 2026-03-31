@@ -16,6 +16,10 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
  * <p>
@@ -63,10 +67,40 @@ public class TidHUCheckDigit extends Modulus11iLeftCheckDigit {
     @Override
     public String calculate(final String code) throws CheckDigitException {
         if (code.length() > 7) {
-            // natural person TIN
+            // natural person TIN : `8gebtt999p` - gebtt - gebtt days after 1.Jan.1867
+            boolean validBirthday = false;
+            try {
+                validBirthday = validBirthday(code.substring(1, 6));
+            } catch (final NumberFormatException ex) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code));
+            } catch (final ParseException ex) {
+                System.out.println("Exception in validBirthday: "+ex.getMessage());
+                throw new CheckDigitException("internal Error");
+            }
+            if (!validBirthday) {
+                throw new CheckDigitException(CheckDigitException.invalidCode(code, "invalid Birthday"));
+            }
             return super.calculate(code);
         }
         return MOD10CD.calculate(code);
+    }
+
+    private boolean validBirthday(String gebtt) throws ParseException, NumberFormatException {
+//	    System.out.println("validBirthday gebtt "+gebtt);
+        int days = Integer.parseInt(gebtt); // throws NumberFormatException
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(sdf.parse("1867-01-01")); // throws ParseException
+        c.add(Calendar.DATE, days);  // number of days to add
+        Calendar today = Calendar.getInstance();
+//	    System.out.println("validBirthday days "+days + " after 1867-01-01 => "+sdf.format(c.getTime()));
+        if (c.compareTo(today) >= 0) {
+            System.out.println("Not valid Birthday "+sdf.format(c.getTime()) + " == 1867-01-01 + "+days+ " days.");
+            return false;
+        } else {
+//	        System.out.println("validBirthday "+sdf.format(c.getTime()) + " compareTo(today) < 0");
+            return true;
+        }
     }
 
 }

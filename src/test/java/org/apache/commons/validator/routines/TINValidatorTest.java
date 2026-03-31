@@ -136,6 +136,7 @@ public class TINValidatorTest {
 
             new Tin("HU", "8234560018"),
             new Tin("HU", "8400000021"),
+            new Tin("HU", "8500000015"),
             new Tin("HU", "10663103-2-18"), // jur.Person
             new Tin("HU", "12188224-2-43"),
             new Tin("HU", "21588017-2-44"),
@@ -232,6 +233,7 @@ public class TINValidatorTest {
             new Tin("FI", "131052A308T"), // born 2052 (!)
             new Tin("FI", "120464F126J"), // born 2064 (!)
             new Tin("FI", "211271-426U"),           // specimen invalid CD
+            new Tin("HU", "8600000068"), // Not valid Birthday 2031-04-11 (1867-01-01 + 60000 days)
             new Tin("IT", "MRWYLM80AU1H501B"),      // Omocodia 80AU1 == 81.Jan.1980 invalid
             new Tin("RO", "1541115881234"),         // invalid region1
             new Tin("RO", "0541115221231"),         // invalid gender: 0 

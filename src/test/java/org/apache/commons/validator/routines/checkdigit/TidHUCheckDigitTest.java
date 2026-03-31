@@ -41,6 +41,8 @@ public class TidHUCheckDigitTest extends AbstractCheckDigitTest {
         valid = new String[] { "119511515" // LT VATID
             , "8234560018" // valid TIN_HU
             , "8400000021" // TIN_HU, born 8.Jul.1976
+            , "8500000015" // TIN_HU, born 2003-11-24
+            , "8600000068" // TIN_HU, born 2031-04-11 (Not valid Birthday)
             , "11" // theoretical min , check digit is weight
             , "012" // check digit is weight , too short for TIN_HU
             , "0013" // check digit is weight , too short for TIN_HU
