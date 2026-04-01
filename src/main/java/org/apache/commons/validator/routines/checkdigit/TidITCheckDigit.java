@@ -80,7 +80,7 @@ ottenuto dalla ALPHABETIC tabella di conversione.
     }
 
     /**
-     * The <i>weighted</i> value of a character in the the value of the character.
+     * The <i>weighted</i> value of a character in the code is the value of the character itself.
      *
      * @param charValue The numeric value of the character.
      * @param leftPos The position of the character in the code, counting from left to right
