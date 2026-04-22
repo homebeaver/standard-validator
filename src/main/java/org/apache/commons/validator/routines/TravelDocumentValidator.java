@@ -113,7 +113,7 @@ public class TravelDocumentValidator {
     ;
     }
 
-    static class IcaoCountry implements Iso3166_1Alpha_3 {
+    static class IcaoCountry implements Iso3166_1 {
         private final String COUNTRY_CODES_REMOVE = "ALA,ANT,ATA,DEU,GGY,IMN,JEY,NTZ,";
         private final String COUNTRY_CODES_ADD = "GBD,GBN,GBO,GBS,GBP.RKS,EUE,UNO,UNA,UNK,XBA,XIM,XCC,XCE,XCO,XEC,XPO,XES,XMP,XOM,XDC,XXA,XXB,XXC,XXX,UTO,";
         public boolean isIcaoCountry(final String code) {
