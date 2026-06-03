@@ -31,6 +31,9 @@ public class Modulus11BICCheckDigitTest extends AbstractCheckDigitTest {
         routine = Modulus11BICCheckDigit.getInstance();
         valid = new String[] { "CSQU3054383"
             , "HLXU4691920"
+            , "HOYU7510136"
+            , "TCNU9156324"
+            , "EKOE2611088" // ILU Code
             };
         invalid = new String[] { "HLXu4691920" , "HLXU4691921", "HLXU469192." };
     }

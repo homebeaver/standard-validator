@@ -16,11 +16,12 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
-import org.apache.commons.validator.GenericValidator;
-
 /**
- * BIC‐Container Code (aka ISO 6346) is a ten-character, alphanumeric code that provides concise, 
- * unique and unambiguous identification of containers
+ * BIC‐Container Code (aka ISO 6346) is a eleven-character, alphanumeric code that provides concise, 
+ * unique and unambiguous identification of containers.
+ * <p>
+ * This works also for european ILU Codes (Intermodal Loading Units), EN 13044.
+ * </p>
  * <p>
  * See <a href="https://en.wikipedia.org/wiki/ISO_6346">Wikipedia</a>
  * for more details.
@@ -29,7 +30,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.8
  */
-public final class Modulus11BICCheckDigit extends ModulusCheckDigit implements IsoIecConstants {
+public final class Modulus11BICCheckDigit extends Modulus11iBSNCheckDigit implements IsoIecConstants {
 
     private static final long serialVersionUID = 5993546412606972307L;
 
@@ -48,7 +49,7 @@ public final class Modulus11BICCheckDigit extends ModulusCheckDigit implements I
      * Constructs a new instance.
      */
     private Modulus11BICCheckDigit() {
-        super(MODULUS_11);
+        super();
     }
 
     @Override
@@ -92,45 +93,6 @@ public final class Modulus11BICCheckDigit extends ModulusCheckDigit implements I
         }
 //	    System.out.println("weightedValue use leftPos weight "+weight+" charValue="+charValue + " leftPos="+leftPos + " rightPos="+rightPos);
         return charValue * weight;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String calculate(final String code) throws CheckDigitException {
-        if (GenericValidator.isBlankOrNull(code)) {
-            throw new CheckDigitException(CheckDigitException.MISSING_CODE);
-        }
-        return toCheckDigit(calculateModulus(code, false));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        try {
-            final String cd = calculate(code.substring(0, code.length() - 1));
-            return code.endsWith(cd);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Override to handle charValue 10.
-     * </p>
-     */
-    @Override
-    protected String toCheckDigit(final int charValue) throws CheckDigitException {
-//      System.out.println("toCheckDigit charValue="+charValue);
-      return charValue == 10 ? "0" : super.toCheckDigit(charValue);
     }
 
 }
