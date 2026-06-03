@@ -73,17 +73,16 @@ public class Modulus11iWeightCheckDigit extends ModulusCheckDigit {
      * Override to handle charValue 10.
      * </p>
      */
-    @Override
-    protected String toCheckDigit(final int charValue) throws CheckDigitException {
-//	    if(charValue == 0 || charValue == 10) System.out.println("toCheckDigit >>>>>> charValue="+charValue); // XXX
-        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
-    }
-
     /*
      * Valide Prüfziffern "0" ergeben sich aus check charValue 0 oder 10.
      * Die Methode der Oberklasse erkennt nur die einstellige 0, nicht die 10.
      * Daher muss sie überschrieben werden
      */
+    @Override
+    protected String toCheckDigit(final int charValue) throws CheckDigitException {
+        return charValue == 10 ? "0" : super.toCheckDigit(charValue);
+    }
+
     /**
      * {@inheritDoc}
      */
