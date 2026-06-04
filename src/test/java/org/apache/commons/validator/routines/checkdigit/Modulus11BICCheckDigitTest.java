@@ -34,6 +34,9 @@ public class Modulus11BICCheckDigitTest extends AbstractCheckDigitTest {
             , "HOYU7510136"
             , "TCNU9156324"
             , "EKOE2611088" // ILU Code
+            , "EKOX2611080" // invalid ILU Format
+            , "000U2611085" // invalid Format
+            , "U2611082" // invalid Format
             };
         invalid = new String[] { "HLXu4691920" , "HLXU4691921", "HLXU469192." };
     }
