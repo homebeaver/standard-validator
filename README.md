@@ -1,8 +1,8 @@
 This Java library extends commons-validator and implements algorithms specified in [ISO/IEC 7064](https://en.wikipedia.org/wiki/ISO/IEC_7064), [ICAO MOD 10/731](https://www2023.icao.int/publications/Documents/9303_p3_cons_en.pdf) and [LUHN](https://en.wikipedia.org/wiki/Luhn_algorithm) which is defined in [ISO/IEC 7812-1 Annex B](https://en.wikipedia.org/wiki/ISO%2FIEC_7812).
 
-The standard-validator jar calculates/validates
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Credit-cards.jpg/330px-Credit-cards.jpg" width="33%"> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/ISBNundEAN.jpg" width="33%"> <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/IMO_8814275.jpg/960px-IMO_8814275.jpg" width="33%">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Credit-cards.jpg/330px-Credit-cards.jpg" width=200> | <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/ISBNundEAN.jpg" width=200> | <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/IMO_8814275.jpg/960px-IMO_8814275.jpg" width=200>
+The standard-validator jar calculates/validates
 
 - credit card numbers ([LUHN](https://github.com/homebeaver/ungueltig/wiki/LUHN))
 - [travel document](https://en.wikipedia.org/wiki/Travel_document) numbers (passports, visa and ID-Cards, miles & more)
