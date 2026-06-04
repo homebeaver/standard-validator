@@ -13,8 +13,10 @@ The standard-validator jar calculates/validates
 - EAN/UPC, ISBNs and ISSNs (MOD-10)
 - all european [VAT ID numbers](https://en.wikipedia.org/wiki/VAT_identification_number) and Tax numbers 
 - french [SIREN](https://en.wikipedia.org/wiki/SIREN_code) and SIRET numbers, Canadian [social insurance number](https://en.wikipedia.org/wiki/Social_insurance_number) (LUHN)
-- chemical numbers [CAS](https://en.wikipedia.org/wiki/CAS_Registry_Number), EC index and [EC-number](https://en.wikipedia.org/wiki/European_Community_number)
+- chemical numbers [CAS](https://en.wikipedia.org/wiki/CAS_Registry_Number), EC index, [EC-number](https://en.wikipedia.org/wiki/European_Community_number) and publications identifier [CODEN](https://en.wikipedia.org/wiki/CODEN)
 - [IMO vessel number](https://en.wikipedia.org/wiki/IMO_number) ([MOD-10](https://github.com/homebeaver/ungueltig/wiki/MOD-10))
+- Freight Container BIC and ILU numbers ([ISO 6346](https://en.wikipedia.org/wiki/ISO_6346) and EN 13044)
+- postal items [S10 UPU](https://en.wikipedia.org/wiki/S10_(UPU_standard))
 - german [Leitweg-ID](https://de.wikipedia.org/wiki/Leitweg-ID) (ISO/IEC 7064:MOD 97-10)
 - [Legal Entity Identifier](https://en.wikipedia.org/wiki/Legal_Entity_Identifier) (ISO-17442)
 
