@@ -2,7 +2,7 @@ This Java library extends commons-validator and implements algorithms specified 
 
 The standard-validator jar calculates/validates
 
-![credit cards](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Credit-cards.jpg/330px-Credit-cards.jpg) | ![zehnstellige ISBN](https://upload.wikimedia.org/wikipedia/commons/d/d8/ISBNundEAN.jpg) | ![Eendracht](https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/IMO_8814275.jpg/960px-IMO_8814275.jpg)
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Credit-cards.jpg/330px-Credit-cards.jpg" width=200> | <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/ISBNundEAN.jpg" width=200> | <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/IMO_8814275.jpg/960px-IMO_8814275.jpg" width=200>
 
 - credit card numbers ([LUHN](https://github.com/homebeaver/ungueltig/wiki/LUHN))
 - [travel document](https://en.wikipedia.org/wiki/Travel_document) numbers (passports, visa and ID-Cards, miles & more)
