@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.validator.routines.checkdigit;
+
+import java.util.IllegalFormatException;
 
 /**
  * Check Digit calculation/validation error.
@@ -109,11 +112,22 @@ public class CheckDigitException extends Exception {
     }
 
     /**
-     * Constructs an Exception with a message and
-     * the underlying cause.
+     * Constructs an Exception with a message and the underlying cause.
      *
-     * @param msg The error message.
-     * @param cause The underlying cause of the error
+     * @param format See {@link String#format(String, Object...)}.
+     * @param args   See {@link String#format(String, Object...)}.
+     * @throws IllegalFormatException See {@link String#format(String, Object...)}.
+     * @since 2.11.0
+     */
+    public CheckDigitException(String format, Object... args) {
+        super(String.format(format, args));
+    }
+
+    /**
+     * Constructs an Exception with a message and the underlying cause.
+     *
+     * @param msg   The error message.
+     * @param cause The underlying cause of the error.
      */
     public CheckDigitException(final String msg, final Throwable cause) {
         super(msg, cause);
