@@ -275,8 +275,11 @@ class IBANValidatorTest {
     static Collection<Arguments> ibanRegistrySource() throws Exception {
         final Path ibanRegistry = Paths.get(IBANValidator.class.getResource(IBAN_REGISTRY).toURI());
 
-        final CSVFormat format = CSVFormat.DEFAULT.builder().setDelimiter('\t').build();
+        final CSVFormat format = CSVFormat.DEFAULT.builder().setDelimiter('\t').get();
         final Reader rdr = Files.newBufferedReader(ibanRegistry, IBAN_REGISTRY_CHARSET);
+        final CSVParser.Builder builder = CSVParser.builder();
+        builder.setFormat(format);
+        builder.setReader(rdr);
 
         CSVRecord country = null;
         CSVRecord cc = null;
@@ -284,7 +287,7 @@ class IBANValidatorTest {
         CSVRecord structure = null;
         CSVRecord length = null;
 
-        try (CSVParser p = new CSVParser(rdr, format)) {
+        try (CSVParser p = builder.get()) {
             for (final CSVRecord o : p) {
                 final String item = o.get(0);
                 switch (item) {
@@ -333,14 +336,17 @@ class IBANValidatorTest {
     static Collection<Arguments> ibanRegistrySourceExamples() throws Exception {
         final Path ibanRegistry = Paths.get(IBANValidator.class.getResource(IBAN_REGISTRY).toURI());
 
-        final CSVFormat format = CSVFormat.DEFAULT.builder().setDelimiter('\t').build();
+        final CSVFormat format = CSVFormat.DEFAULT.builder().setDelimiter('\t').get();
         final Reader rdr = Files.newBufferedReader(ibanRegistry, IBAN_REGISTRY_CHARSET);
+        final CSVParser.Builder builder = CSVParser.builder();
+        builder.setFormat(format);
+        builder.setReader(rdr);
 
         CSVRecord country = null;
         CSVRecord electronicExample = null;
         CSVRecord lastUpdateDate = null;
 
-        try (CSVParser p = new CSVParser(rdr, format)) {
+        try (CSVParser p = builder.get()) {
             for (final CSVRecord o : p) {
                 final String item = o.get(0);
                 switch (item) {
