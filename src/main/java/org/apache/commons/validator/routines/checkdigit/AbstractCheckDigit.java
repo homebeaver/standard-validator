@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,28 @@
 package org.apache.commons.validator.routines.checkdigit;
 
 /**
- * Abstracts CheckDigit.
+ * Abstracts {@link CheckDigit} for implementations.
  */
 abstract class AbstractCheckDigit implements CheckDigit {
-    // Empty
+
+    /**
+     * Result from {@code Character.getNumericValue('Z')}.
+     */
+    static final int MAX_ALPHANUMERIC_VALUE = 35;
+
+    boolean isAsciiAlpha(final char ch) {
+        return ch >= 'A' && ch <= 'Z' || ch >= 'a' && ch <= 'z'; // CHECKSTYLE IGNORE MagicNumber
+    }
+
+    boolean isAsciiAlphaNum(final char ch) {
+        return isAsciiDigit(ch) || isAsciiAlpha(ch);
+    }
+
+    boolean isAsciiDigit(final char ch) {
+        return ch >= '0' && ch <= '9'; // CHECKSTYLE IGNORE MagicNumber
+    }
+
+    boolean isAsciiDigit(final int ch) {
+        return ch >= 0 && ch <= 9; // CHECKSTYLE IGNORE MagicNumber
+    }
 }
