@@ -69,7 +69,6 @@ class CheckDigitNonAsciiDigitTest {
 
     @Test
     void testISBN10() {
-//        assertRejectsNonAscii(ISBN10CheckDigit.ISBN10_CHECK_DIGIT, "1930110995");
         assertRejectsNonAscii(Modulus11XCheckDigit.getInstance(), "1930110995");
     }
 
@@ -80,19 +79,16 @@ class CheckDigitNonAsciiDigitTest {
 
     @Test
     void testISSN() {
-//        assertRejectsNonAscii(ISSNCheckDigit.ISSN_CHECK_DIGIT, "03178471");
         assertRejectsNonAscii(Modulus11XCheckDigit.getInstance(), "03178471");
     }
 
     @Test
     void testLuhn() {
-//        assertRejectsNonAscii(LuhnCheckDigit.LUHN_CHECK_DIGIT, "4417123456789113");
         assertRejectsNonAscii(LuhnCheckDigit.getInstance(), "4417123456789113");
     }
 
     @Test
     void testLuhnInvalid() {
-//        assertRejectsNonAscii(LuhnCheckDigit.LUHN_CHECK_DIGIT, "4417123456789113");
         assertRejectsNonAscii(LuhnCheckDigit.getInstance(), "4417123456789113");
     }
 
