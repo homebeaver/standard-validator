@@ -37,7 +37,6 @@ class ISBNCheckDigitTest extends AbstractCheckDigitTest {
         valid = new String[] { "9780072129519", "9780764558313", "1930110995", "020163385X", "1590596277", // ISBN-10 Ubuntu Book
                 "9781590596272" // ISBN-13 Ubuntu Book
         };
-        missingMessage = "ISBN Code is missing";
         zeroSum = "000000000000";
     }
 
