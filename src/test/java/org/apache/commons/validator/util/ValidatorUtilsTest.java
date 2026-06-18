@@ -39,12 +39,11 @@ class ValidatorUtilsTest {
 
     @Test
     void testCopyFastHashMap() {
-        final FastHashMap original = new FastHashMap();
+        final Map<String, Object> original = new HashMap<>();
         original.put("key1", "value1");
         original.put("key2", "value2");
         original.put("key3", "value3");
-        original.setFast(true);
-        final FastHashMap copy = ValidatorUtils.copyFastHashMap(original); // TODO use copyMap
+        final Map<String, Object> copy = ValidatorUtils.copyMap(original);
         assertEquals(original, copy);
     }
 
