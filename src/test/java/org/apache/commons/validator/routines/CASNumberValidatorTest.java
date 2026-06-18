@@ -54,6 +54,8 @@ public class CASNumberValidatorTest {
     private final String[] validFormat = {
             " 10-00-4 ", // theoretical minimum with spaces
             WATER,
+            " " + WATER, // leading whitespace
+            WATER + " ", // trailing whitespace
             ETHANOL,
             ASPIRIN,
             COFFEIN,

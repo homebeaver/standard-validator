@@ -39,6 +39,8 @@ public class ECNumberValidatorTest {
             " 200-000-2 ", // theoretical EINECS minimum with spaces
             FORMALDEHYDE,
             DEXAMETHASONE,
+            " " + DEXAMETHASONE, // leading whitespace
+            DEXAMETHASONE + " ", // trailing whitespace
             ARSENIC,
             ASBESTOS,
             "\t999-999-2\n" }; // theoretical maximum with white spaces (TAB and NL)
