@@ -30,7 +30,7 @@ import java.util.regex.PatternSyntaxException;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test Case for RegexValidatorTest.
+ * Tests {@link RegexValidatorTest}.
  */
 class RegexValidatorTest {
     private static final String REGEX = "^([abc]*)(?:\\-)([DEF]*)(?:\\-)([123]*)$";
@@ -114,11 +114,11 @@ class RegexValidatorTest {
     }
 
     /**
-     * Test with multiple regular expressions (case in-sensitive).
+     * Test with multiple regular expressions (case insensitive).
      */
     @Test
     void testMultipleInsensitive() {
-        // Set up In-sensitive Validators
+        // Set up insensitive Validators
         final RegexValidator multiple = new RegexValidator(MULTIPLE_REGEX, false);
         final RegexValidator single1 = new RegexValidator(REGEX_1, false);
         final RegexValidator single2 = new RegexValidator(REGEX_2, false);
@@ -220,6 +220,19 @@ class RegexValidatorTest {
         checkArray("Insensitive match() invalid", null, insensitive.match("ABd-de-1"));
         assertEquals("ABC", new RegexValidator("^([A-Z]*)$").validate("ABC"), "validate one");
         checkArray("match one", new String[] { "ABC" }, new RegexValidator("^([A-Z]*)$").match("ABC"));
+    }
+
+    /**
+     * Test that validate() is consistent with isValid() and match() when the only
+     * capturing group is optional and does not participate in the match. The value
+     * is valid, so validate() must not return null (which signals an invalid value).
+     */
+    @Test
+    void testValidateOptionalGroup() {
+        final RegexValidator validator = new RegexValidator("^(abc)?def$");
+        assertTrue(validator.isValid("def"), "isValid()");
+        checkArray("match()", new String[] { null }, validator.match("def"));
+        assertEquals("", validator.validate("def"), "validate()");
     }
 
     /**
