@@ -117,8 +117,7 @@ public final class CASNumberCheckDigit extends ModulusCheckDigit {
             return false;
         }
         try {
-            final int modulusResult = INSTANCE.calculateModulus(code, true);
-            return modulusResult == Character.getNumericValue(code.charAt(code.length() - 1));
+            return INSTANCE.calculateModulus(code, true) == Character.getNumericValue(code.charAt(code.length() - 1));
         } catch (final CheckDigitException ex) {
             return false;
         }

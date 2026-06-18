@@ -250,8 +250,7 @@ public class ISBNValidator implements Serializable {
      * otherwise {@code null}.
      */
     public String validateISBN10(final String code) {
-        final Object result = isbn10Validator.validate(code);
-        return Objects.toString(result, null);
+        return Objects.toString(isbn10Validator.validate(code), null);
     }
 
     /**
