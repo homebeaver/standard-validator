@@ -92,7 +92,6 @@ public abstract class AbstractCheckDigitTest {
         return code.substring(start);
     }
 
-    // private static final String POSSIBLE_CHECK_DIGITS = "0123456789";
     /**
      * Returns an array of codes with invalid check digits.
      *
@@ -185,7 +184,6 @@ public abstract class AbstractCheckDigitTest {
                 // Invalid Character[ ...
                 // Are there any others?
                 assertTrue(e.getMessage().startsWith(CheckDigitException.START_WITH_INVALID), "Invalid Character[" + i + "]=" + e.getMessage());
-// WAS                assertTrue("Invalid Character[" +i +"]=" +  e.getMessage(), e.getMessage().startsWith("Invalid Character["));
             }
         }
     }

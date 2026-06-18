@@ -42,7 +42,7 @@ public final class CASNumberCheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = -5387334603220786657L;
 
-    /** Singleton Check Digit instance */
+    /** Singleton Check Digit instance. */
     private static final CASNumberCheckDigit INSTANCE = new CASNumberCheckDigit();
 
     /**
