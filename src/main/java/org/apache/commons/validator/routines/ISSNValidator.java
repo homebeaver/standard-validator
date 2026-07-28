@@ -17,6 +17,7 @@
 package org.apache.commons.validator.routines;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.apache.commons.validator.routines.checkdigit.EAN13CheckDigit;
@@ -59,11 +60,14 @@ import org.apache.commons.validator.routines.checkdigit.Modulus11XCheckDigit;
  *    some_method(valid.toString());
  * }
  * </pre>
+ *
  * @since 1.5.0
  */
 public class ISSNValidator implements Serializable {
 
     private static final long serialVersionUID = 4319515687976420405L;
+
+    private static final Pattern DIGIT_DIGIT = Pattern.compile("\\d\\d");
 
     private static final String ISSN_REGEX = "(?:ISSN )?(\\d{4})-(\\d{3}[0-9X])$"; // We don't include the '-' in the code, so it is 8 chars
 
@@ -108,12 +112,12 @@ public class ISSNValidator implements Serializable {
      * </p>
      *
      * @param issn The ISSN code to convert
-     * @param suffix the two digit suffix, for example, "00"
+     * @param suffix The two digit suffix, for example, "00"
      * @return A converted EAN-13 code or {@code null}
      * if the input ISSN code is not valid
      */
     public String convertToEAN13(final String issn, final String suffix) {
-        if (suffix == null || !suffix.matches("\\d\\d")) {
+        if (suffix == null || !DIGIT_DIGIT.matcher(suffix).matches()) {
             throw new IllegalArgumentException("Suffix must be two digits: '" + suffix + "'");
         }
         final Object result = validate(issn);
