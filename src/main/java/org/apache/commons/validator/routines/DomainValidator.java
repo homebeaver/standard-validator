@@ -18,12 +18,13 @@ package org.apache.commons.validator.routines;
 
 import java.io.Serializable;
 import java.net.IDN;
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 /**
- * <p><strong>Domain name</strong> validation routines.</p>
+ * <strong>Domain name</strong> validation routines.
  *
  * <p>
  * This validator provides methods for validating Internet domain names
@@ -56,7 +57,7 @@ import java.util.Locale;
  * <p>
  * (<strong>NOTE</strong>: This class does not provide IP address lookup for domain names or
  * methods to ensure that a given domain name matches a specific IP; see
- * {@link java.net.InetAddress} for that functionality.)
+ * {@link InetAddress} for that functionality.)
  * </p>
  *
  * @since 1.4
@@ -64,8 +65,7 @@ import java.util.Locale;
 public class DomainValidator implements Serializable {
 
     /**
-     * Enum used by {@link DomainValidator#updateTLDOverride(ArrayType, String[])}
-     * to determine which override array to update / fetch
+     * Enumerates array types used by {@link DomainValidator#updateTLDOverride(ArrayType, String[])} to determine which override array to update / fetch
      *
      * @since 1.5.0
      * @since 1.5.1 made public and added read-only array references
@@ -195,8 +195,7 @@ public class DomainValidator implements Serializable {
 
     // WARNING: this array MUST be sorted, otherwise it cannot be searched reliably using binary search
     private static final String[] GENERIC_TLDS = {
-        // Taken from:
-        // Version 2025061000, Last Updated Tue Jun 10 07:07:01 2025 UTC
+        // Taken from Version 2026062300, Last Updated Tue Jun 23 07:07:01 2026 UTC
         "aaa", // aaa American Automobile Association, Inc.
         "aarp", // aarp AARP
         // "abarth", // abarth Fiat Chrysler Automobiles N.V.
@@ -641,7 +640,7 @@ public class DomainValidator implements Serializable {
         "gold", // gold June Edge, LLC
         "goldpoint", // goldpoint YODOBASHI CAMERA CO.,LTD.
         "golf", // golf Lone Falls, LLC
-        "goo", // goo NTT Resonant Inc.
+//        "goo", // goo NTT Resonant Inc.
 //        "goodhands", // goodhands Allstate Fire and Casualty Insurance Company
         "goodyear", // goodyear The Goodyear Tire &amp; Rubber Company
         "goog", // goog Charleston Road Registry Inc.
@@ -876,6 +875,7 @@ public class DomainValidator implements Serializable {
         "men", // men Exclusive Registry Limited
         "menu", // menu Wedding TLD2, LLC
 //        "meo", // meo PT Comunicacoes S.A.
+        "merck", // merck Merck Registry Holdings, Inc.
         "merckmsd", // merckmsd MSD Registry Holdings, Inc.
 //        "metlife", // metlife MetLife Services and Solutions, LLC
         "miami", // miami Top Level Domain Holdings Limited
@@ -1336,7 +1336,7 @@ public class DomainValidator implements Serializable {
         "wine", // wine June Station, LLC
         "winners", // winners The TJX Companies, Inc.
         "wme", // wme William Morris Endeavor Entertainment, LLC
-        "wolterskluwer", // wolterskluwer Wolters Kluwer N.V.
+//        "wolterskluwer", // wolterskluwer Wolters Kluwer N.V.
         "woodside", // woodside Woodside Petroleum Limited
         "work", // work Top Level Domain Holdings Limited
         "works", // works Little Dynamite, LLC
@@ -1371,7 +1371,6 @@ public class DomainValidator implements Serializable {
         "xn--80asehdb", // онлайн CORE Association
         "xn--80aswg", // сайт CORE Association
         "xn--8y0a063a", // 联通 China United Network Communications Corporation Limited
-        "xn--90ae", // бг Imena.BG Plc (NAMES.BG Plc)
         "xn--9dbq2a", // קום VeriSign Sarl
         "xn--9et52u", // 时尚 RISE VICTORY LIMITED
         "xn--9krt00a", // 微博 Sina Corporation
@@ -1726,6 +1725,7 @@ public class DomainValidator implements Serializable {
         "xn--54b7fta0cc", // বাংলা Posts and Telecommunications Division
         "xn--80ao21a", // қаз Association of IT Companies of Kazakhstan
         "xn--90a3ac", // срб Serbian National Internet Domain Registry (RNIDS)
+        "xn--90ae", // бг Imena.BG Plc (NAMES.BG Plc)
         "xn--90ais", // ??? Reliable Software Inc.
         "xn--clchc0ea0b2g2a9gcd", // சிங்கப்பூர் Singapore Network Information Centre (SGNIC) Pte Ltd
         "xn--d1alf", // мкд Macedonian Academic Research Network Skopje
@@ -1825,8 +1825,8 @@ public class DomainValidator implements Serializable {
     /**
      * Tests if a sorted array contains the specified key
      *
-     * @param sortedArray the array to search.
-     * @param key the key to find.
+     * @param sortedArray The array to search.
+     * @param key The key to find.
      * @return {@code true} if the array contains the key.
      */
     private static boolean arrayContains(final String[] sortedArray, final String key) {
@@ -1836,7 +1836,7 @@ public class DomainValidator implements Serializable {
     /**
      * Gets the singleton instance of this validator. It will not consider local addresses as valid.
      *
-     * @return the singleton instance of this validator.
+     * @return The singleton instance of this validator.
      */
     public static synchronized DomainValidator getInstance() {
         inUse = true;
@@ -1847,7 +1847,7 @@ public class DomainValidator implements Serializable {
      * Gets the singleton instance of this validator, with local validation as required.
      *
      * @param allowLocal Whether local addresses are considered valid.
-     * @return the singleton instance of this validator.
+     * @return The singleton instance of this validator.
      */
     public static synchronized DomainValidator getInstance(final boolean allowLocal) {
         inUse = true;
@@ -1864,7 +1864,7 @@ public class DomainValidator implements Serializable {
      *
      * @param allowLocal Whether local addresses are considered valid.
      * @param items      array of {@link Item} entries.
-     * @return an instance of this validator.
+     * @return An instance of this validator.
      * @since 1.7
      */
     public static synchronized DomainValidator getInstance(final boolean allowLocal, final List<Item> items) {
@@ -1875,8 +1875,8 @@ public class DomainValidator implements Serializable {
     /**
      * Gets a copy of a class level internal array.
      *
-     * @param table the array type (any of the enum values).
-     * @return a copy of the array.
+     * @param table The array type (any of the enum values).
+     * @return A copy of the array.
      * @throws IllegalArgumentException if the table type is unexpected (should not happen).
      * @since 1.5.1
      */
@@ -1920,6 +1920,38 @@ public class DomainValidator implements Serializable {
     }
 
     /*
+     * Tests whether any label in the input begins or ends with an ASCII hyphen, which is not
+     * permitted in a host name label. Labels are separated by the dot characters recognized in
+     * RFC 3490 section 3.1.
+     */
+    private static boolean hasLabelBoundaryHyphen(final String input) {
+        boolean labelStart = true;
+        for (int i = 0; i < input.length(); i++) {
+            final char ch = input.charAt(i);
+            if (isLabelSeparator(ch)) {
+                if (i > 0 && input.charAt(i - 1) == '-') {
+                    return true; // label ends with a hyphen
+                }
+                labelStart = true;
+            } else {
+                if (labelStart && ch == '-') {
+                    return true; // label begins with a hyphen
+                }
+                labelStart = false;
+            }
+        }
+        final int last = input.length() - 1;
+        return last >= 0 && input.charAt(last) == '-';
+    }
+
+    /*
+     * Tests whether the character is one of the label separators recognized in RFC 3490 section 3.1.
+     */
+    private static boolean isLabelSeparator(final char ch) {
+        return ch == '.' || ch == '\u3002' || ch == '\uFF0E' || ch == '\uFF61';
+    }
+
+    /*
      * Tests whether input contains only ASCII. Treats null as all ASCII.
      */
     private static boolean isOnlyASCII(final String input) {
@@ -1934,15 +1966,51 @@ public class DomainValidator implements Serializable {
         return true;
     }
 
+    /*
+     * Tests whether the code point is one that IDNA nameprep (RFC 3454 Table B.1, "commonly mapped to
+     * nothing") deletes but that is not a Unicode FORMAT character, so the FORMAT check in
+     * unicodeToASCII does not catch it: the combining grapheme joiner, the Mongolian TODO soft hyphen
+     * and free variation selectors, and the variation selectors.
+     */
+    private static boolean isNameprepMappedToNothing(final int codePoint) {
+        return codePoint == '\u034F' // COMBINING GRAPHEME JOINER
+                || codePoint == '\u1806' // MONGOLIAN TODO SOFT HYPHEN
+                || codePoint >= '\u180B' && codePoint <= '\u180D' // MONGOLIAN FREE VARIATION SELECTOR ONE..THREE
+                || codePoint >= '\uFE00' && codePoint <= '\uFE0F'; // VARIATION SELECTOR-1..16
+    }
+
     /**
      * Converts potentially Unicode input to punycode. If conversion fails, returns the original input.
      *
-     * @param input the string to convert, not null.
+     * @param input The string to convert, not null.
      * @return converted input, or original input if conversion fails.
      */
     // Needed by UrlValidator
     static String unicodeToASCII(final String input) {
         if (isOnlyASCII(input)) { // skip possibly expensive processing
+            return input;
+        }
+        // IDN.toASCII silently drops the code points that nameprep (RFC 3454 Table B.1) maps to
+        // nothing - the soft hyphen, zero-width spaces, the byte order mark, the combining grapheme
+        // joiner, the Mongolian and variation selectors and so on - so a host carrying one would
+        // convert to a clean label and validate as a different host. Most are Unicode FORMAT
+        // characters, but the combining grapheme joiner, the Mongolian selectors and the variation
+        // selectors are not, so the FORMAT check alone lets them through. Reject both here and let
+        // the label regex reject anything else.
+        for (int i = 0; i < input.length();) {
+            final int codePoint = input.codePointAt(i);
+            if (Character.getType(codePoint) == Character.FORMAT || isNameprepMappedToNothing(codePoint)) {
+                return input;
+            }
+            i += Character.charCount(codePoint);
+        }
+        // A label must not begin or end with a hyphen (RFC 1123, and RFC 5891 for IDN labels).
+        // IDN.toASCII with the default flags does not enforce this: it punycode-encodes such a
+        // label (for example a leading-hyphen "-tést" becomes "xn---tst-cpa") to a form that
+        // then satisfies the label regex, so the hyphen slips through on a non-ASCII label although
+        // the all-ASCII form is rejected. Keep the original here and let the label regex reject it
+        // (VALIDATOR-501).
+        if (hasLabelBoundaryHyphen(input)) {
             return input;
         }
         try {
@@ -1986,7 +2054,7 @@ public class DomainValidator implements Serializable {
      * To clear an override array, provide an empty array.
      * </p>
      *
-     * @param table the table to update, see {@link DomainValidator.ArrayType} Must be one of the following
+     * @param table The table to update, see {@link ArrayType} Must be one of the following
      *              <ul>
      *              <li>COUNTRY_CODE_MINUS</li>
      *              <li>COUNTRY_CODE_PLUS</li>
@@ -1995,7 +2063,7 @@ public class DomainValidator implements Serializable {
      *              <li>LOCAL_MINUS</li>
      *              <li>LOCAL_PLUS</li>
      *              </ul>
-     * @param tlds  the array of TLDs, must not be null.
+     * @param tlds  The array of TLDs, must not be null.
      * @throws IllegalStateException    if the method is called after getInstance.
      * @throws IllegalArgumentException if one of the read-only tables is requested.
      * @since 1.5.0
@@ -2178,8 +2246,8 @@ public class DomainValidator implements Serializable {
     /**
      * Gets a copy of an instance level internal array.
      *
-     * @param table the array type (any of the enum values).
-     * @return a copy of the array.
+     * @param table The array type (any of the enum values).
+     * @return A copy of the array.
      * @throws IllegalArgumentException if the table type is unexpected, for example, GENERIC_RO.
      * @since 1.7
      */
@@ -2223,7 +2291,7 @@ public class DomainValidator implements Serializable {
     /**
      * Tests whether the specified {@link String} parses as a valid domain name with a recognized top-level domain. The parsing is case-insensitive.
      *
-     * @param domain the parameter to check for domain name syntax.
+     * @param domain The parameter to check for domain name syntax.
      * @return true if the parameter is a valid domain name.
      */
     public boolean isValid(final String domain) {
@@ -2249,7 +2317,7 @@ public class DomainValidator implements Serializable {
      * Tests whether the specified {@link String} matches any IANA-defined country code top-level domain. Leading dots are ignored if present. The search is
      * case-insensitive.
      *
-     * @param ccTld the parameter to check for country code TLD status, not null.
+     * @param ccTld The parameter to check for country code TLD status, not null.
      * @return true if the parameter is a country code TLD.
      */
     public boolean isValidCountryCodeTld(final String ccTld) {
@@ -2279,7 +2347,7 @@ public class DomainValidator implements Serializable {
      * Tests whether the specified {@link String} matches any IANA-defined generic top-level domain. Leading dots are ignored if present. The search is
      * case-insensitive.
      *
-     * @param gTld the parameter to check for generic TLD status, not null.
+     * @param gTld The parameter to check for generic TLD status, not null.
      * @return true if the parameter is a generic TLD.
      */
     public boolean isValidGenericTld(final String gTld) {
@@ -2291,7 +2359,7 @@ public class DomainValidator implements Serializable {
      * Tests whether the specified {@link String} matches any IANA-defined infrastructure top-level domain. Leading dots are ignored if present. The search is
      * case-insensitive.
      *
-     * @param iTld the parameter to check for infrastructure TLD status, not null.
+     * @param iTld The parameter to check for infrastructure TLD status, not null.
      * @return true if the parameter is an infrastructure TLD.
      */
     public boolean isValidInfrastructureTld(final String iTld) {
@@ -2303,7 +2371,7 @@ public class DomainValidator implements Serializable {
      * Tests whether the specified {@link String} matches any widely used "local" domains (localhost or localdomain). Leading dots are ignored if present. The
      * search is case-insensitive.
      *
-     * @param lTld the parameter to check for local TLD status, not null.
+     * @param lTld The parameter to check for local TLD status, not null.
      * @return true if the parameter is a local TLD.
      */
     public boolean isValidLocalTld(final String lTld) {
@@ -2320,7 +2388,7 @@ public class DomainValidator implements Serializable {
      * {@link #isValidInfrastructureTld(String)}, {@link #isValidGenericTld(String)} and {@link #isValidCountryCodeTld(String)}.
      * </p>
      *
-     * @param tld the parameter to check for TLD status, not null.
+     * @param tld The parameter to check for TLD status, not null.
      * @return true if the parameter is a TLD.
      */
     public boolean isValidTld(final String tld) {

@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.IDN;
@@ -48,11 +47,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.validator.routines.DomainValidator.ArrayType;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for the DomainValidator.
+ * Tests {@link DomainValidator}.
  */
 public class DomainValidatorTest {
 // Must be public, because it has a main method.
@@ -159,26 +157,9 @@ public class DomainValidatorTest {
         return info;
     }
 
-    // isInIanaList and isSorted are split into two methods.
-    // If/when access to the arrays is possible without reflection, the intermediate
-    // methods can be dropped
-    private static boolean isInIanaList(final String arrayName, final Set<String> ianaTlds) throws Exception {
-        final Field f = DomainValidator.class.getDeclaredField(arrayName);
-        final boolean isPrivate = Modifier.isPrivate(f.getModifiers());
-        if (isPrivate) {
-            f.setAccessible(true);
-        }
-        final String[] array = (String[]) f.get(null);
-        try {
-            return isInIanaList(arrayName, array, ianaTlds);
-        } finally {
-            if (isPrivate) {
-                f.setAccessible(false);
-            }
-        }
-    }
-
-    private static boolean isInIanaList(final String name, final String[] array, final Set<String> ianaTlds) {
+    private static boolean isInIanaList(final DomainValidator.ArrayType arraytype, final Set<String> ianaTlds) {
+        final String name = arraytype.name();
+        final String[] array = DomainValidator.getTLDEntries(arraytype);
         for (final String element : array) {
             if (!ianaTlds.contains(element)) {
                 System.out.println(name + " contains unexpected value: " + element);
@@ -196,7 +177,7 @@ public class DomainValidatorTest {
      * Check whether the domain is in the root zone currently. Reads the URL https://www.iana.org/domains/root/db/*domain*.html (using a local disk cache) and
      * checks for the string "This domain is not present in the root zone at this time."
      *
-     * @param domain the domain to check
+     * @param domain The domain to check
      * @return true if the string is found
      */
     private static boolean isNotInRootZone(final String domain) {
@@ -221,24 +202,10 @@ public class DomainValidatorTest {
         return false;
     }
 
-    private static boolean isSortedLowerCase(final String arrayName) throws Exception {
-        final Field f = DomainValidator.class.getDeclaredField(arrayName);
-        final boolean isPrivate = Modifier.isPrivate(f.getModifiers());
-        if (isPrivate) {
-            f.setAccessible(true);
-        }
-        final String[] array = (String[]) f.get(null);
-        try {
-            return isSortedLowerCase(arrayName, array);
-        } finally {
-            if (isPrivate) {
-                f.setAccessible(false);
-            }
-        }
-    }
-
     // Check if an array is strictly sorted - and lowerCase
-    private static boolean isSortedLowerCase(final String name, final String[] array) {
+    private static boolean isSortedLowerCase(final DomainValidator.ArrayType type) {
+        final String[] array = DomainValidator.getTLDEntries(type);
+        final String name = type.name();
         boolean sorted = true;
         boolean strictlySorted = true;
         final int length = array.length;
@@ -270,7 +237,12 @@ public class DomainValidatorTest {
         // Check the arrays first as this affects later checks
         // Doing this here makes it easier when updating the lists
         boolean ok = true;
-        for (final String list : new String[] { "INFRASTRUCTURE_TLDS", "COUNTRY_CODE_TLDS", "GENERIC_TLDS", "LOCAL_TLDS" }) {
+        for (final DomainValidator.ArrayType list : new DomainValidator.ArrayType[] {
+            DomainValidator.ArrayType.INFRASTRUCTURE_RO,
+            DomainValidator.ArrayType.COUNTRY_CODE_RO,
+            DomainValidator.ArrayType.GENERIC_RO,
+            DomainValidator.ArrayType.LOCAL_RO,
+        }) {
             ok &= isSortedLowerCase(list);
         }
         if (!ok) {
@@ -301,6 +273,7 @@ public class DomainValidatorTest {
         final Map<String, String[]> htmlInfo = getHtmlInfo(htmlFile);
         final Map<String, String> missingTLD = new TreeMap<>(); // stores entry and comments as String[]
         final Map<String, String> missingCC = new TreeMap<>();
+        int errorsDetected = 0;
         while ((line = br.readLine()) != null) {
             if (!line.startsWith("#")) {
                 final String unicodeTld; // only different from asciiTld if that was punycode
@@ -310,11 +283,22 @@ public class DomainValidatorTest {
                 } else {
                     unicodeTld = asciiTld;
                 }
-                if (!dv.isValidTld(asciiTld)) {
-                    final String[] info = htmlInfo.get(asciiTld);
-                    if (info != null) {
-                        final String type = info[0];
-                        final String comment = info[1];
+                final String[] info = htmlInfo.get(asciiTld);
+                if (info != null) {
+                    final String type = info[0];
+                    final String comment = info[1];
+                    if (dv.isValidTld(asciiTld)) { // we have an entry; is it in correct list?
+                        if ("country-code".equals(type)) {
+                            if (!dv.isValidCountryCodeTld(asciiTld)) { // wrong list
+                                missingCC.put(asciiTld, unicodeTld + " " + comment);
+                                if (generateUnicodeTlds) {
+                                    missingCC.put(unicodeTld, asciiTld + " " + comment);
+                                }
+                                System.out.println("GENERIC list contains unexpected value: " + asciiTld);
+                                errorsDetected++;
+                            }
+                        }
+                    } else { // missing entry, add it to correct list
                         if ("country-code".equals(type)) { // Which list to use?
                             missingCC.put(asciiTld, unicodeTld + " " + comment);
                             if (generateUnicodeTlds) {
@@ -326,19 +310,21 @@ public class DomainValidatorTest {
                                 missingTLD.put(unicodeTld, asciiTld + " " + comment);
                             }
                         }
-                    } else {
-                        System.err.println("Expected to find HTML info for " + asciiTld);
                     }
+                } else {
+                    System.err.println("Expected to find HTML info for " + asciiTld);
                 }
                 ianaTlds.add(asciiTld);
                 // Don't merge these conditions; generateUnicodeTlds is final so needs to be separate to avoid a warning
-                if (generateUnicodeTlds && !unicodeTld.equals(asciiTld)) {
-                    ianaTlds.add(unicodeTld);
+                if (generateUnicodeTlds) {
+                    // DO NOT MERGE THIS CHECK INTO ITS PARENT (See above)
+                    if (!unicodeTld.equals(asciiTld)) {
+                        ianaTlds.add(unicodeTld);
+                    }
                 }
             }
         }
         br.close();
-        int errorsDetected = 0;
         // List html entries not in TLD text list
         for (final String key : new TreeMap<>(htmlInfo).keySet()) {
             if (!ianaTlds.contains(key)) {
@@ -359,16 +345,16 @@ public class DomainValidatorTest {
             printMap(header, missingCC, "COUNTRY_CODE_TLDS");
         }
         // Check if internal tables contain any additional entries
-        if (!isInIanaList("INFRASTRUCTURE_TLDS", ianaTlds)) {
+        if (!isInIanaList(DomainValidator.ArrayType.INFRASTRUCTURE_RO, ianaTlds)) {
             errorsDetected ++;
         }
-        if (!isInIanaList("COUNTRY_CODE_TLDS", ianaTlds)) {
+        if (!isInIanaList(DomainValidator.ArrayType.COUNTRY_CODE_RO, ianaTlds)) {
             errorsDetected ++;
         }
-        if (!isInIanaList("GENERIC_TLDS", ianaTlds)) {
+        if (!isInIanaList(DomainValidator.ArrayType.GENERIC_RO, ianaTlds)) {
             errorsDetected ++;
         }
-        // Don't check local TLDS isInIanaList("LOCAL_TLDS", ianaTlds);
+        // Don't check local TLDS isInIanaList(DomainValidator.ArrayType.LOCAL_RO, ianaTlds);
         System.out.println("Finished checks");
         if (errorsDetected > 0) {
             throw new RuntimeException("Errors detected: " + errorsDetected);
@@ -396,7 +382,7 @@ public class DomainValidatorTest {
     // Check array is sorted and is lower-case
     @Test
     public void tesLocalTldsSortedAndLowerCase() throws Exception {
-        final boolean sorted = isSortedLowerCase("LOCAL_TLDS");
+        final boolean sorted = isSortedLowerCase(DomainValidator.ArrayType.LOCAL_RO);
         assertTrue(sorted);
     }
 
@@ -426,7 +412,7 @@ public class DomainValidatorTest {
     // Check array is sorted and is lower-case
     @Test
     void testCountryCodeTldsSortedAndLowerCase() throws Exception {
-        final boolean sorted = isSortedLowerCase("COUNTRY_CODE_TLDS");
+        final boolean sorted = isSortedLowerCase(DomainValidator.ArrayType.COUNTRY_CODE_RO);
         assertTrue(sorted);
     }
 
@@ -449,7 +435,7 @@ public class DomainValidatorTest {
     // Check array is sorted and is lower-case
     @Test
     void testGenericTldsSortedAndLowerCase() throws Exception {
-        final boolean sorted = isSortedLowerCase("GENERIC_TLDS");
+        final boolean sorted = isSortedLowerCase(DomainValidator.ArrayType.GENERIC_RO);
         assertTrue(sorted);
     }
 
@@ -473,6 +459,31 @@ public class DomainValidatorTest {
     }
 
     @Test
+    void testIDNFormatCodePoints() {
+        // IDN.toASCII strips default-ignorable / format code points during nameprep, which would
+        // otherwise let an invisible character slip into a host that validates as the clean label.
+        // Those code points are not legal in a host name and must be rejected.
+        assertFalse(validator.isValid("exa\u00ADmple.com"), "soft hyphen shouldn't validate");
+        assertFalse(validator.isValid("exa\u200Bmple.com"), "zero-width space shouldn't validate");
+        assertFalse(validator.isValid("exa\u200Cmple.com"), "zero-width non-joiner shouldn't validate");
+        assertFalse(validator.isValid("exa\u200Dmple.com"), "zero-width joiner shouldn't validate");
+        assertFalse(validator.isValid("\uFEFFexample.com"), "byte order mark shouldn't validate");
+        assertTrue(validator.isValid("www.b\u00fccher.ch"), "b\u00fccher.ch should still validate");
+    }
+
+    @Test
+    void testIDNMappedToNothing() {
+        // IDN.toASCII also strips the code points that nameprep maps to nothing but that are not
+        // Unicode FORMAT characters, so the format-code-point guard alone would let them collapse a
+        // host to a clean label. They must be rejected too.
+        assertFalse(validator.isValid("exa\u034Fmple.com"), "combining grapheme joiner shouldn't validate");
+        assertFalse(validator.isValid("exa\uFE0Fmple.com"), "variation selector shouldn't validate");
+        assertFalse(validator.isValid("exa\u1806mple.com"), "Mongolian TODO soft hyphen shouldn't validate");
+        assertFalse(validator.isValid("exa\u180Bmple.com"), "Mongolian free variation selector shouldn't validate");
+        assertTrue(validator.isValid("www.b\u00fccher.ch"), "b\u00fccher.ch should still validate");
+    }
+
+    @Test
     void testIDNJava6OrLater() {
         // xn--d1abbgf6aiiy.xn--p1ai http://президент.рф
         assertTrue(validator.isValid("www.b\u00fccher.ch"), "b\u00fccher.ch should validate");
@@ -484,7 +495,7 @@ public class DomainValidatorTest {
     // Check array is sorted and is lower-case
     @Test
     void testInfrastructureTldsSortedAndLowerCase() throws Exception {
-        final boolean sorted = isSortedLowerCase("INFRASTRUCTURE_TLDS");
+        final boolean sorted = isSortedLowerCase(DomainValidator.ArrayType.INFRASTRUCTURE_RO);
         assertTrue(sorted);
     }
 
@@ -507,11 +518,15 @@ public class DomainValidatorTest {
     }
 
     @Test
-    @Disabled
     void testInvalidDomains501() {
-        // VALIDATOR-501
+        // VALIDATOR-501: a non-ASCII label starting or ending with a hyphen is punycode-encoded by
+        // IDN.toASCII to a form that passes the label regex, so it slipped through although the
+        // all-ASCII form ("-test.fr" / "test-.fr") is rejected in testInvalidDomains above.
         assertFalse(validator.isValid("-tést.fr"));
         assertFalse(validator.isValid("tést-.fr"));
+        assertFalse(validator.isValid("-é.fr"), "single non-ASCII label starting with a hyphen shouldn't validate");
+        // an interior hyphen on a non-ASCII label is still allowed
+        assertTrue(validator.isValid("a-é.fr"), "interior hyphen on a non-ASCII label should validate");
     }
 
     // Check if IDN.toASCII is broken or not
@@ -583,6 +598,10 @@ public class DomainValidatorTest {
         // country code TLDs
         assertTrue(validator.isValidCountryCodeTld(".uk"), ".uk should validate as ccTLD");
         assertFalse(validator.isValidCountryCodeTld(".org"), ".org shouldn't validate as ccTLD");
+
+        // бг (xn--90ae) is the IDN ccTLD for Bulgaria, not a gTLD
+        assertTrue(validator.isValidCountryCodeTld("xn--90ae"), "xn--90ae (бг) should validate as ccTLD");
+        assertFalse(validator.isValidGenericTld("xn--90ae"), "xn--90ae (бг) shouldn't validate as gTLD");
 
         // case-insensitive
         assertTrue(validator.isValidTld(".COM"), ".COM should validate as TLD");
