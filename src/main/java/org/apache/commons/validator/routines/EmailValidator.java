@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>Perform email validations.</p>
+ * Perform email validations.
  * <p>
  * Based on a script by <a href="mailto:stamhankar@hotmail.com">Sandeep V. Tamhankar</a>
  * https://javascript.internet.com
@@ -36,13 +36,17 @@ public class EmailValidator implements Serializable {
 
     private static final long serialVersionUID = 1705927040799295880L;
 
-    private static final String SPECIAL_CHARS = "\\p{Cntrl}\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
-    private static final String VALID_CHARS = "(\\\\.)|[^\\s" + SPECIAL_CHARS + "]";
-    private static final String QUOTED_USER = "(\"(\\\\\"|[^\"])*\")";
+    private static final String SPECIAL_CHARS = "\\p{Cc}\\(\\)<>@,;:'\\\\\\\"\\.\\[\\]";
+    private static final String VALID_CHARS = "(\\\\[^\\p{Cc}])|[^\\s" + SPECIAL_CHARS + "]";
+    private static final String QUOTED_USER = "(\"(\\\\\"|[^\"\\p{Cc}])*\")";
     private static final String WORD = "((" + VALID_CHARS + "|')+|" + QUOTED_USER + ")";
 
     private static final String EMAIL_REGEX = "^(.+)@(\\S+)$";
-    private static final String IP_DOMAIN_REGEX = "^\\[(.*)\\]$";
+
+    /**
+     * RFC 5321 section 4.1.3: an IPv6 address literal carries the "IPv6:" tag (case-insensitive), an IPv4 literal is untagged.
+     */
+    private static final String IP_DOMAIN_REGEX = "^\\[((?i)IPv6:)?(.*)\\]$";
     private static final String USER_REGEX = "^" + WORD + "(\\." + WORD + ")*$";
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
@@ -166,7 +170,7 @@ public class EmailValidator implements Serializable {
     }
 
     /**
-     * <p>Checks if a field has a valid e-mail address.</p>
+     * Checks if a field has a valid e-mail address.
      *
      * @param email The value validation is being performed on.  A {@code null}
      *              value is considered invalid.
@@ -178,13 +182,7 @@ public class EmailValidator implements Serializable {
         }
         // Check the whole email address structure
         final Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
-        if (!emailMatcher.matches()) {
-            return false;
-        }
-        if (!isValidUser(emailMatcher.group(1))) {
-            return false;
-        }
-        if (!isValidDomain(emailMatcher.group(2))) {
+        if (!emailMatcher.matches() || !isValidUser(emailMatcher.group(1)) || !isValidDomain(emailMatcher.group(2))) {
             return false;
         }
         return true;
@@ -201,9 +199,11 @@ public class EmailValidator implements Serializable {
         final Matcher ipDomainMatcher = IP_DOMAIN_PATTERN.matcher(domain);
 
         if (ipDomainMatcher.matches()) {
-            final InetAddressValidator inetAddressValidator =
-                    InetAddressValidator.getInstance();
-            return inetAddressValidator.isValid(ipDomainMatcher.group(1));
+            final InetAddressValidator inetAddressValidator = InetAddressValidator.getInstance();
+            if (ipDomainMatcher.group(1) != null) {
+                return inetAddressValidator.isValidInet6Address(ipDomainMatcher.group(2));
+            }
+            return inetAddressValidator.isValidInet4Address(ipDomainMatcher.group(2));
         }
         // Domain is symbolic name
         if (allowTld) {
