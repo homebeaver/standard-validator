@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.FastHashMap;
 import org.apache.commons.validator.Arg;
 import org.apache.commons.validator.Msg;
 import org.apache.commons.validator.Var;

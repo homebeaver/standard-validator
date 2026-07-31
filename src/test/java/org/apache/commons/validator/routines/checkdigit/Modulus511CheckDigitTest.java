@@ -35,7 +35,7 @@ public class Modulus511CheckDigitTest extends AbstractIsoIec7064Test {
 
     private static final String MIN = "1001"; // theoretical minimum
     private static final String MAX = "99999999999999999228"; // theoretical
-    private static final String LONG = "999999999999999999999999999999999203"; // theoretical
+//    private static final String LONG = "999999999999999999999999999999999203"; // theoretical
 
     public Modulus511CheckDigitTest() {
         checkDigitLth = 3;
