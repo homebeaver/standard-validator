@@ -38,7 +38,7 @@ import org.junitpioneer.jupiter.DefaultLocale;
 import org.junitpioneer.jupiter.DefaultTimeZone;
 
 /**
- * Test Case for TimeValidator.
+ * Tests {@link TimeValidator}.
  */
 class TimeValidatorTest {
 
@@ -46,9 +46,9 @@ class TimeValidatorTest {
      * Create a date instance for a specified time zone, date and time.
      *
      * @param zone        The time zone
-     * @param time        the time in HH:mm:ss format
-     * @param millisecond the milliseconds
-     * @return the new Date instance.
+     * @param time        The time in HH:mm:ss format
+     * @param millisecond The milliseconds
+     * @return The new Date instance.
      */
     protected static Date createDate(final TimeZone zone, final int time, final int millisecond) {
         final Calendar calendar = createTime(zone, time, millisecond);
@@ -59,9 +59,9 @@ class TimeValidatorTest {
      * Create a calendar instance for a specified time zone, date and time.
      *
      * @param zone        The time zone
-     * @param time        the time in HH:mm:ss format
-     * @param millisecond the milliseconds
-     * @return the new Calendar instance.
+     * @param time        The time in HH:mm:ss format
+     * @param millisecond The milliseconds
+     * @return The new Calendar instance.
      */
     protected static Calendar createTime(final TimeZone zone, final int time, final int millisecond) {
         final Calendar calendar = zone == null ? Calendar.getInstance() : Calendar.getInstance(zone);
