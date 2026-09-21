@@ -19,8 +19,10 @@ package org.apache.commons.validator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -99,6 +101,33 @@ class GenericTypeValidatorTest extends AbstractCommonTest {
     }
 
     /**
+     * Tests that {@link GenericTypeValidator#formatByte(String, Locale)} rejects a fractional value instead of truncating it. A value written with a negative
+     * exponent and no decimal point (for example "15E-1" for 1.5) is consumed in full by the integer-only format and used to be floored to a non-null result,
+     * unlike {@link GenericTypeValidator#formatLong(String, Locale)}.
+     */
+    @Test
+    void testByteLocaleFractional() {
+        assertNull(GenericTypeValidator.formatByte("15E-1", Locale.US));
+        assertNull(GenericTypeValidator.formatByte("5E-1", Locale.US));
+        assertEquals(Byte.valueOf((byte) 100), GenericTypeValidator.formatByte("1E2", Locale.US));
+    }
+
+    /**
+     * Tests that strict {@link GenericTypeValidator#formatDate(String, String, boolean)} rejects a value with trailing characters instead of parsing only its
+     * leading portion.
+     */
+    @Test
+    void testFormatDateStrict() {
+        assertNotNull(GenericTypeValidator.formatDate("11/11/1999", "MM/dd/yyyy", true));
+        // The trailing 'f' used to be dropped, leaving the year parsed as 199 and the value reported as valid.
+        assertNull(GenericTypeValidator.formatDate("11/11/199f", "MM/dd/yyyy", true));
+        // An abbreviated field is still rejected in strict mode.
+        assertNull(GenericTypeValidator.formatDate("2/12/1999", "MM/dd/yyyy", true));
+        // Non-strict parsing stays lenient about the pattern length.
+        assertNotNull(GenericTypeValidator.formatDate("2/12/1999", "MM/dd/yyyy", false));
+    }
+
+    /**
      * Tests the fr locale.
      */
     @Test
@@ -115,6 +144,44 @@ class GenericTypeValidatorTest extends AbstractCommonTest {
         final Map<String, ?> map = localeTest(info, Locale.FRENCH);
         assertEquals(12, ((Float) map.get("float")).intValue(), "float value not correct");
         assertEquals(129, ((Double) map.get("double")).intValue(), "double value not correct");
+    }
+
+    /**
+     * Tests that {@link GenericTypeValidator#formatInt(String, Locale)} rejects a fractional value instead of truncating it. A value written with a negative
+     * exponent and no decimal point (for example "15E-1" for 1.5) is consumed in full by the integer-only format and used to be floored to a non-null result,
+     * unlike {@link GenericTypeValidator#formatLong(String, Locale)}.
+     */
+    @Test
+    void testIntLocaleFractional() {
+        assertNull(GenericTypeValidator.formatInt("15E-1", Locale.US));
+        assertNull(GenericTypeValidator.formatInt("5E-1", Locale.US));
+        assertEquals(Integer.valueOf(100), GenericTypeValidator.formatInt("1E2", Locale.US));
+    }
+
+    /**
+     * Tests that {@link GenericTypeValidator#formatLong(String, Locale)} rejects values just outside the long range instead of clamping them.
+     */
+    @Test
+    void testLongLocaleOverflow() {
+        assertEquals(Long.valueOf(Long.MAX_VALUE), GenericTypeValidator.formatLong(Long.toString(Long.MAX_VALUE), Locale.US));
+        assertEquals(Long.valueOf(Long.MIN_VALUE), GenericTypeValidator.formatLong(Long.toString(Long.MIN_VALUE), Locale.US));
+        // Long.MAX_VALUE + 1 and Long.MIN_VALUE - 1 round to the long bounds as a double and used to be accepted.
+        assertNull(GenericTypeValidator.formatLong(BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE).toString(), Locale.US));
+        assertNull(GenericTypeValidator.formatLong(BigInteger.valueOf(Long.MIN_VALUE).subtract(BigInteger.ONE).toString(), Locale.US));
+        // Trailing characters are only consumed up to the first non-digit, so the whole-string check must reject them.
+        assertNull(GenericTypeValidator.formatLong("123x", Locale.US));
+    }
+
+    /**
+     * Tests that {@link GenericTypeValidator#formatShort(String, Locale)} rejects a fractional value instead of truncating it. A value written with a negative
+     * exponent and no decimal point (for example "15E-1" for 1.5) is consumed in full by the integer-only format and used to be floored to a non-null result,
+     * unlike {@link GenericTypeValidator#formatLong(String, Locale)}.
+     */
+    @Test
+    void testShortLocaleFractional() {
+        assertNull(GenericTypeValidator.formatShort("15E-1", Locale.US));
+        assertNull(GenericTypeValidator.formatShort("5E-1", Locale.US));
+        assertEquals(Short.valueOf((short) 100), GenericTypeValidator.formatShort("1E2", Locale.US));
     }
 
     /**

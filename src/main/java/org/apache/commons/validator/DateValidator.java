@@ -18,11 +18,12 @@ package org.apache.commons.validator;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
- * <p>Perform date validations.</p>
+ * Perform date validations.
  * <p>
  * This class is a Singleton; you can retrieve the instance via the
  * getInstance() method.
@@ -42,6 +43,7 @@ public class DateValidator {
 
     /**
      * Returns the Singleton instance of this validator.
+     *
      * @return A singleton instance of the DateValidator.
      */
     public static DateValidator getInstance() {
@@ -55,9 +57,9 @@ public class DateValidator {
     }
 
     /**
-     * <p>Checks if the field is a valid date.  The {@link Locale} is
-     * used with {@link DateFormat}.  The setLenient method
-     * is set to {@code false} for all.</p>
+     * Checks if the field is a valid date. The {@link Locale} is
+     * used with {@link DateFormat}. The setLenient method
+     * is set to {@code false} for all.
      *
      * @param value The value validation is being performed on.
      * @param locale The locale to use for the date format, defaults to the default
@@ -68,12 +70,7 @@ public class DateValidator {
         if (value == null) {
             return false;
         }
-        final DateFormat formatter;
-        if (locale != null) {
-            formatter = DateFormat.getDateInstance(DateFormat.SHORT, locale);
-        } else {
-            formatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-        }
+        final DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, Validator.toLocale(locale));
         formatter.setLenient(false);
         try {
             formatter.parse(value);
@@ -84,11 +81,11 @@ public class DateValidator {
     }
 
     /**
-     * <p>Checks if the field is a valid date.  The pattern is used with
-     * {@link SimpleDateFormat}.  If strict is true, then the
+     * Checks if the field is a valid date.  The pattern is used with
+     * {@link SimpleDateFormat}. If strict is true, then the
      * length will be checked so '2/12/1999' will not pass validation with
      * the format 'MM/dd/yyyy' because the month isn't two digits.
-     * The setLenient method is set to {@code false} for all.</p>
+     * The setLenient method is set to {@code false} for all.
      *
      * @param value The value validation is being performed on.
      * @param datePattern The pattern passed to {@link SimpleDateFormat}.
@@ -96,27 +93,18 @@ public class DateValidator {
      * @return true if the date is valid.
      */
     public boolean isValid(final String value, final String datePattern, final boolean strict) {
-
-        if (value == null
-                || datePattern == null
-                || datePattern.isEmpty()) {
-
+        if (value == null || datePattern == null || datePattern.isEmpty()) {
             return false;
         }
-
         final SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
         formatter.setLenient(false);
-
-        try {
-            formatter.parse(value);
-        } catch (final ParseException e) {
+        final ParsePosition pos = new ParsePosition(0);
+        // parse(String, ParsePosition) stops at the first unparsable character instead of failing, so a strict
+        // match must also confirm the whole value was consumed; otherwise trailing text such as the 'f' in
+        // "11/11/199f" is dropped and the truncated date validates.
+        if (formatter.parse(value, pos) == null || strict && (pos.getIndex() < value.length() || datePattern.length() != value.length())) {
             return false;
         }
-
-        if (strict && datePattern.length() != value.length()) {
-            return false;
-        }
-
         return true;
     }
 
