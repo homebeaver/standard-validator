@@ -16,6 +16,8 @@
  */
 package org.apache.commons.validator.routines;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Format;
@@ -25,10 +27,10 @@ import java.util.Locale;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * <p>Abstract class for Number Validation.</p>
- *
- * <p>This is a <em>base</em> class for building Number
- *    Validators using format parsing.</p>
+ * Abstract class for Number Validation.
+ * <p>
+ * This is a <em>base</em> class for building Number Validators using format parsing.
+ * </p>
  *
  * @since 1.3.0
  */
@@ -36,14 +38,78 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
 
     private static final long serialVersionUID = -3088817875906765463L;
 
-    /** Standard {@code NumberFormat} type */
+    /**
+     * Standard {@code NumberFormat} type.
+     */
     public static final int STANDARD_FORMAT = 0;
 
-    /** Currency {@code NumberFormat} type */
+    /**
+     * Currency {@code NumberFormat} type.
+     */
     public static final int CURRENCY_FORMAT = 1;
 
-    /** Percent {@code NumberFormat} type */
+    /**
+     * Percent {@code NumberFormat} type.
+     */
     public static final int PERCENT_FORMAT = 2;
+
+    /**
+     * Compares two values as BigDecimals.
+     *
+     * @param value1 {@code BigDecimal} to compare.
+     * @param value2 {@code BigDecimal} to which {@code value1} is to be compared.
+     * @return -1, 0, or 1 as this {@code BigDecimal} is numerically less than, equal to, or greater than {@code val}.
+     */
+    static int compareTo(final Number value1, final Number value2) {
+        return toBigDecimal(value1).compareTo(toBigDecimal(value2));
+    }
+
+    /**
+     * Tests if the given value is finite.
+     *
+     * @param value The value to test.
+     * @return {@code true} if the value is finite, {@code false} otherwise.
+     */
+    static boolean isFinite(final Number value) {
+        if (value instanceof Double) {
+            return Double.isFinite((Double) value);
+        }
+        if (value instanceof Float) {
+            return Float.isFinite((Float) value);
+        }
+        return true;
+    }
+
+    static Format setParseBigDecimal(final Format format) {
+        if (format instanceof DecimalFormat) {
+            ((DecimalFormat) format).setParseBigDecimal(true);
+        }
+        return format;
+    }
+
+    static BigDecimal toBigDecimal(final Object value) {
+        if (value instanceof Long || value instanceof Integer || value instanceof Short || value instanceof Byte) {
+            return BigDecimal.valueOf(((Number) value).longValue());
+        }
+        if (value instanceof Double || value instanceof Float) {
+            return BigDecimal.valueOf(((Number) value).doubleValue());
+        }
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        if (value instanceof BigInteger) {
+            return new BigDecimal((BigInteger) value);
+        }
+        // No more shortcuts, convert from a string.
+        return new BigDecimal(value.toString());
+    }
+
+    static BigInteger toBigInteger(final Object value) {
+        if (value instanceof Long || value instanceof Integer || value instanceof Short || value instanceof Byte) {
+            return BigInteger.valueOf(((Number) value).longValue());
+        }
+        return toBigDecimal(value).toBigInteger();
+    }
 
     /**
      * {@code true} if fractions are allowed or {@code false} if integers only.
@@ -56,15 +122,11 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     private final int formatType;
 
     /**
-     * Constructs an instance with specified <em>strict</em>
-     * and <em>decimal</em> parameters.
+     * Constructs an instance with specified <em>strict</em> and <em>decimal</em> parameters.
      *
-     * @param strict {@code true} if strict
-     *        {@code Format} parsing should be used.
-     * @param formatType The {@code NumberFormat} type to
-     *        create for validation, default is STANDARD_FORMAT.
-     * @param allowFractions {@code true} if fractions are
-     *        allowed or {@code false} if integers only.
+     * @param strict         {@code true} if strict {@code Format} parsing should be used.
+     * @param formatType     The {@code NumberFormat} type to create for validation, default is STANDARD_FORMAT.
+     * @param allowFractions {@code true} if fractions are allowed or {@code false} if integers only.
      */
     public AbstractNumberValidator(final boolean strict, final int formatType, final boolean allowFractions) {
         super(strict);
@@ -73,10 +135,9 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     }
 
     /**
-     * <p>Returns the <em>multiplier</em> of the {@code NumberFormat}.</p>
+     * Returns the <em>multiplier</em> of the {@code NumberFormat}.
      *
-     * @param format The {@code NumberFormat} to determine the
-     *        multiplier of.
+     * @param format The {@code NumberFormat} to determine the multiplier of.
      * @return The multiplying factor for the format.
      */
     protected int determineScale(final NumberFormat format) {
@@ -106,10 +167,9 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     }
 
     /**
-     * <p>Returns a {@code NumberFormat} for the specified Locale.</p>
+     * Gets the {@code NumberFormat} for the specified Locale.
      *
-     * @param locale The locale a {@code NumberFormat} is required for,
-     *   system default if null.
+     * @param locale The locale a {@code NumberFormat} is required for, system default if null.
      * @return The {@code NumberFormat} to created.
      */
     protected Format getFormat(final Locale locale) {
@@ -144,25 +204,21 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     }
 
     /**
-     * <p>Returns a {@code NumberFormat} for the specified <em>pattern</em>
-     *    and/or {@link Locale}.</p>
+     * Gets a {@code NumberFormat} for the specified <em>pattern</em> and/or {@link Locale}.
      *
-     * @param pattern The pattern used to validate the value against or
-     *        {@code null} to use the default for the {@link Locale}.
-     * @param locale The locale to use for the currency format, system default if null.
+     * @param pattern The pattern used to validate the value against or {@code null} to use the default for the {@link Locale}.
+     * @param locale  The locale to use for the currency format, system default if null.
      * @return The {@code NumberFormat} to created.
      */
     @Override
     protected Format getFormat(final String pattern, final Locale locale) {
         final NumberFormat formatter;
-        final boolean usePattern = !GenericValidator.isBlankOrNull(pattern);
-        if (!usePattern) {
+        if (GenericValidator.isBlankOrNull(pattern)) {
             formatter = (NumberFormat) getFormat(locale);
         } else if (locale == null) {
             formatter = new DecimalFormat(pattern);
         } else {
-            final DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
-            formatter = new DecimalFormat(pattern, symbols);
+            formatter = new DecimalFormat(pattern, new DecimalFormatSymbols(locale));
         }
         if (!isAllowFractions()) {
             formatter.setParseIntegerOnly(true);
@@ -171,46 +227,41 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     }
 
     /**
-     * <p>Indicates the type of {@code NumberFormat} created
-     *    by this validator instance.</p>
+     * Gets the type of {@code NumberFormat} created by this validator instance.
      *
-     * @return the format type created.
+     * @return The format type created.
      */
     public int getFormatType() {
         return formatType;
     }
 
     /**
-     * <p>Indicates whether the number being validated is
-     *    a decimal or integer.</p>
+     * Tests whether the number being validated is a decimal or integer.
      *
-     * @return {@code true} if decimals are allowed
-     *       or {@code false} if the number is an integer.
+     * @return {@code true} if decimals are allowed or {@code false} if the number is an integer.
      */
     public boolean isAllowFractions() {
         return allowFractions;
     }
 
     /**
-     * Check if the value is within a specified range.
+     * Tests if the value is within a specified range.
      *
      * @param value The value validation is being performed on.
-     * @param min The minimum value of the range.
-     * @param max The maximum value of the range.
-     * @return {@code true} if the value is within the
-     *         specified range.
+     * @param min   The minimum value of the range.
+     * @param max   The maximum value of the range.
+     * @return {@code true} if the value is within the specified range.
      */
     public boolean isInRange(final Number value, final Number min, final Number max) {
         return minValue(value, min) && maxValue(value, max);
     }
 
     /**
-     * <p>Validate using the specified {@link Locale}.</p>
+     * Tests validity using the specified {@link Locale}.
      *
-     * @param value The value validation is being performed on.
-     * @param pattern The pattern used to validate the value against, or the
-     *        default for the {@link Locale} if {@code null}.
-     * @param locale The locale to use for the date format, system default if null.
+     * @param value   The value validation is being performed on.
+     * @param pattern The pattern used to validate the value against, or the default for the {@link Locale} if {@code null}.
+     * @param locale  The locale to use for the date format, system default if null.
      * @return {@code true} if the value is valid.
      */
     @Override
@@ -219,42 +270,51 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
     }
 
     /**
-     * Check if the value is less than or equal to a maximum.
+     * Tests if the value is less than or equal to a maximum.
+     *
+     * <p>
+     * For an integer validator the bound is compared exactly rather than narrowed to a {@code long}, so a {@code BigInteger} or {@code BigDecimal} bound outside
+     * the long range keeps its magnitude and a fractional bound keeps its fractional part. A non-finite {@link Double} or {@link Float} operand keeps the
+     * {@code doubleValue()} comparison, since {@code BigDecimal} cannot represent {@code NaN} or an infinity.
+     * </p>
      *
      * @param value The value validation is being performed on.
-     * @param max The maximum value.
-     * @return {@code true} if the value is less than
-     *         or equal to the maximum.
+     * @param max   The maximum value.
+     * @return {@code true} if the value is less than or equal to the maximum.
      */
     public boolean maxValue(final Number value, final Number max) {
         if (isAllowFractions()) {
             return value.doubleValue() <= max.doubleValue();
         }
-        return value.longValue() <= max.longValue();
+        return isFinite(value) && isFinite(max) ? compareTo(value, max) <= 0 : value.doubleValue() <= max.doubleValue();
     }
 
     /**
-     * Check if the value is greater than or equal to a minimum.
+     * Tests if the value is greater than or equal to a minimum.
+     *
+     * <p>
+     * For an integer validator the bound is compared exactly rather than narrowed to a {@code long}, so a {@code BigInteger} or {@code BigDecimal} bound outside
+     * the long range keeps its magnitude and a fractional bound keeps its fractional part. A non-finite {@link Double} or {@link Float} operand keeps the
+     * {@code doubleValue()} comparison, since {@code BigDecimal} cannot represent {@code NaN} or an infinity.
+     * </p>
      *
      * @param value The value validation is being performed on.
-     * @param min The minimum value.
-     * @return {@code true} if the value is greater than
-     *         or equal to the minimum.
+     * @param min   The minimum value.
+     * @return {@code true} if the value is greater than or equal to the minimum.
      */
     public boolean minValue(final Number value, final Number min) {
         if (isAllowFractions()) {
             return value.doubleValue() >= min.doubleValue();
         }
-        return value.longValue() >= min.longValue();
+        return isFinite(value) && isFinite(min) ? compareTo(value, min) >= 0 : value.doubleValue() >= min.doubleValue();
     }
 
     /**
-     * <p>Parse the value using the specified pattern.</p>
+     * Parses the value using the specified pattern.
      *
-     * @param value The value validation is being performed on.
-     * @param pattern The pattern used to validate the value against, or the
-     *        default for the {@link Locale} if {@code null}.
-     * @param locale The locale to use for the date format, system default if null.
+     * @param value   The value validation is being performed on.
+     * @param pattern The pattern used to validate the value against, or the default for the {@link Locale} if {@code null}.
+     * @param locale  The locale to use for the date format, system default if null.
      * @return The parsed value if valid or {@code null} if invalid.
      */
     protected Object parse(String value, final String pattern, final Locale locale) {
@@ -264,17 +324,14 @@ public abstract class AbstractNumberValidator extends AbstractFormatValidator {
             return null;
         }
         return parse(value, getFormat(pattern, locale));
-
     }
 
     /**
-     * <p>Process the parsed value, performing any further validation
-     *    and type conversion required.</p>
+     * Processes the parsed value, performing any further validation and type conversion required.
      *
-     * @param value The parsed object created.
+     * @param value     The parsed object created.
      * @param formatter The Format used to parse the value with.
-     * @return The parsed value converted to the appropriate type
-     *         if valid or {@code null} if invalid.
+     * @return The parsed value converted to the appropriate type if valid or {@code null} if invalid.
      */
     @Override
     protected abstract Object processParsedValue(Object value, Format formatter);

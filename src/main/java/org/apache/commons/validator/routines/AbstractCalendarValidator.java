@@ -23,11 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * <p>Abstract class for Date/Time/Calendar validation.</p>
+ * Abstract class for Date/Time/Calendar validation.
  *
  * <p>This is a <em>base</em> class for building Date / Time
  *    Validators using format parsing.</p>
@@ -37,6 +38,9 @@ import org.apache.commons.validator.GenericValidator;
 public abstract class AbstractCalendarValidator extends AbstractFormatValidator {
 
     private static final long serialVersionUID = -1410008585975827379L;
+
+    /** Number of milliseconds in a week, beyond which two instants cannot share a week. */
+    private static final long MILLIS_PER_WEEK = TimeUnit.DAYS.toMillis(7);
 
     /**
      * The date style to use for Locale validation.
@@ -54,8 +58,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
      *
      * @param strict {@code true} if strict
      *        {@code Format} parsing should be used.
-     * @param dateStyle the date style to use for Locale validation.
-     * @param timeStyle the time style to use for Locale validation.
+     * @param dateStyle The date style to use for Locale validation.
+     * @param timeStyle The time style to use for Locale validation.
      */
     public AbstractCalendarValidator(final boolean strict, final int dateStyle, final int timeStyle) {
         super(strict);
@@ -64,7 +68,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Compares the field from two calendars indicating whether the field for the
+     * Compares the field from two calendars indicating whether the field for the
      *    first calendar is equal to, less than or greater than the field from the
      *    second calendar.
      *
@@ -79,7 +83,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Calculate the quarter for the specified Calendar.</p>
+     * Calculate the quarter for the specified Calendar.
      *
      * @param calendar The Calendar value.
      * @param monthOfFirstQuarter The  month that the first quarter starts.
@@ -102,8 +106,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Compares a calendar value to another, indicating whether it is
-     *    equal, less than or more than at a specified level.</p>
+     * Compares a calendar value to another, indicating whether it is
+     *    equal, less than or more than at a specified level.
      *
      * @param value The Calendar value.
      * @param compare The {@link Calendar} to check the value against.
@@ -117,15 +121,18 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
 
         int result;
 
+        // Week of Year and Week of Month numbers repeat across the boundaries they reset on, and a
+        // week can belong to a different calendar year or month than its number suggests (for
+        // example 31 December may fall in week 1 of the following year), so the week is compared by
+        // day distance and week number rather than by comparing the calendar year first.
+        if (field == Calendar.WEEK_OF_YEAR || field == Calendar.WEEK_OF_MONTH) {
+            return compareWeek(value, compare, field);
+        }
+
         // Compare Year
         result = calculateCompareResult(value, compare, Calendar.YEAR);
         if (result != 0 || field == Calendar.YEAR) {
             return result;
-        }
-
-        // Compare Week of Year
-        if (field == Calendar.WEEK_OF_YEAR) {
-            return calculateCompareResult(value, compare, Calendar.WEEK_OF_YEAR);
         }
 
         // Compare Day of the Year
@@ -137,11 +144,6 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
         result = calculateCompareResult(value, compare, Calendar.MONTH);
         if (result != 0 || field == Calendar.MONTH) {
             return result;
-        }
-
-        // Compare Week of Month
-        if (field == Calendar.WEEK_OF_MONTH) {
-            return calculateCompareResult(value, compare, Calendar.WEEK_OF_MONTH);
         }
 
         // Compare Date
@@ -158,8 +160,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Compares a calendar's quarter value to another, indicating whether it is
-     *    equal, less than or more than the specified quarter.</p>
+     * Compares a calendar's quarter value to another, indicating whether it is
+     *    equal, less than or more than the specified quarter.
      *
      * @param value The Calendar value.
      * @param compare The {@link Calendar} to check the value against.
@@ -174,8 +176,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Compares a calendar time value to another, indicating whether it is
-     *    equal, less than or more than at a specified level.</p>
+     * Compares a calendar time value to another, indicating whether it is
+     *    equal, less than or more than at a specified level.
      *
      * @param value The Calendar value.
      * @param compare The {@link Calendar} to check the value against.
@@ -217,7 +219,28 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format a value with the specified {@code DateFormat}.</p>
+     * Compares the week two calendars fall in, ordering by the actual week rather than by the
+     * {@code WEEK_OF_YEAR} or {@code WEEK_OF_MONTH} number alone. Those numbers repeat across the
+     * boundaries they reset on (for example 31 December may be week 1 of the following year, and
+     * the first week of a month can hold days carried over from the previous month), so the gap
+     * between the two instants is checked first: dates a week or more apart are always in different
+     * weeks, and nearer dates share a week only when the week number also matches.
+     *
+     * @param value The Calendar value.
+     * @param compare The {@link Calendar} to check the value against.
+     * @param field {@code Calendar.WEEK_OF_YEAR} or {@code Calendar.WEEK_OF_MONTH}.
+     * @return Zero if both calendars are in the same week, -1 or +1 otherwise.
+     */
+    private int compareWeek(final Calendar value, final Calendar compare, final int field) {
+        final long millis = value.getTimeInMillis() - compare.getTimeInMillis();
+        if (Math.abs(millis) >= MILLIS_PER_WEEK || calculateCompareResult(value, compare, field) != 0) {
+            return Long.signum(millis);
+        }
+        return 0;
+    }
+
+    /**
+     * Format a value with the specified {@code DateFormat}.
      *
      * @param value The value to be formatted.
      * @param formatter The Format to use.
@@ -235,8 +258,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format an object into a {@link String} using
-     * the specified Locale.</p>
+     * Format an object into a {@link String} using
+     * the specified Locale.
      *
      * @param value The value validation is being performed on.
      * @param locale The locale to use for the Format.
@@ -249,7 +272,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format an object using the specified pattern and/or
+     * Format an object using the specified pattern and/or
      *    {@link Locale}.
      *
      * @param value The value validation is being performed on.
@@ -263,7 +286,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format an object using the specified pattern and/or
+     * Format an object using the specified pattern and/or
      *    {@link Locale}.
      *
      * @param value The value validation is being performed on.
@@ -284,8 +307,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format an object into a {@link String} using
-     * the specified pattern.</p>
+     * Format an object into a {@link String} using
+     * the specified pattern.
      *
      * @param value The value validation is being performed on.
      * @param pattern The pattern used to format the value.
@@ -298,8 +321,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Format an object into a {@link String} using
-     * the default Locale.</p>
+     * Format an object into a {@link String} using
+     * the default Locale.
      *
      * @param value The value validation is being performed on.
      * @param timeZone The Time Zone used to format the date,
@@ -311,7 +334,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Returns a {@code DateFormat} for the specified Locale.</p>
+     * Returns a {@code DateFormat} for the specified Locale.
      *
      * @param locale The locale a {@code DateFormat} is required for,
      *        system default if null.
@@ -344,8 +367,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Returns a {@code DateFormat} for the specified <em>pattern</em>
-     *    and/or {@link Locale}.</p>
+     * Returns a {@code DateFormat} for the specified <em>pattern</em>
+     *    and/or {@link Locale}.
      *
      * @param pattern The pattern used to validate the value against or
      *        {@code null} to use the default for the {@link Locale}.
@@ -369,7 +392,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Validate using the specified {@link Locale}.
+     * Validate using the specified {@link Locale}.
      *
      * @param value The value validation is being performed on.
      * @param pattern The pattern used to format the value.
@@ -382,7 +405,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Checks if the value is valid against a specified pattern.</p>
+     * Checks if the value is valid against a specified pattern.
      *
      * @param value The value validation is being performed on.
      * @param pattern The pattern used to validate the value against, or the
@@ -406,8 +429,8 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * <p>Process the parsed value, performing any further validation
-     *    and type conversion required.</p>
+     * rocess the parsed value, performing any further validation
+     *    and type conversion required.
      *
      * @param value The parsed object created.
      * @param formatter The Format used to parse the value with.

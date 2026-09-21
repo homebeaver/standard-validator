@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * <p><strong>Calendar Validation</strong> and Conversion routines ({@code java.util.Calendar}).</p>
+ * <strong>Calendar Validation</strong> and Conversion routines ({@code java.util.Calendar}).
  *
  * <p>This validator provides a number of methods for validating/converting
  *    a {@link String} date value to a {@code java.util.Calendar} using
@@ -91,7 +91,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     private static final CalendarValidator VALIDATOR = new CalendarValidator();
 
     /**
-     * <p>Adjusts a Calendar's value to a different TimeZone.</p>
+     * Adjusts a Calendar's value to a different TimeZone.
      *
      * @param value The value to adjust.
      * @param timeZone The new time zone to use to adjust the Calendar to.
@@ -112,6 +112,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
 
     /**
      * Gets the singleton instance of this validator.
+     *
      * @return A singleton instance of the CalendarValidator.
      */
     public static CalendarValidator getInstance() {
@@ -132,14 +133,14 @@ public class CalendarValidator extends AbstractCalendarValidator {
      *
      * @param strict {@code true} if strict
      *        {@code Format} parsing should be used.
-     * @param dateStyle the date style to use for Locale validation.
+     * @param dateStyle The date style to use for Locale validation.
      */
     public CalendarValidator(final boolean strict, final int dateStyle) {
         super(strict, dateStyle, -1);
     }
 
     /**
-     * <p>Compare Dates (day, month and year - not time).</p>
+     * Compare Dates (day, month and year - not time).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -152,7 +153,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Months (month and year).</p>
+     * Compare Months (month and year).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -165,7 +166,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Quarters (quarter and year).</p>
+     * Compare Quarters (quarter and year).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to check the value against.
@@ -178,7 +179,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Quarters (quarter and year).</p>
+     * Compare Quarters (quarter and year).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -193,7 +194,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Weeks (week and year).</p>
+     * Compare Weeks (week and year).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -206,7 +207,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Years.</p>
+     * Compare Years.
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -219,7 +220,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Convert the parsed {@code Date} to a {@link Calendar}.</p>
+     * Convert the parsed {@code Date} to a {@link Calendar}.
      *
      * @param value The parsed {@code Date} object created.
      * @param formatter The Format used to parse the value with.
@@ -231,7 +232,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the default
+     * Validate/convert a {@link Calendar} using the default
      *    {@link Locale} and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -243,7 +244,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    {@link Locale} and default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -255,7 +256,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    {@link Locale} and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -268,7 +269,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    <em>pattern</em> and default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -280,7 +281,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified pattern
+     * Validate/convert a {@link Calendar} using the specified pattern
      *    and {@link Locale} and the default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -294,7 +295,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    pattern, and {@link Locale} and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -309,7 +310,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    <em>pattern</em> and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -322,7 +323,7 @@ public class CalendarValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a {@link Calendar} using the specified
+     * Validate/convert a {@link Calendar} using the specified
      *    {@code TimeZone} and default {@link Locale}.
      *
      * @param value The value validation is being performed on.
