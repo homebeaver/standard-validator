@@ -18,6 +18,7 @@
 package org.apache.commons.validator.routines;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -256,7 +257,7 @@ public class BigDecimalValidator extends AbstractNumberValidator {
         BigDecimal decimal = toBigDecimal(value);
         final int scale = determineScale((NumberFormat) formatter);
         if (scale >= 0) {
-            decimal = decimal.setScale(scale, BigDecimal.ROUND_DOWN);
+            decimal = decimal.setScale(scale, RoundingMode.DOWN);
         }
         return decimal;
     }
