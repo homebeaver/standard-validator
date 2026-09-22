@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * CUSIP Check Digit Test.
@@ -50,6 +51,16 @@ class CUSIPCheckDigitTest extends AbstractCheckDigitTest {
         routine = CUSIPCheckDigit.CUSIP_CHECK_DIGIT;
         valid = cloneValid();
         invalid = cloneInvalid();
+    }
+
+    /**
+     * A CUSIP is exactly nine characters. Prepending a zero to a valid code lands on a position weighted zero, so the
+     * modulus was unaffected and the over-length code validated.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { "0037833100", "0931142103" })
+    void testOverLengthRejected(final String code) {
+        assertFalse(routine.isValid(code), "Should fail (not nine characters): " + code);
     }
 
     @ParameterizedTest

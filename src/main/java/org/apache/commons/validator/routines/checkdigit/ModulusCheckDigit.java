@@ -137,7 +137,7 @@ public abstract class ModulusCheckDigit extends AbstractCheckDigit implements Se
 //     * @return {@code true} if the code is of the specified length, otherwise {@code false}.
 //     */
 // Commit 67b6216 von garydgregory ist nicht notwendig, Ausserden ist es eine typische static util methode
-// wird nur in ABANumberCheckDigit verwendet
+// wird in ABANumberCheckDigit und CUSIPCheckDigit verwendet
 //    boolean isLength(final String code, final int length) {
 //        return code != null && code.length() == length;
 //    }
