@@ -17,6 +17,8 @@
 
 package org.apache.commons.validator;
 
+import java.security.PrivilegedActionException;
+import java.util.IllegalFormatException;
 /**
  * The base exception for the Validator Framework. All other {@code Exception}s thrown during calls to {@code Validator.validate()} are considered errors.
  */
