@@ -66,10 +66,19 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
      */
     @Override
     protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
-        if (code.length() > POSITION_WEIGHT.length) {
-            throw new CheckDigitException(CheckDigitException.invalidCode(code, "too long. Length = " + code.length()));
+        final int length = code.length();
+        // A SEDOL is exactly seven characters. When the check digit is included the whole code must be that
+        // length; the previous test only rejected over-length codes, so a shorter string carrying a chance
+        // modulus 10 check digit (for example "55") still validated. The calculate path receives the six
+        // character base, so only the over-length case is guarded there.
+        if (length > POSITION_WEIGHT.length || includesCheckDigit && length != POSITION_WEIGHT.length) {
+            throw new CheckDigitException("Invalid Code Length = %d", length);
         }
         return super.calculateModulus(code, includesCheckDigit);
+    }
+
+    private boolean isVowel(final char character) {
+        return "AEIOU".indexOf(Character.toUpperCase(character)) >= 0;
     }
 
     /**
@@ -79,15 +88,16 @@ public final class SedolCheckDigit extends ModulusCheckDigit {
      * @param leftPos   The position of the character in the code, counting from left to right.
      * @param rightPos  The position of the character in the code, counting from right to left.
      * @return The integer value of the character.
-     * @throws CheckDigitException if character is not alphanumeric.
+     * @throws CheckDigitException if character is not alphanumeric or a vowel.
      */
     @Override
     protected int toInt(final char character, final int leftPos, final int rightPos) throws CheckDigitException {
         final int charValue = Character.getNumericValue(character);
         // the check digit is only allowed to reach 9
         final int charValueMax = rightPos == 1 ? 9 : MAX_ALPHANUMERIC_VALUE; // CHECKSTYLE IGNORE MagicNumber
-        if (charValue > charValueMax || !isAsciiAlphaNum(character)) {
-            throw new CheckDigitException("Invalid Character[%d,%d] = '%d' out of range 0 to %d", leftPos, rightPos, charValue, charValueMax);
+        // The SEDOL alphabet excludes the vowels A, E, I, O and U, and treats Y as a consonant.
+        if (charValue > charValueMax || !isAsciiAlphaNum(character) || isVowel(character)) {
+            throw new CheckDigitException("Invalid Character[%d,%d] = '%d' out of range 0 to %d, exclusing vowels.", leftPos, rightPos, charValue, charValueMax);
         }
         return charValue;
     }

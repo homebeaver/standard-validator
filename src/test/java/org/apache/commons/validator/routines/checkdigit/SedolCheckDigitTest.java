@@ -20,18 +20,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * ISIN Check Digit Test.
+ * Tests {@link SedolCheckDigit#SEDOL_CHECK_DIGIT}.
  */
 class SedolCheckDigitTest extends AbstractCheckDigitTest {
 
-    private static final String[] INVALID_CHECK_DIGITS = { "026349E", // proper check digit is '4', see above
+    // @formatter:off
+    private static final String[] INVALID_CHECK_DIGITS = {
+            "026349E", // proper check digit is '4', see above
             "087061C", // proper check digit is '2', see above
             "B06LQ9H", // proper check digit is '7', see above
             "343757F", // proper check digit is '5', see above
             "B07LF5F", // proper check digit is '5', see above
     };
+    // @formatter:on
 
     /**
      * Sets up routine & valid codes.
@@ -44,11 +49,33 @@ class SedolCheckDigitTest extends AbstractCheckDigitTest {
         zeroSum = "0000000";
     }
 
+    /**
+     * A SEDOL is exactly seven characters, but a shorter string can carry a modulus 10 check digit by chance (for
+     * example "55", "550" and "5500" all weight to 20, and "0055" to 40), so the length must be enforced or isValid
+     * accepts it.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { "55", "550", "5500", "0055" })
+    void testUnderLengthRejected(final String code) {
+        assertFalse(routine.isValid(code), "Should fail (not seven characters): " + code);
+    }
+
     @Test
     void testValidator346() {
         for (final String invalidCheckDigit : INVALID_CHECK_DIGITS) {
             assertFalse(routine.isValid(invalidCheckDigit), "Should fail: " + invalidCheckDigit);
         }
+    }
+
+    /**
+     * SEDOLs never contain a vowel, yet each of these codes carries a correct modulus 10 check digit with a vowel in
+     * its body, so without the vowel exclusion the check digit alone would accept it. The first five isolate A, E, I,
+     * O and U individually; the remainder combine several.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { "A000000", "E000006", "I000002", "O000006", "U000000", "B0AKT02", "0EIOU02", "BAEIOU7", "AAAAAA0" })
+    void testVowelsRejected(final String code) {
+        assertFalse(routine.isValid(code), "Should fail (contains a vowel): " + code);
     }
 
 }
