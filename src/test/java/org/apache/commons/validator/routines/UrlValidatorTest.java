@@ -29,9 +29,11 @@ import java.util.List;
 import org.apache.commons.validator.ResultPair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Performs Validation Test for url validations.
+ * Tests {@link UrlValidator}.
  */
 public class UrlValidatorTest {
 // Must be public, because it has a main method.
@@ -151,6 +153,61 @@ public class UrlValidatorTest {
     }
 
     @Test
+    void testFileSchemeCaseInsensitive() {
+        final String[] schemes = { "file" };
+        final UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
+
+        // the scheme is case-insensitive, so an upper or mixed case file: URL is treated like the lower case form
+        assertTrue(urlValidator.isValid("file:///etc/hosts"));
+        assertTrue(urlValidator.isValid("FILE:///etc/hosts"));
+        assertTrue(urlValidator.isValid("File:///etc/hosts"));
+
+        // a Windows drive letter in the authority is never valid, whatever the scheme case, and must not
+        // slip past the guard the lower case form is checked against
+        assertFalse(urlValidator.isValid("file://C:/some.file"));
+        assertFalse(urlValidator.isValid("FILE://C:/some.file"));
+    }
+
+    @Test
+    void testFileSchemePath() {
+        final String[] schemes = { "file" };
+        final UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
+
+        // an authority-less file: URL gets the same path check as one carrying an authority
+        assertFalse(urlValidator.isValid("file:///../../etc/passwd"));
+        assertFalse(urlValidator.isValid("file:/../../etc/passwd"));
+        assertFalse(urlValidator.isValid("file://localhost/../../etc/passwd"));
+
+        // percent-encoded form of the same, as covered for http in testValidator383
+        assertFalse(urlValidator.isValid("file:///..%2f..%2fetc/passwd"));
+        assertFalse(urlValidator.isValid("file:///%2e%2e/etc/passwd"));
+
+        // an opaque file: URI has no path at all, just as http:example.com has none
+        assertFalse(urlValidator.isValid("file:etc/passwd"));
+
+        assertTrue(urlValidator.isValid("file:///etc/hosts"));
+        assertTrue(urlValidator.isValid("file:/C:/path/to/dir/"));
+    }
+
+    @Test
+    void testFileSchemePathOptions() {
+        final String[] schemes = { "file" };
+
+        final UrlValidator noDoubleSlashes = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
+        assertFalse(noDoubleSlashes.isValid("file:///tmp/a//b"));
+        assertFalse(noDoubleSlashes.isValid("file://localhost/tmp/a//b"));
+
+        final UrlValidator allowDoubleSlashes = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS | UrlValidator.ALLOW_2_SLASHES);
+        assertTrue(allowDoubleSlashes.isValid("file:///tmp/a//b"));
+
+        final UrlValidator noFragments = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS | UrlValidator.NO_FRAGMENTS);
+        assertFalse(noFragments.isValid("file:///tmp/x#frag"));
+        assertFalse(noFragments.isValid("file://localhost/tmp/x#frag"));
+
+        assertTrue(noDoubleSlashes.isValid("file:///tmp/x#frag"));
+    }
+
+    @Test
     void testFragments() {
         final String[] schemes = { "http", "https" };
         UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.NO_FRAGMENTS);
@@ -160,11 +217,89 @@ public class UrlValidatorTest {
     }
 
     @Test
+    void testIpv6EmbeddedIpv4() {
+        final UrlValidator urlValidator = new UrlValidator();
+        // ::FFFF: in upper case already worked (testValidator452); the lower-case mapped form
+        // and the other IPv4-embedded notations must validate the same way.
+        assertTrue(urlValidator.isValid("http://[::ffff:129.144.52.38]:80/index.html"));
+        assertTrue(urlValidator.isValid("http://[::1.2.3.4]/"));
+        assertTrue(urlValidator.isValid("http://[2001:db8::1.2.3.4]/"));
+        // an embedded IPv4 part with an out-of-range octet is still rejected
+        assertFalse(urlValidator.isValid("http://[::ffff:129.144.52.999]/"));
+    }
+
+    @Test
+    void testIpv6Port() {
+        final UrlValidator urlValidator = new UrlValidator();
+        // a port on a bracketed IPv6 host must be range checked just like a hostname/IPv4 host
+        assertTrue(urlValidator.isValid("http://[::1]:65535/index.html"));
+        assertFalse(urlValidator.isValid("http://[::1]:65536/index.html"));
+        assertFalse(urlValidator.isValid("http://[::1]:99999/index.html"));
+        assertTrue(urlValidator.isValidAuthority("[::1]:65535"));
+        assertFalse(urlValidator.isValidAuthority("[::1]:65536"));
+    }
+
+    @ParameterizedTest
+    // @formatter:off
+    @ValueSource(strings = {
+            // 8 groups is the maximum allowed in an IPv6 address
+            // too many groups
+            "[1:2:3:4:5:6:7:8:9]",
+            "[1:2:3:4:5:6:7:8:9:0]",
+            "[::1:2:3:4:5:6:7:8:9]",
+            // group size too big
+            "[1111:2222:3333:4444:5555:6666:7777:88888]",
+            "[1111:2222:3333:4444:5555:6666:77777:8888]",
+            "[1111:2222:3333:4444:5555:66666:7777:8888]",
+            "[1111:2222:3333:4444:55555:6666:7777:8888]",
+            "[1111:2222:3333:44444:5555:6666:7777:8888]",
+            "[1111:2222:33333:4444:5555:6666:7777:8888]",
+            "[1111:22222:3333:4444:5555:6666.7777.8888]",
+            "[11111.2222.3333.4444.5555.6666.7777.8888]" })
+    // @formatter:on
+    void testIpv6SizesInvalid(final String host) {
+        // 8 groups is the maximum allowed in an IPv6 address
+        final UrlValidator urlValidator = new UrlValidator();
+        assertFalse(urlValidator.isValid("http://" + host + ":80/index.html"));
+        assertFalse(urlValidator.isValidAuthority(host));
+        assertFalse(urlValidator.isValidAuthority(host + ":80"));
+    }
+
+    @ParameterizedTest
+    // @formatter:off
+    @ValueSource(strings = {
+            // 8 groups is the maximum allowed in an IPv6 address
+            "[::1:2:3:4:5:6:7]",
+            "[1:2:3:4:5:6:7:8]",
+            "[1111:2222:3333:4444:5555:6666:7777:8888]",
+            "[aaaa:bbbb:cccc:dddd:eeee:ffff:aaaa:bbbb]",
+            "[AAAA:BBBB:CCCC:DDDD:EEEE:FFFF:AAAA:BBBB]" })
+    // @formatter:on
+    void testIpv6SizesValid(final String host) {
+        final UrlValidator urlValidator = new UrlValidator();
+        assertTrue(urlValidator.isValid("http://" + host + ":80/index.html"));
+        assertTrue(urlValidator.isValidAuthority(host));
+        assertTrue(urlValidator.isValidAuthority(host + ":80"));
+    }
+
+    @Test
+    void testIpv6Userinfo() {
+        final UrlValidator urlValidator = new UrlValidator();
+        // userinfo is allowed before a bracketed IPv6 host, not only before a hostname/IPv4 host
+        assertTrue(urlValidator.isValid("http://user@[::1]/"));
+        assertTrue(urlValidator.isValid("http://user:pass@[2001:db8::1]:8080/index.html"));
+        assertTrue(urlValidator.isValidAuthority("user@[::1]"));
+        assertTrue(urlValidator.isValidAuthority("user:pass@[::1]:65535"));
+        // the host and port checks still apply through the userinfo path
+        assertFalse(urlValidator.isValid("http://user@[::ffff:129.144.52.999]/"));
+        assertFalse(urlValidator.isValidAuthority("user@[::1]:65536"));
+    }
+
+    @Test
     void testIsValid() {
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
         final long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.NO_FRAGMENTS;
-
         testIsValid(testUrlPartsOptions, options);
     }
 
@@ -547,6 +682,43 @@ public class UrlValidatorTest {
     void testValidator382() {
         final UrlValidator validator = new UrlValidator();
         assertTrue(validator.isValid("ftp://username:password@example.com:8042/over/there/index.dtb?type=animal&name=narwhal#nose"));
+    }
+
+    @Test
+    void testValidator383() {
+        final UrlValidator validator = new UrlValidator();
+
+        // Literal traversal checks (already rejected)
+        assertFalse(validator.isValid("http://example.com/../etc/passwd"));
+        assertFalse(validator.isValid("http://example.com/.."));
+        assertFalse(validator.isValid("http://example.com/../"));
+
+        // Percent-encoded traversal checks
+        assertFalse(validator.isValid("http://example.com/..%2fetc/passwd"));
+        assertFalse(validator.isValid("http://example.com/..%2Fetc/passwd"));
+        assertFalse(validator.isValid("http://example.com/%2e%2e/world"));
+        assertFalse(validator.isValid("http://example.com/%2e%2e%2fworld"));
+        assertFalse(validator.isValid("http://example.com/%2E%2e%2Fworld"));
+
+        // Consecutive slashes via percent encoding
+        final UrlValidator noDoubleSlashes = new UrlValidator();
+        assertFalse(noDoubleSlashes.isValid("http://example.com/foo%2F%2Fbar"));
+        assertFalse(noDoubleSlashes.isValid("http://example.com/foo%2f%2fbar"));
+        assertFalse(noDoubleSlashes.isValid("http://example.com/%2F%2Fbar"));
+
+        final UrlValidator allowDoubleSlashes = new UrlValidator(UrlValidator.ALLOW_2_SLASHES);
+        assertTrue(allowDoubleSlashes.isValid("http://example.com/foo%2F%2Fbar"));
+        assertTrue(allowDoubleSlashes.isValid("http://example.com/foo%2f%2fbar"));
+        assertTrue(allowDoubleSlashes.isValid("http://example.com/%2F%2Fbar"));
+
+        // Invalid percent-encoding handling
+        assertFalse(validator.isValid("http://example.com/foo%2"));
+        assertFalse(validator.isValid("http://example.com/foo%2G"));
+        assertFalse(validator.isValid("http://example.com/foo%"));
+
+        // Plus character preservation
+        assertTrue(validator.isValid("http://example.com/foo+bar"));
+        assertTrue(validator.isValid("http://example.com/foo+bar/baz+qux"));
     }
 
     @Test
