@@ -24,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
  * @author EUG https://github.com/homebeaver
  * @since 2.10.6
  */
-public class Mudulus31CheckDigitTest extends AbstractCheckDigitTest {
+public class Modulus31CheckDigitTest extends AbstractCheckDigitTest {
 
     /**
      * Sets up routine & valid codes.
