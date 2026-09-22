@@ -26,11 +26,9 @@ import java.util.Map;
 import org.apache.commons.collections.FastHashMap; // DEPRECATED
 
 /**
- * <p>
  * This contains a set of validation rules for a form/JavaBean. The information
  * is contained in a list of {@code Field} objects. Instances of this class
  * are configured with a &lt;form&gt; xml element.
- * </p>
  * <p>
  * The use of FastHashMap is deprecated and will be replaced in a future
  * release.
@@ -178,7 +176,7 @@ public class Form implements Serializable {
      * not present in this form, include it. {@code depends} has precedence
      * in the way the fields are ordered.
      *
-     * @param depends  the form we want to merge
+     * @param depends  The form we want to merge
      * @since 1.2.0
      */
     protected void merge(final Form depends) {
@@ -223,7 +221,7 @@ public class Form implements Serializable {
             if (parent != null) {
                 if (!parent.isProcessed()) {
                     // we want to go all the way up the tree
-                    parent.process(constants, globalConstants, forms);
+                    parent.process(globalConstants, constants, forms);
                 }
                 for (final Field f : parent.getFields()) {
                     // we want to be able to override any fields we like
@@ -307,14 +305,10 @@ public class Form implements Serializable {
     /**
      * Validate all Fields in this Form on the given page and below.
      *
-     * @param params               A Map of parameter class names to parameter
-     *      values to pass into validation methods.
-     * @param actions              A Map of validator names to ValidatorAction
-     *      objects.
-     * @param page                 Fields on pages higher than this will not be
-     *      validated.
-     * @return                     A ValidatorResults object containing all
-     *      validation messages.
+     * @param params  A Map of parameter class names to parameter values to pass into validation methods.
+     * @param actions A Map of validator names to ValidatorAction objects.
+     * @param page    Fields on pages higher than this will not be validated.
+     * @return A ValidatorResults object containing all validation messages.
      * @throws ValidatorException
      * @since 1.2.0
      */
@@ -322,30 +316,24 @@ public class Form implements Serializable {
             throws ValidatorException {
         final ValidatorResults results = new ValidatorResults();
         params.put(Validator.VALIDATOR_RESULTS_PARAM, results);
-
         // Only validate a single field if specified
         if (fieldName != null) {
             final Field field = getFieldMap().get(fieldName);
-
             if (field == null) {
-                throw new ValidatorException("Unknown field " + fieldName + " in form " + getName());
+                throw new ValidatorException("Unknown field %s in form %s", fieldName, getName());
             }
             params.put(Validator.FIELD_PARAM, field);
-
             if (field.getPage() <= page) {
                 results.merge(field.validate(params, actions));
             }
         } else {
             for (final Field field : lFields) {
-
                 params.put(Validator.FIELD_PARAM, field);
-
                 if (field.getPage() <= page) {
                     results.merge(field.validate(params, actions));
                 }
             }
         }
-
         return results;
     }
 }

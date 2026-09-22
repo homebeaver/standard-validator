@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.validator;
 
 /**
- * The base exception for the Validator Framework.  All other
- * {@code Exception}s thrown during calls to
- * {@code Validator.validate()} are considered errors.
+ * The base exception for the Validator Framework. All other {@code Exception}s thrown during calls to {@code Validator.validate()} are considered errors.
  */
 public class ValidatorException extends Exception {
 
@@ -31,21 +30,6 @@ public class ValidatorException extends Exception {
     public static final String START_WITH_INVALID = "Invalid ";
 
     /**
-     * Constructs an Exception with no specified detail message.
-     */
-    public ValidatorException() {
-    }
-
-    /**
-     * Constructs an Exception with the specified detail message.
-     *
-     * @param    message The error message.
-     */
-    public ValidatorException(final String message) {
-        super(message);
-    }
-
-    /**
      * Convenient message text "Invalid code [invalidCode]." with no additional information
      * @param code the invalid code
      * @return the message text
@@ -53,6 +37,7 @@ public class ValidatorException extends Exception {
     public static final String invalidCode(final String code) {
         return invalidCode(code, null);
     }
+
     /**
      * Convenient message text "Invalid code [invalidCode], additional information",
      *  f.i. Invalid code "", too short
@@ -64,4 +49,58 @@ public class ValidatorException extends Exception {
         return START_WITH_INVALID + "code \"" + code + "\"" + (detail == null ? "." : ", " + detail);
     }
 
+    /**
+     * Constructs an Exception with no specified detail message.
+     */
+    public ValidatorException() {
+    }
+
+    /**
+     * Constructs an Exception with the specified detail message.
+     *
+     * @param message The error message.
+     */
+    public ValidatorException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Constructs an Exception with a message and the underlying cause.
+     *
+     * @param format See {@link String#format(String, Object...)}.
+     * @param args   See {@link String#format(String, Object...)}.
+     * @throws IllegalFormatException See {@link String#format(String, Object...)}.
+     * @since 2.11.0
+     */
+    public ValidatorException(final String format, final Object... args) {
+        super(String.format(format, args));
+    }
+
+    /**
+     * Constructs a new exception with the specified detail message and cause.
+     * <p>
+     * Note that the detail message associated with {@code cause} is <em>not</em> automatically incorporated in this exception's detail message.
+     * </p>
+     *
+     * @param message The detail message (which is saved for later retrieval by the {@link #getMessage()} method).
+     * @param cause   The cause (which is saved for later retrieval by the {@link #getCause()} method). (A {@code null} value is permitted, and indicates that
+     *                the cause is nonexistent or unknown.)
+     * @since 2.11.0
+     */
+    public ValidatorException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructs a new exception with the specified cause and a detail message of {@code (cause==null ? null : cause.toString())} (which typically contains the
+     * class and detail message of {@code cause}). This constructor is useful for exceptions that are little more than wrappers for other throwables (for
+     * example, {@link PrivilegedActionException}).
+     *
+     * @param cause The cause (which is saved for later retrieval by the {@link #getCause()} method). (A {@code null} value is permitted, and indicates that the
+     *              cause is nonexistent or unknown.)
+     * @since 2.11.0
+     */
+    public ValidatorException(final Throwable cause) {
+        super(cause);
+    }
 }

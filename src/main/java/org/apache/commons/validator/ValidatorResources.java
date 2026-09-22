@@ -34,11 +34,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
- * <p>
  * General purpose class for storing {@code FormSet} objects based
  * on their associated {@link Locale}.  Instances of this class are usually
  * configured through a validation.xml file that is parsed in a constructor.
- * </p>
  *
  * <p><strong>Note</strong> - Classes that extend this class
  * must be Serializable so that instances may be used in distributable
@@ -82,7 +80,8 @@ public class ValidatorResources implements Serializable {
     /**
      * The default locale on our server.
      */
-    protected static Locale defaultLocale = Locale.getDefault();
+    @Deprecated // ought to be final, but is not used, so could be dropped
+    protected static Locale defaultLocale = Locale.getDefault(); // NOPMD not used
 
     private static final String ARGS_PATTERN
                = "form-validation/formset/form/field/arg";
@@ -92,6 +91,7 @@ public class ValidatorResources implements Serializable {
     /**
      * {@link Map} of {@code FormSet}s stored under
      * a {@link Locale} key (expressed as a String).
+     *
      * @deprecated Subclasses should use getFormSets() instead.
      */
     @Deprecated
@@ -100,6 +100,7 @@ public class ValidatorResources implements Serializable {
     /**
      * {@link Map} of global constant values with
      * the name of the constant as the key.
+     *
      * @deprecated Subclasses should use getConstants() instead.
      */
     @Deprecated
@@ -108,6 +109,7 @@ public class ValidatorResources implements Serializable {
     /**
      * {@link Map} of {@code ValidatorAction}s with
      * the name of the {@code ValidatorAction} as the key.
+     *
      * @deprecated Subclasses should use getActions() instead.
      */
     @Deprecated
@@ -130,8 +132,8 @@ public class ValidatorResources implements Serializable {
      *
      * @param in InputStream to a validation.xml configuration file.  It's the client's
      * responsibility to close this stream.
-     * @throws SAXException if the validation XML files are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML files are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.1
      */
     public ValidatorResources(final InputStream in) throws IOException, SAXException {
@@ -144,8 +146,8 @@ public class ValidatorResources implements Serializable {
      * @param streams An array of InputStreams to several validation.xml
      * configuration files that will be read in order and merged into this object.
      * It's the client's responsibility to close these streams.
-     * @throws SAXException if the validation XML files are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML files are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.1
      */
     public ValidatorResources(final InputStream[] streams)
@@ -167,8 +169,8 @@ public class ValidatorResources implements Serializable {
      * Create a ValidatorResources object from an uri
      *
      * @param uri The location of a validation.xml configuration file.
-     * @throws SAXException if the validation XML files are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML files are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.2
      */
     public ValidatorResources(final String uri) throws IOException, SAXException {
@@ -180,8 +182,8 @@ public class ValidatorResources implements Serializable {
      *
      * @param uris An array of uris to several validation.xml
      * configuration files that will be read in order and merged into this object.
-     * @throws SAXException if the validation XML files are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML files are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.2
      */
     public ValidatorResources(final String... uris)
@@ -201,8 +203,8 @@ public class ValidatorResources implements Serializable {
      *
      * @param url The URL for the validation.xml
      * configuration file that will be read into this object.
-     * @throws SAXException if the validation XML file are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML file are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.3.1
      */
     public ValidatorResources(final URL url)
@@ -215,8 +217,8 @@ public class ValidatorResources implements Serializable {
      *
      * @param urls An array of URL to several validation.xml
      * configuration files that will be read in order and merged into this object.
-     * @throws SAXException if the validation XML files are not valid or well-formed.
-     * @throws IOException if an I/O error occurs processing the XML files
+     * @throws SAXException Thrown if the validation XML files are not valid or well-formed.
+     * @throws IOException Thrown if an I/O error occurs processing the XML files
      * @since 1.3.1
      */
     public ValidatorResources(final URL[] urls)
@@ -233,6 +235,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Add a global constant to the resource.
+     *
      * @param name The constant name.
      * @param value The constant value.
      */
@@ -248,6 +251,7 @@ public class ValidatorResources implements Serializable {
      * Add a {@code FormSet} to this {@code ValidatorResources}
      * object.  It will be associated with the {@link Locale} of the
      * {@code FormSet}.
+     *
      * @param fs The form set to add.
      * @since 1.1
      */
@@ -316,6 +320,7 @@ public class ValidatorResources implements Serializable {
      * instance of the class based on the {@code ValidatorAction}s
      * class name and retrieves the {@code Method} instance and sets them
      * in the {@code ValidatorAction}.
+     *
      * @param va The validator action.
      */
     public void addValidatorAction(final ValidatorAction va) {
@@ -331,6 +336,7 @@ public class ValidatorResources implements Serializable {
     /**
      * Builds a key to store the {@code FormSet} under based on its
      * language, country, and variant values.
+     *
      * @param fs The Form Set.
      * @return generated key for a formset.
      */
@@ -351,6 +357,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Returns a Map of String ValidatorAction names to their ValidatorAction.
+     *
      * @return Map of Validator Actions
      * @since 1.2.0
      */
@@ -361,6 +368,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Returns a Map of String constant names to their String values.
+     *
      * @return Map of Constants
      * @since 1.2.0
      */
@@ -370,15 +378,16 @@ public class ValidatorResources implements Serializable {
     }
 
     /**
-     * <p>Gets a {@code Form} based on the name of the form and the
+     * Gets a {@code Form} based on the name of the form and the
      * {@link Locale} that most closely matches the {@link Locale}
-     * passed in.  The order of {@link Locale} matching is:</p>
+     * passed in. The order of {@link Locale} matching is:
      * <ol>
      *    <li>language + country + variant</li>
      *    <li>language + country</li>
      *    <li>language</li>
      *    <li>default locale</li>
      * </ol>
+     *
      * @param locale The Locale.
      * @param formKey The key for the Form.
      * @return The validator Form.
@@ -390,15 +399,16 @@ public class ValidatorResources implements Serializable {
     }
 
     /**
-     * <p>Gets a {@code Form} based on the name of the form and the
+     * Gets a {@code Form} based on the name of the form and the
      * {@link Locale} that most closely matches the {@link Locale}
-     * passed in.  The order of {@link Locale} matching is:</p>
+     * passed in. The order of {@link Locale} matching is:
      * <ol>
      *    <li>language + country + variant</li>
      *    <li>language + country</li>
      *    <li>language</li>
      *    <li>default locale</li>
      * </ol>
+     *
      * @param language The locale's language.
      * @param country The locale's country.
      * @param variant The locale's language variant.
@@ -461,8 +471,9 @@ public class ValidatorResources implements Serializable {
     }
 
     /**
-     * <p>Gets a {@code FormSet} based on the language, country
-     *    and variant.</p>
+     * Gets a {@code FormSet} based on the language, country
+     *    and variant.
+     *
      * @param language The locale's language.
      * @param country The locale's country.
      * @param variant The locale's language variant.
@@ -479,6 +490,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Returns a Map of String locale keys to Lists of their FormSets.
+     *
      * @return Map of Form sets
      * @since 1.2.0
      */
@@ -538,6 +550,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Gets a {@code ValidatorAction} based on its name.
+     *
      * @param key The validator action key.
      * @return The validator action.
      */
@@ -547,6 +560,7 @@ public class ValidatorResources implements Serializable {
 
     /**
      * Gets an unmodifiable {@link Map} of the {@code ValidatorAction}s.
+     *
      * @return Map of validator actions.
      */
     public Map<String, ValidatorAction> getValidatorActions() {
@@ -600,9 +614,9 @@ public class ValidatorResources implements Serializable {
     }
 
     /**
-     * <p>Process the {@code Form} objects.  This clones the {@code Field}s
+     * Process the {@code Form} objects. This clones the {@code Field}s
      * that don't exist in a {@code FormSet} compared to its parent
-     * {@code FormSet}.</p>
+     * {@code FormSet}.
      */
     private void processForms() {
         if (defaultFormSet == null) { // it isn't mandatory to have a

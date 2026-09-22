@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * <p>
  * A default argument or an argument for a
  * specific validator definition (ex: required)
  * can be stored to pass into a message as parameters.  This can be used in a
@@ -31,7 +30,6 @@ import java.text.MessageFormat;
  * is a value to be retrieved from a locale sensitive
  * message retrieval system like {@code java.util.PropertyResourceBundle}.
  * The resource field defaults to 'true'.
- * </p>
  * <p>Instances of this class are configured with an &lt;arg&gt; xml element.</p>
  */
 //TODO mutable non-private fields
@@ -42,6 +40,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * The resource bundle name that this Arg's {@code key} should be
      * resolved in (optional).
+     *
      * @since 1.1
      */
     protected String bundle;
@@ -59,6 +58,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * This argument's position in the message. Set position=0 to
      * make a replacement in this string: "some msg {0}".
+     *
      * @since 1.1
      */
     protected int position = -1;
@@ -79,6 +79,7 @@ public class Arg implements Cloneable, Serializable {
 
     /**
      * Creates and returns a copy of this object.
+     *
      * @return A copy of this object.
      */
     @Override
@@ -93,7 +94,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * Gets the resource bundle name.
      *
-     * @return the bundle name.
+     * @return The bundle name.
      * @since 1.1
      */
     public String getBundle() {
@@ -103,7 +104,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * Gets the key/value.
      *
-     * @return the key value.
+     * @return The key value.
      */
     public String getKey() {
         return key;
@@ -112,7 +113,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * Gets the name of the dependency.
      *
-     * @return the name of the dependency.
+     * @return The name of the dependency.
      */
     public String getName() {
         return name;
@@ -158,7 +159,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * Sets the name of the dependency.
      *
-     * @param name the name of the dependency.
+     * @param name The name of the dependency.
      */
     public void setName(final String name) {
         this.name = name;
@@ -185,7 +186,7 @@ public class Arg implements Cloneable, Serializable {
     /**
      * Returns a string representation of the object.
      *
-     * @return a string representation of the object.
+     * @return A string representation of the object.
      */
     @Override
     public String toString() {

@@ -424,48 +424,37 @@ public class Field implements Cloneable, Serializable {
      * Returns an indexed property from the object we're validating.
      *
      * @param bean The bean to extract the indexed values from.
-     * @throws ValidatorException If there's an error looking up the property
-     * or, the property found is not indexed.
+     * @throws ValidatorException If there's an error looking up the property or, the property found is not indexed.
      */
     Object[] getIndexedProperty(final Object bean) throws ValidatorException {
         Object indexProp = null;
-
         try {
             indexProp = PropertyUtils.getProperty(bean, getIndexedListProperty());
-
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new ValidatorException(e.getMessage());
+            throw new ValidatorException(e);
         }
-
         if (indexProp instanceof Collection) {
             return ((Collection<?>) indexProp).toArray();
-
         }
         if (indexProp.getClass().isArray()) {
             return (Object[]) indexProp;
-
         }
         throw new ValidatorException(getKey() + " is not indexed");
-
     }
 
     /**
      * Returns the size of an indexed property from the object we're validating.
      *
      * @param bean The bean to extract the indexed values from.
-     * @throws ValidatorException If there's an error looking up the property
-     * or, the property found is not indexed.
+     * @throws ValidatorException If there's an error looking up the property or, the property found is not indexed.
      */
     private int getIndexedPropertySize(final Object bean) throws ValidatorException {
         Object indexProp = null;
-
         try {
             indexProp = PropertyUtils.getProperty(bean, getIndexedListProperty());
-
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new ValidatorException(e.getMessage());
+            throw new ValidatorException(e);
         }
-
         if (indexProp == null) {
             return 0;
         }
@@ -476,13 +465,12 @@ public class Field implements Cloneable, Serializable {
             return ((Object[]) indexProp).length;
         }
         throw new ValidatorException(getKey() + " is not indexed");
-
     }
 
     /**
      * Gets a unique key based on the property and indexedProperty fields.
      *
-     * @return a unique key for the field.
+     * @return A unique key for the field.
      */
     public String getKey() {
         if (key == null) {
@@ -559,7 +547,7 @@ public class Field implements Cloneable, Serializable {
      * Retrieve a variable.
      *
      * @param mainKey The Variable's key
-     * @return the Variable
+     * @return The Variable
      */
     public Var getVar(final String mainKey) {
         return getVarMap().get(mainKey);
@@ -580,7 +568,7 @@ public class Field implements Cloneable, Serializable {
      * The {@code Field}'s variables are returned as an
      * unmodifiable {@link Map}.
      *
-     * @return the Map of Variable's for a Field.
+     * @return The Map of Variable's for a Field.
      */
     public Map<String, Var> getVars() {
         return Collections.unmodifiableMap(getVarMap());
@@ -590,7 +578,7 @@ public class Field implements Cloneable, Serializable {
      * Retrieve a variable's value.
      *
      * @param mainKey The Variable's key
-     * @return the Variable's value
+     * @return The Variable's value
      */
     public String getVarValue(final String mainKey) {
         String value = null;
@@ -604,15 +592,13 @@ public class Field implements Cloneable, Serializable {
     }
 
     /**
-     * Called when a validator name is used in a depends clause but there is
-     * no know ValidatorAction configured for that name.
+     * Called when a validator name is used in a depends clause but there is no know ValidatorAction configured for that name.
      *
      * @param name The name of the validator in the depends list.
      * @throws ValidatorException
      */
     private void handleMissingAction(final String name) throws ValidatorException {
-        throw new ValidatorException("No ValidatorAction named " + name
-                + " found for field " + getProperty());
+        throw new ValidatorException("No ValidatorAction named %s found for field %s", name, getProperty());
     }
 
     /**
@@ -782,7 +768,7 @@ public class Field implements Cloneable, Serializable {
      * Sets the flag that determines whether client-side scripting should
      * be generated for this field.
      *
-     * @param clientValidation the scripting flag
+     * @param clientValidation The scripting flag
      * @see #isClientValidation()
      * @since 1.4
      */
@@ -841,7 +827,7 @@ public class Field implements Cloneable, Serializable {
      * Sets a unique key for the field.  This can be used to change
      * the key temporarily to have a unique key for an indexed field.
      *
-     * @param key a unique key for the field
+     * @param key A unique key for the field
      */
     public void setKey(final String key) {
         this.key = key;
