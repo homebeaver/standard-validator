@@ -23,8 +23,10 @@ package org.apache.commons.validator.routines.checkdigit;
  * Check digit calculation is based on <em>modulus 10</em> with digits in
  * an <em>odd</em> position (from right to left) being weighted 1 and <em>even</em>
  * position digits being weighted 3.
+ * </p>
  * <p>
  * For further information see:
+ * </p>
  * <ul>
  *   <li>EAN-13 - see
  *       <a href="https://en.wikipedia.org/wiki/European_Article_Number">Wikipedia -
@@ -43,11 +45,16 @@ public final class EAN13CheckDigit extends ModulusCheckDigit {
 
     private static final long serialVersionUID = 1726347093230424107L;
 
-    /** Singleton EAN-13 Check Digit instance */
+    /**
+     * Singleton EAN-13 Check Digit instance.
+     */
     public static final CheckDigit EAN13_CHECK_DIGIT = new EAN13CheckDigit();
 
     /** Weighting given to digits depending on their right position */
     private static final int[] POSITION_WEIGHT = {3, 1};
+
+    /** An EAN-13 (and ISBN-13) code is exactly thirteen digits, the last being the check digit. */
+    private static final int EAN13_LEN = 13;
 
     /**
      * Constructs a modulus 10 Check Digit routine for EAN/UPC.
@@ -56,16 +63,30 @@ public final class EAN13CheckDigit extends ModulusCheckDigit {
     }
 
     /**
-     * <p>Calculates the <em>weighted</em> value of a character in the
-     * code at a specified position.</p>
+     * {@inheritDoc}
      *
-     * <p>For EAN-13 (from right to left) <strong>odd</strong> digits are weighted
-     * with a factor of <strong>one</strong> and <strong>even</strong> digits with a factor
-     * of <strong>three</strong>.</p>
+     * <p>
+     * The weight is taken from {@code rightPos}, which does not change when a character is prepended, so
+     * {@code ModulusCheckDigit} would accept an over-length code whose leading digit lands on a no-op weight (for
+     * example a valid code with a {@code 0} prepended). The thirteen-character length is checked here before the check
+     * digit test.
+     * </p>
+     */
+    @Override
+    public boolean isValid(final String code) {
+        return code != null && code.length() == EAN13_LEN && super.isValid(code);
+    }
+
+    /**
+     * Calculates the <em>weighted</em> value of a character in the code at a specified position.
+     * <p>
+     * For EAN-13 (from right to left) <strong>odd</strong> digits are weighted with a factor of <strong>one</strong> and <strong>even</strong> digits with a
+     * factor of <strong>three</strong>.
+     * </p>
      *
      * @param charValue The numeric value of the character.
-     * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The position of the character in the code, counting from right to left
+     * @param leftPos   The position of the character in the code, counting from left to right.
+     * @param rightPos  The position of the character in the code, counting from right to left.
      * @return The weighted value of the character.
      */
     @Override
