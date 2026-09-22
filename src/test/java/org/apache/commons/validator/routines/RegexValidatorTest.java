@@ -106,10 +106,10 @@ class RegexValidatorTest {
         e = assertThrows(IllegalArgumentException.class, RegexValidator::new, "Zero Length Array");
         assertEquals("Regular expressions are missing", e.getMessage(), "Zero Length Array");
         // Multiple Regular Expression - Array has Null
-        e = assertThrows(IllegalArgumentException.class, () -> new RegexValidator(new String[] { "ABC", null }), "Array has Null");
+        e = assertThrows(IllegalArgumentException.class, () -> new RegexValidator("ABC", null), "Array has Null");
         assertEquals("Regular expression[1] is missing", e.getMessage(), "Array has Null");
         // Multiple Regular Expression - Array has Zero Length
-        e = assertThrows(IllegalArgumentException.class, () -> new RegexValidator(new String[] { "", "ABC" }), "Array has Zero Length");
+        e = assertThrows(IllegalArgumentException.class, () -> new RegexValidator("", "ABC"), "Array has Zero Length");
         assertEquals("Regular expression[0] is missing", e.getMessage(), "Array has Zero Length");
     }
 
@@ -223,6 +223,17 @@ class RegexValidatorTest {
     }
 
     /**
+     * Test toString() method
+     */
+    @Test
+    void testToString() {
+        final RegexValidator single = new RegexValidator(REGEX);
+        assertEquals("RegexValidator{" + REGEX + "}", single.toString(), "Single");
+        final RegexValidator multiple = new RegexValidator(REGEX, REGEX);
+        assertEquals("RegexValidator{" + REGEX + "," + REGEX + "}", multiple.toString(), "Multiple");
+    }
+
+    /**
      * Test that validate() is consistent with isValid() and match() when the only
      * capturing group is optional and does not participate in the match. The value
      * is valid, so validate() must not return null (which signals an invalid value).
@@ -233,16 +244,5 @@ class RegexValidatorTest {
         assertTrue(validator.isValid("def"), "isValid()");
         checkArray("match()", new String[] { null }, validator.match("def"));
         assertEquals("", validator.validate("def"), "validate()");
-    }
-
-    /**
-     * Test toString() method
-     */
-    @Test
-    void testToString() {
-        final RegexValidator single = new RegexValidator(REGEX);
-        assertEquals("RegexValidator{" + REGEX + "}", single.toString(), "Single");
-        final RegexValidator multiple = new RegexValidator(REGEX, REGEX);
-        assertEquals("RegexValidator{" + REGEX + "," + REGEX + "}", multiple.toString(), "Multiple");
     }
 }
