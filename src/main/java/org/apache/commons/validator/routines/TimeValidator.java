@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * <p><strong>Time Validation</strong> and Conversion routines ({@code java.util.Calendar}).</p>
+ * <strong>Time Validation</strong> and Conversion routines ({@code java.util.Calendar}).
  *
  * <p>This validator provides a number of methods for validating/converting
  *    a {@link String} time value to a {@code java.util.Calendar} using
@@ -89,6 +89,7 @@ public class TimeValidator extends AbstractCalendarValidator {
 
     /**
      * Gets the singleton instance of this validator.
+     *
      * @return A singleton instance of the TimeValidator.
      */
     public static TimeValidator getInstance() {
@@ -109,14 +110,14 @@ public class TimeValidator extends AbstractCalendarValidator {
      *
      * @param strict {@code true} if strict
      *        {@code Format} parsing should be used.
-     * @param timeStyle the time style to use for Locale validation.
+     * @param timeStyle The time style to use for Locale validation.
      */
     public TimeValidator(final boolean strict, final int timeStyle) {
         super(strict, -1, timeStyle);
     }
 
     /**
-     * <p>Compare Hours.</p>
+     * Compare Hours.
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -129,7 +130,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Minutes (hours and minutes).</p>
+     * Compare Minutes (hours and minutes).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -142,7 +143,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Seconds (hours, minutes and seconds).</p>
+     * Compare Seconds (hours, minutes and seconds).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -155,7 +156,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Compare Times (hour, minute, second and millisecond - not date).</p>
+     * Compare Times (hour, minute, second and millisecond - not date).
      *
      * @param value The {@link Calendar} value to check.
      * @param compare The {@link Calendar} to compare the value to.
@@ -168,7 +169,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Convert the parsed {@code Date} to a {@link Calendar}.</p>
+     * Convert the parsed {@code Date} to a {@link Calendar}.
      *
      * @param value The parsed {@code Date} object created.
      * @param formatter The Format used to parse the value with.
@@ -180,7 +181,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the default {@link Locale}
+     * Validate/convert a time using the default {@link Locale}
      *    and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -192,7 +193,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified {@link Locale}
+     * Validate/convert a time using the specified {@link Locale}
      *    default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -204,7 +205,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified {@link Locale}
+     * Validate/convert a time using the specified {@link Locale}
      *    and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -217,7 +218,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified <em>pattern</em> and
+     * Validate/convert a time using the specified <em>pattern</em> and
      *    default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -229,7 +230,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified pattern and {@link Locale}
+     * Validate/convert a time using the specified pattern and {@link Locale}
      *    and the default {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -243,7 +244,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified pattern, {@link Locale}
+     * Validate/convert a time using the specified pattern, {@link Locale}
      *    and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -258,7 +259,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified <em>pattern</em>
+     * Validate/convert a time using the specified <em>pattern</em>
      *    and {@code TimeZone}.
      *
      * @param value The value validation is being performed on.
@@ -271,7 +272,7 @@ public class TimeValidator extends AbstractCalendarValidator {
     }
 
     /**
-     * <p>Validate/convert a time using the specified {@code TimeZone}
+     * Validate/convert a time using the specified {@code TimeZone}
      *    and default {@link Locale}.
      *
      * @param value The value validation is being performed on.
