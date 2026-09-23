@@ -16,6 +16,8 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericValidator;
+
 /**
  * Modulus 10 <strong>ABA Number</strong> (or <strong>Routing Transit Number</strong> (RTN)) Check Digit
  * calculation/validation.
@@ -81,7 +83,13 @@ public final class ABANumberCheckDigit extends ModulusCheckDigit {
      */
     @Override
     public boolean isValid(final String code) {
-        return code != null && code.length() == ABAN_LEN && super.isValid(code);
+        if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        if (code.length() != ABAN_LEN) {
+            return false;
+        }
+        return super.isValid(code);
     }
 
     /**

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericValidator;
+
 /**
  * Modulus 10 <strong>EAN-13</strong> / <strong>UPC</strong> / <strong>ISBN-13</strong> Check Digit
  * calculation/validation.
@@ -74,7 +76,13 @@ public final class EAN13CheckDigit extends ModulusCheckDigit {
      */
     @Override
     public boolean isValid(final String code) {
-        return code != null && code.length() == EAN13_LEN && super.isValid(code);
+        if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        if (code.length() != EAN13_LEN) {
+            return false;
+        }
+        return super.isValid(code);
     }
 
     /**

@@ -17,6 +17,8 @@
 
 package org.apache.commons.validator.routines.checkdigit;
 
+import org.apache.commons.validator.GenericValidator;
+
 /**
  * Modulus 10 <strong>CUSIP</strong> (North American Securities) Check Digit calculation/validation.
  *
@@ -67,7 +69,13 @@ public final class CUSIPCheckDigit extends ModulusCheckDigit {
      */
     @Override
     public boolean isValid(final String code) {
-        return code != null && code.length() == CUSIP_LEN && super.isValid(code);
+        if (GenericValidator.isBlankOrNull(code)) {
+            return false;
+        }
+        if (code.length() != CUSIP_LEN) {
+            return false;
+        }
+        return super.isValid(code);
     }
 
     /**
