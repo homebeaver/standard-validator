@@ -19,6 +19,8 @@ package org.apache.commons.validator.routines.checkdigit;
 
 import java.util.IllegalFormatException;
 
+import org.apache.commons.validator.ValidatorException;
+
 /**
  * Check Digit calculation/validation error.
  *
@@ -31,7 +33,7 @@ public class CheckDigitException extends Exception {
     /**
      * Common prefix for messages, f.i. "Invalid Code ...", "Invalid Character ..."
      */
-    public static final String START_WITH_INVALID = "Invalid ";
+    public static final String START_WITH_INVALID = ValidatorException.START_WITH_INVALID;
 
     /**
      * Common message text when code is Null or empty
