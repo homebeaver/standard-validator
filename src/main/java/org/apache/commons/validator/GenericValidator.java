@@ -18,6 +18,7 @@ package org.apache.commons.validator;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -118,8 +119,19 @@ public class GenericValidator implements Serializable {
      * @return true if the value can be converted to a Date.
      */
     public static boolean isDate(final String value, final String datePattern, final boolean strict) {
-        // TODO method isValid() not yet supported in routines version
-        return org.apache.commons.validator.DateValidator.getInstance().isValid(value, datePattern, strict);
+        if (strict) {
+            final SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
+            formatter.setLenient(false);
+            final ParsePosition pos = new ParsePosition(0);
+            // parse(String, ParsePosition) stops at the first unparsable character instead of failing, so a strict
+            // match must also confirm the whole value was consumed; otherwise trailing text such as the 'f' in
+            // "11/11/199f" is dropped and the truncated date validates.
+            // see also abbreviated month "2/12/1999", "MM/dd/yyyy"
+            if (formatter.parse(value, pos) == null || strict && (pos.getIndex() < value.length() || datePattern.length() != value.length())) {
+                return false;
+            }
+        }
+        return DateValidator.getInstance().isValid(value, datePattern);
     }
 
     /**
