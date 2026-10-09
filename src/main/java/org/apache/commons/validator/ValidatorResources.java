@@ -77,12 +77,6 @@ public class ValidatorResources implements Serializable {
         "/org/apache/commons/validator/resources/validator_1_4_0.dtd"
     };
 
-    /**
-     * The default locale on our server.
-     */
-    @Deprecated // ought to be final, but is not used, so could be dropped
-    protected static Locale defaultLocale = Locale.getDefault(); // NOPMD not used
-
     private static final String ARGS_PATTERN
                = "form-validation/formset/form/field/arg";
 
