@@ -273,7 +273,7 @@ ISO/IEC 7064 System, Luhn, ICAO (ISO/IEC 7501) etc</description>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.20.0</version>
+      <version>3.21.0</version>
       <scope>test</scope>
     </dependency>
 
