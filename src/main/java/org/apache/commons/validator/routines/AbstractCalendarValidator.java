@@ -429,7 +429,7 @@ public abstract class AbstractCalendarValidator extends AbstractFormatValidator 
     }
 
     /**
-     * rocess the parsed value, performing any further validation
+     * process the parsed value, performing any further validation
      *    and type conversion required.
      *
      * @param value The parsed object created.
