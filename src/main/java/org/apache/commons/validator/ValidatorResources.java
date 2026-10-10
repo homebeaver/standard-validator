@@ -47,7 +47,7 @@ import org.xml.sax.SAXException;
  * release.
  * </p>
  */
-//TODO mutable non-private fields
+//TODO mutable non-private fields : should defaultFormSet be private?
 public class ValidatorResources implements Serializable {
 
     private static final long serialVersionUID = -8203745881446239554L;
@@ -85,29 +85,23 @@ public class ValidatorResources implements Serializable {
     /**
      * {@link Map} of {@code FormSet}s stored under
      * a {@link Locale} key (expressed as a String).
-     *
-     * @deprecated Subclasses should use getFormSets() instead.
      */
-    @Deprecated
-    protected FastHashMap hFormSets = new FastHashMap(); // <String, FormSet>
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+    private Map<String, FormSet> hFormSets = new FastHashMap();
 
     /**
      * {@link Map} of global constant values with
      * the name of the constant as the key.
-     *
-     * @deprecated Subclasses should use getConstants() instead.
      */
-    @Deprecated
-    protected FastHashMap hConstants = new FastHashMap(); // <String, String>
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+	private Map<String, String> hConstants = new FastHashMap();
 
     /**
      * {@link Map} of {@code ValidatorAction}s with
      * the name of the {@code ValidatorAction} as the key.
-     *
-     * @deprecated Subclasses should use getActions() instead.
      */
-    @Deprecated
-    protected FastHashMap hActions = new FastHashMap(); // <String, ValidatorAction>
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+    private Map<String, ValidatorAction> hActions = new FastHashMap(); // <String, ValidatorAction>
 
     /**
      * This is the default {@code FormSet} (without locale). (We probably don't need
@@ -355,7 +349,6 @@ public class ValidatorResources implements Serializable {
      * @return Map of Validator Actions
      * @since 1.2.0
      */
-    @SuppressWarnings("unchecked") // FastHashMap is not generic
     protected Map<String, ValidatorAction> getActions() {
         return hActions;
     }
@@ -366,7 +359,6 @@ public class ValidatorResources implements Serializable {
      * @return Map of Constants
      * @since 1.2.0
      */
-    @SuppressWarnings("unchecked") // FastHashMap is not generic
     protected Map<String, String> getConstants() {
         return hConstants;
     }
@@ -488,7 +480,6 @@ public class ValidatorResources implements Serializable {
      * @return Map of Form sets
      * @since 1.2.0
      */
-    @SuppressWarnings("unchecked") // FastHashMap is not generic
     protected Map<String, FormSet> getFormSets() {
         return hFormSets;
     }
@@ -600,9 +591,9 @@ public class ValidatorResources implements Serializable {
      * this method when finished.
      */
     public void process() {
-        hFormSets.setFast(true);
-        hConstants.setFast(true);
-        hActions.setFast(true);
+        ((FastHashMap)getFormSets()).setFast(true);
+        ((FastHashMap)getConstants()).setFast(true);
+        ((FastHashMap)getActions()).setFast(true);
 
         processForms();
     }
