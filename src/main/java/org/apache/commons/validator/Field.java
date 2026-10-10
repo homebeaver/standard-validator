@@ -43,7 +43,7 @@ import org.apache.commons.validator.util.ValidatorUtils;
  *
  * @see org.apache.commons.validator.Form
  */
-// TODO mutable non-private fields
+// TODO mutable non-private fields : done EUGen
 public class Field implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -8502647722530192185L;
@@ -126,17 +126,11 @@ public class Field implements Cloneable, Serializable {
      */
     private final List<String> dependencyList = Collections.synchronizedList(new ArrayList<>());
 
-    /**
-     * @deprecated Subclasses should use getVarMap() instead.
-     */
-    @Deprecated
-    protected FastHashMap hVars = new FastHashMap(); // <String, Var>
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+    private Map<String, Var> hVars = new FastHashMap();
 
-    /**
-     * @deprecated Subclasses should use getMsgMap() instead.
-     */
-    @Deprecated
-    protected FastHashMap hMsgs = new FastHashMap(); // <String, Msg>
+    @SuppressWarnings("unchecked") // FastHashMap is not generic
+    private Map<String, Msg> hMsgs = new FastHashMap();
 
     /**
      * Holds Maps of arguments.  args[0] returns the Map for the first
@@ -237,10 +231,20 @@ public class Field implements Cloneable, Serializable {
             field.args[i] = argMap;
         }
 
-        field.hVars = ValidatorUtils.copyFastHashMap(hVars);
-        field.hMsgs = ValidatorUtils.copyFastHashMap(hMsgs);
+        field.hVars = copy_hVars();
+        field.hMsgs = copy_hMsgs();
 
         return field;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Var> copy_hVars() {
+        return (Map<String, Var>) ValidatorUtils.copyMap(hVars);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Msg> copy_hMsgs() {
+        return (Map<String, Msg>)ValidatorUtils.copyMap(hMsgs);
     }
 
     /**
@@ -519,7 +523,6 @@ public class Field implements Cloneable, Serializable {
      * @return A Map of the Field's messages.
      * @since 1.2.0
      */
-    @SuppressWarnings("unchecked") // FastHashMap does not support generics
     protected Map<String, Msg> getMsgMap() {
         return hMsgs;
     }
@@ -559,7 +562,6 @@ public class Field implements Cloneable, Serializable {
      * @return A Map of the Field's variables.
      * @since 1.2.0
      */
-    @SuppressWarnings("unchecked") // FastHashMap does not support generics
     protected Map<String, Var> getVarMap() {
         return hVars;
     }
@@ -639,8 +641,8 @@ public class Field implements Cloneable, Serializable {
      * to create the dependency {@link Map}.
      */
     void process(final Map<String, String> globalConstants, final Map<String, String> constants) {
-        hMsgs.setFast(false);
-        hVars.setFast(true);
+        ((FastHashMap)hMsgs).setFast(false);
+        ((FastHashMap)hVars).setFast(true);
 
         generateKey();
 
@@ -679,7 +681,7 @@ public class Field implements Cloneable, Serializable {
             processMessageComponents(key2, replaceValue);
         }
 
-        hMsgs.setFast(true);
+        ((FastHashMap)hMsgs).setFast(true);
     }
 
     /**

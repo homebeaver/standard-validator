@@ -42,7 +42,7 @@ class ValidatorUtilsTest {
         original.put("key1", "value1");
         original.put("key2", "value2");
         original.put("key3", "value3");
-        final Map<String, Object> copy = ValidatorUtils.copyMap(original);
+        final Map<String, ?> copy = ValidatorUtils.copyMap(original);
         assertEquals(original, copy);
     }
 
@@ -59,7 +59,7 @@ class ValidatorUtilsTest {
         original.put("arg", arg);
         original.put("var", var);
         original.put("plain", plain);
-        final Map<String, Object> copy = ValidatorUtils.copyMap(original);
+        final Map<String, ?> copy = ValidatorUtils.copyMap(original);
         assertEquals(original.size(), copy.size());
         // Msg, Arg and Var values are deep-copied (cloned into new instances).
         assertTrue(copy.get("msg") instanceof Msg);
