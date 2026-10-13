@@ -34,17 +34,32 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Check Digit Test.
  */
-public abstract class AbstractCheckDigitTest {
+public abstract class AbstractCheckDigitTest 
+/*
+ * in AbstractCommonTest werden bei der statischen Initialisierung logging.properties eingelesen,
+ * das ist notwending, damit das SimpleFormatter.format der Log Nachrichten einzeilig ist:
+[2026.10.12 13:25:44,231]INFORMATION:org.apache.commons.validator.routines.checkdigit.VATidXICheckDigitTest:    62396 Testing Invalid Check Digit, Code=[562235987] is true. Found an ambiguous Check Digit. 
+ * 
+ * ohne der Anpassung ist das Format (kommentiere die extends-Zeile) zweizeilig:
+Okt. 12, 2026 1:18:03 PM org.apache.commons.validator.routines.checkdigit.VATidXICheckDigitTest testIsValidFalse
+INFORMATION:    62396 Testing Invalid Check Digit, Code=[562235987] is true. Found an ambiguous Check Digit.
+ *
+ * Nachteil
+ * (Maven test) Dauer: 31.675 s , erheblich länger mit logging.properties: 04:19 min
+ */
+extends AbstractCommonTest 
+{
 
     private static final String POSSIBLE_CHECK_DIGITS = "0123456789 ABCDEFHIJKLMNOPQRSTUVWXYZ\tabcdefghijklmnopqrstuvwxyz!@£$%^&*()_+";
 
-    /** Logging instance */
+    /** apache Logging interface instance */
     protected Log log = LogFactory.getLog(getClass());
 
     /** Check digit routine being tested */
@@ -119,7 +134,9 @@ public abstract class AbstractCheckDigitTest {
             }
         }
 
-        System.out.println("EUG " + list.size() + " createInvalidCodes created.");
+        if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+            julLogger.getLogger().config("createInvalidCodes() " + list.size() + " codes created.");
+        }
         return list.toArray(new String[0]);
     }
 
@@ -163,10 +180,9 @@ public abstract class AbstractCheckDigitTest {
         for (int i = 0; i < invalid.length; i++) {
             try {
                 final String code = invalid[i];
-                if (log.isDebugEnabled()) {
-                    log.debug("   " + i + " Testing Invalid Check Digit, Code=[" + code + "]");
+                if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                    julLogger.getLogger().config("testCalculateInvalid() Code=[" + code + "]");
                 }
-                System.out.println("EUG" + i + " Testing Invalid Check Digit, Code=[" + code + "]");
                 final String expected = checkDigit(code);
                 final String codeWithNoCheckDigit = removeCheckDigit(code);
                 if (codeWithNoCheckDigit == null) {
@@ -178,8 +194,8 @@ public abstract class AbstractCheckDigitTest {
                     fail("Expected mismatch for " + code + " expected " + expected + " actual " + actual);
                 }
             } catch (final CheckDigitException e) {
-                System.out.println("EUG" + e.getMessage() );
-                // possible failure messages:
+                log.info("testCalculateInvalid() Invalid-message: " + e.getMessage());
+                // possible failure messages: should start with "Invalid"
                 // Invalid ISBN Length ...
                 // Invalid Character[ ...
                 // Are there any others?
@@ -202,10 +218,9 @@ public abstract class AbstractCheckDigitTest {
             final String code = removeCheckDigit(valid[i]);
             final String expected = checkDigit(valid[i]);
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("   " + i + " Testing Valid Check Digit, Code=[" + code + "] expected=[" + expected + "]");
+                if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                    julLogger.getLogger().config("testCalculateValid() Code=[" + code + "] expected=[" + expected + "]");
                 }
-                System.out.println("   " + i + " Testing calculate Valid Check Digit, Code=[" + code + "] expected=[" + expected + "]");
                 assertEquals(expected, routine.calculate(code), "valid[" + i + "]: " + valid[i]);
             } catch (final Exception e) {
                 fail("valid[" + i + "]=" + valid[i] + " threw " + e);
@@ -225,11 +240,10 @@ public abstract class AbstractCheckDigitTest {
 
         // test invalid code values
         for (int i = 0; i < invalid.length; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("   " + i + " Testing Invalid Code=[" + invalid[i] + "]");
-            }
             String invalidCode = invalid[i];
-            System.out.println("   " + i + " Testing Invalid Code=[" + invalidCode + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testIsValidFalse() Code=[" + invalidCode + "]");
+            }
             assertFalse(routine.isValid(invalidCode), "invalid[" + i + "]: " + invalidCode);
         }
 
@@ -260,10 +274,9 @@ public abstract class AbstractCheckDigitTest {
 
         // test valid values
         for (int i = 0; i < valid.length; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("   " + i + " Testing Valid Code=[" + valid[i] + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testIsValidTrue() Code=[" + valid[i] + "]");
             }
-            System.out.println("   " + i + " Testing Valid Code=[" + valid[i] + "]");
             assertTrue(routine.isValid(valid[i]), "valid[" + i + "]: " + valid[i]);
         }
     }

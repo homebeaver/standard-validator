@@ -21,13 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link VesselIMOValidator}.
  */
-public class VesselIMOValidatorTest {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public class VesselIMOValidatorTest extends AbstractCommonTest {
 
+    private static final Log LOG = LogFactory.getLog(VesselIMOValidatorTest.class);
     private static final VesselIMOValidator VALIDATOR = VesselIMOValidator.getInstance();
 
     private static final String KAVITA = "9074729";
@@ -59,7 +64,9 @@ public class VesselIMOValidatorTest {
 
     @Test
     public void testValidate() {
+        int i = 0;
         for (final String f : validFormat) {
+            LOG.debug("   " + i++ + " testValidate() calculate validFormat=[" + f + "]");
             assertEquals(VALIDATOR.validate(f), f.replaceAll("IMO(\\s)?", "").trim());
         }
         for (final String f : invalidFormat) {

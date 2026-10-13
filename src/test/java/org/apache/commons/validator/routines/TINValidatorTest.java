@@ -24,16 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link TINValidator}.
  */
-public class TINValidatorTest {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public class TINValidatorTest extends AbstractCommonTest {
 
-    private static final Log LOG = LogFactory.getLog(TINValidatorTest.class);
     private static final TINValidator VALIDATOR = TINValidator.getInstance();
 
     public static class Tin {
@@ -328,7 +327,7 @@ public class TINValidatorTest {
     @Test
     public void testValid() {
         for (final Tin f : VALID_TIN_FIXTURES) {
-            LOG.info("testValid:" + f);
+            log.info("testValid() " + f);
             assertTrue(VALIDATOR.isValid(f.countryCode, f.code), "CheckDigit fail: " + f.toString());
             assertTrue(VALIDATOR.hasValidator(f.countryCode), "Missing validator: " + f.toString());
         }

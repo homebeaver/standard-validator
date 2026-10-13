@@ -20,6 +20,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Check digit calculation based on <em>modulus 11</em> and weighs based on the digit position.
  * <p>
@@ -39,6 +42,7 @@ import java.util.Calendar;
  */
 public class TidHUCheckDigit extends Modulus11iLeftCheckDigit {
 
+    private static final Log LOG = LogFactory.getLog(TidHUCheckDigit.class);
     private static final long serialVersionUID = 2699080857569548906L;
 
     /** Singleton Check Digit instance */
@@ -95,7 +99,7 @@ public class TidHUCheckDigit extends Modulus11iLeftCheckDigit {
         Calendar today = Calendar.getInstance();
 //	    System.out.println("validBirthday days "+days + " after 1867-01-01 => "+sdf.format(c.getTime()));
         if (c.compareTo(today) >= 0) {
-            System.out.println("Not valid Birthday "+sdf.format(c.getTime()) + " == 1867-01-01 + "+days+ " days.");
+            LOG.warn("Not valid Birthday "+sdf.format(c.getTime()) + " == 1867-01-01 + "+days+ " days.");
             return false;
         } else {
 //	        System.out.println("validBirthday "+sdf.format(c.getTime()) + " compareTo(today) < 0");

@@ -23,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.AbstractCommonTest;
 import org.apache.commons.validator.routines.TravelDocumentValidator.Type;
 import org.apache.commons.validator.routines.checkdigit.Modulus10_731CheckDigit;
 import org.junit.jupiter.api.Test;
@@ -32,9 +31,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link TravelDocumentValidator}.
  */
-public class TravelDocumentValidatorTest {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public class TravelDocumentValidatorTest extends AbstractCommonTest {
 
-    private static final Log LOG = LogFactory.getLog(TravelDocumentValidatorTest.class);
     private static final TravelDocumentValidator VALIDATOR = TravelDocumentValidator.getInstance();
 
     public static class TreavelDocument {
@@ -173,7 +172,7 @@ public class TravelDocumentValidatorTest {
         TravelDocumentValidator v = new TravelDocumentValidator();
         v.setValidator(Type.PP, "UTO", 10, TravelDocumentValidator.REGEX_ICAO9303, Modulus10_731CheckDigit.getInstance());
         TreavelDocument f = new TreavelDocument(Type.PP , "UTO", "L898902C36");
-        LOG.info("testValid:" + f);
+        log.info("testSetNewValidator() ordinary passport for Utopia:" + f);
         assertTrue(v.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
         assertTrue(v.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
     }
@@ -223,11 +222,21 @@ public class TravelDocumentValidatorTest {
     @Test
     public void testValid() {
         for (final TreavelDocument f : VALID_FIXTURES) {
-            LOG.info("testValid:" + f);
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testValid() " + f);
+            }
             assertTrue(VALIDATOR.isValid(f.docType, f.countryCode, f.code), "CheckDigit fail: " + f.toString());
             if (!VALIDATOR.hasValidator(f.docType, f.countryCode) 
                 && (f.docType == Type.V || f.docType == Type.I || f.docType == Type.P || f.docType == Type.AC)) {
-                System.out.println("   " + f + " is a valid document number");
+                if (f.docType == Type.V) {
+                    log.info("  testValid() " + f + " is a valid "+"VISA");
+                } else if (f.docType == Type.I) {
+                    log.info("  testValid() " + f + " is a valid "+"(general) Identity card of Type I (NOT ID)");
+                } else if (f.docType == Type.P) {
+                    log.info("  testValid() " + f + " is a valid "+"(unspecific, Type P) Passport");
+                } else {
+                    log.info("  testValid() " + f + " is a valid "+f.docType+"-document number");
+                }
             } else {
                 assertTrue(VALIDATOR.hasValidator(f.docType, f.countryCode), "Missing validator: " + f.toString());
             }

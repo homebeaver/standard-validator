@@ -19,6 +19,7 @@ package org.apache.commons.validator.routines;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,7 +27,8 @@ import org.junit.jupiter.api.Test;
  * There is an example in
  *  <A HREF="https://en.wikipedia.org/wiki/Creditor_Reference">wikipedia</A>.
  */
-public class RFCreditorReferenceValidatorTest {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public class RFCreditorReferenceValidatorTest extends AbstractCommonTest {
 
     private final String[] validRFCreditorReference = new String[] {
         "RF45ABC",
@@ -47,7 +49,7 @@ public class RFCreditorReferenceValidatorTest {
     @Test
     public void testValid() {
         for (String f : validRFCreditorReference) {
-            System.out.println("   Testing Valid Code=[" + f + "]");
+            log.info("testValid() Code=[" + f + "]");
             assertTrue(VALIDATOR.isValid(f), f);
         }
     }

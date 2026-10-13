@@ -115,11 +115,10 @@ public class VATidXICheckDigitTest extends AbstractCheckDigitTest {
 
         // test invalid code values
         for (int i = 0; i < invalid.length; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("   " + i + " Testing Invalid Code=[" + invalid[i] + "]");
-            }
             final String invalidCode = invalid[i];
-            System.out.println("   " + i + " Testing Invalid Code=[" + invalidCode + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testIsValidFalse() Code=[" + invalidCode + "]");
+            }
             assertFalse(routine.isValid(invalidCode), "invalid[" + i + "]: " + invalidCode);
         }
 
@@ -132,7 +131,7 @@ public class VATidXICheckDigitTest extends AbstractCheckDigitTest {
             }
             final boolean res = routine.isValid(invalidCheckDigits[i]);
             if (res) {
-                log.info("   " + i + " Testing Invalid Check Digit, Code=[" + invalidCheckDigits[i]
+                log.info("testIsValidFalse() Code=[" + invalidCheckDigits[i]
                     + "] is true. Found an ambiguous Check Digit."); // this is expected
                 final int l = invalidCheckDigits[i].length();
                 List<String> v = icdmap.get(invalidCheckDigits[i].substring(0, l - checkDigitLth));
@@ -150,7 +149,7 @@ public class VATidXICheckDigitTest extends AbstractCheckDigitTest {
         icdmap.forEach((key, value) -> {
             for (String v : validList) {
                 if (v.startsWith(key)) {
-                    System.out.println(key + " " + v.substring(v.length() - 2) + " + " + value);
+                    log.info("testIsValidFalse() [ambiguous] " + key + " " + v.substring(v.length() - 2) + " + " + value);
                 }
             }
         });
