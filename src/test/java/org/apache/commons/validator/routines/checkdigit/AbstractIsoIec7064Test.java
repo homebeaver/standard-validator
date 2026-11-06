@@ -32,8 +32,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,19 +40,20 @@ import org.junit.jupiter.api.Test;
  * Check Digit Test.
  * This is a copy of AbstractCheckDigitTest to be used for ISO/IEC 7064 module tests.
  */
-public abstract class AbstractIsoIec7064Test {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public abstract class AbstractIsoIec7064Test extends AbstractCommonTest {
 
     private static final String POSSIBLE_CHECK_DIGITS = "0123456789 ABCDEFHIJKLMNOPQRSTUVWXYZ\tabcdefghijklmnopqrstuvwxyz!@£$%^&*()_+";
 
     /** Logging instance */
-    protected Log log = LogFactory.getLog(getClass());
+//    protected Log log = LogFactory.getLog(getClass());
 
     /** Check digit routine being tested */
     protected int checkDigitLth = 1;
 
     /** Check digit routine being tested */
-    protected CheckDigit routine;
-    protected CheckDigit routin2;
+    protected CheckDigit routine; // Pure
+    protected CheckDigit routin2; // Polynomial
 
     /**
      * Array of valid code values These must contain valid strings *including* the check digit.
@@ -125,7 +125,9 @@ public abstract class AbstractIsoIec7064Test {
             }
         }
 
-        System.out.println("EUG " + list.size() + " createInvalidCodes created.");
+        if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+            julLogger.getLogger().config("createInvalidCodes() " + list.size() + " codes created.");
+        }
         return list.toArray(new String[0]);
     }
 
@@ -171,10 +173,9 @@ public abstract class AbstractIsoIec7064Test {
         for (int i = 0; i < invalid.length; i++) {
             try {
                 final String code = invalid[i];
-                if (log.isDebugEnabled()) {
-                    log.debug("   " + i + " Testing Invalid Check Digit, Code=[" + code + "]");
+                if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                    julLogger.getLogger().config("testCalculateInvalid() Code=[" + code + "]");
                 }
-                System.out.println("EUG" + i + " Testing Invalid Check Digit, Code=[" + code + "]");
                 final String expected = checkDigit(code);
                 final String codeWithNoCheckDigit = removeCheckDigit(code);
                 if (codeWithNoCheckDigit == null) {
@@ -192,7 +193,7 @@ public abstract class AbstractIsoIec7064Test {
                     }
                 }
             } catch (final CheckDigitException e) {
-                System.out.println("EUG" + e.getMessage() );
+                log.info("testCalculateInvalid() Invalid-message: " + e.getMessage());
                 // possible failure messages:
                 // Invalid ISBN Length ...
                 // Invalid Character[ ...
@@ -218,10 +219,9 @@ public abstract class AbstractIsoIec7064Test {
             final String code = removeCheckDigit(valid[i]);
             final String expected = checkDigit(valid[i]);
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("   " + i + " Testing Valid Check Digit, Code=[" + code + "] expected=[" + expected + "]");
+                if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                    julLogger.getLogger().config("testCalculateValid() Code=[" + code + "] expected=[" + expected + "]");
                 }
-                System.out.println("   " + i + " Testing calculate Valid Check Digit, Code=[" + code + "] expected=[" + expected + "]");
                 assertEquals(expected, routine.calculate(code), "valid[" + i + "]: " + valid[i]);
                 if (routin2 != null) {
                     assertEquals(expected, routin2.calculate(code), "valid[" + i + "]: " + valid[i]);
@@ -245,11 +245,10 @@ public abstract class AbstractIsoIec7064Test {
 
         // test invalid code values
         for (int i = 0; i < invalid.length; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("   " + i + " Testing Invalid Code=[" + invalid[i] + "]");
-            }
             String invalidCode = invalid[i];
-            System.out.println("   " + i + " Testing Invalid Code=[" + invalidCode + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testIsValidFalse() Code=[" + invalidCode + "]");
+            }
             assertFalse(routine.isValid(invalidCode), "invalid[" + i + "]: " + invalidCode);
             if (routin2 != null) {
                 assertFalse(routin2.isValid(invalidCode), "invalid[" + i + "]: " + invalidCode);
@@ -288,10 +287,9 @@ public abstract class AbstractIsoIec7064Test {
 
         // test valid values
         for (int i = 0; i < valid.length; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("   " + i + " Testing Valid Code=[" + valid[i] + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testIsValidTrue() Code=[" + valid[i] + "]");
             }
-            System.out.println("   " + i + " Testing Valid Code=[" + valid[i] + "]");
             assertTrue(routine.isValid(valid[i]), "valid[" + i + "]: " + valid[i]);
             if (routin2 != null) {
                 assertTrue(routin2.isValid(valid[i]), "valid[" + i + "]: " + valid[i]);
@@ -342,11 +340,11 @@ public abstract class AbstractIsoIec7064Test {
     protected void calculateZeroLength() {
         try {
             final String actual = routine.calculate("");
-            System.out.println("EUG calculateZeroLength for code \"\" returns " + actual);
+            log.info("calculateZeroLength() for code \"\" returns " + actual);
             assertNotNull(actual);
             if (routin2 != null) {
                 final String actual2 = routin2.calculate("");
-                System.out.println("EUG calculateZeroLength for code \"\" returns " + actual2);
+                log.info("calculateZeroLength() (polynomial) for code \"\" returns " + actual);
                 assertNotNull(actual2);
             }
         } catch (CheckDigitException e) {
@@ -394,11 +392,11 @@ public abstract class AbstractIsoIec7064Test {
 //      assertEquals("Invalid code, sum is zero", e.getMessage(), "isValid() Zero Sum");
         try {
             final String actual = routine.calculate(zeroSum);
-            System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual);
+            log.info("testZeroSum() for code \"" + zeroSum + "\" returns " + actual);
             assertNotNull(actual);
             if (routin2 != null) {
-                final String actual2 = routine.calculate(zeroSum);
-                System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual2);
+                final String actual2 = routin2.calculate(zeroSum);
+                log.info("testZeroSum() (polynomial) for code \"" + zeroSum + "\" returns " + actual2);
                 assertNotNull(actual2);
             }
         } catch (CheckDigitException e) {

@@ -43,7 +43,6 @@ public class IsoIecHybrid1110SystemTest extends AbstractIsoIec7064Test {
      */
     @BeforeEach
     protected void setUp() {
-//        routine = Modulus11TenCheckDigit.getInstance();
         routine = IsoIecHybrid1110System.getInstance();
         valid = new String[] {"1", "02", "004"
             , MIN, GEIGER, ITDZ, "136586130", "136695976"
