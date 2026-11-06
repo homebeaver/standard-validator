@@ -19,12 +19,14 @@ package org.apache.commons.validator.routines;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * LeitwegValidator Test.
  */
-public class LeitwegValidatorTest {
+// extends AbstractCommonTest to init apache Logging interface LOG
+public class LeitwegValidatorTest extends AbstractCommonTest {
 
     private final String[] validLeitwegFormat = new String[] {
         "05916-31001-97",         // Stadt Herne (PZ 97 und nicht 00)
@@ -50,8 +52,10 @@ public class LeitwegValidatorTest {
     @Test
     public void testValid() {
         for (String f : validLeitwegFormat) {
-            System.out.println("   Testing Valid Code=[" + f + "]");
-            assertTrue(VALIDATOR.isValid(f), f);
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testValid() Code=[" + f + "]");
+            }
+           assertTrue(VALIDATOR.isValid(f), f);
         }
     }
 
