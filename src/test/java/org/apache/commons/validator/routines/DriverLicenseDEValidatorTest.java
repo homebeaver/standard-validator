@@ -19,12 +19,14 @@ package org.apache.commons.validator.routines;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.validator.AbstractCommonTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * DriverLicenseDEValidator Test.
  */
-public class DriverLicenseDEValidatorTest {
+//extends AbstractCommonTest to init apache Logging interface LOG
+public class DriverLicenseDEValidatorTest extends AbstractCommonTest {
 
     private final String[] validLeitwegFormat = new String[] {
         "E021AB37X11", // File:DE Licence 2021 Front.jpg mit prefix E und sufix 1
@@ -44,7 +46,9 @@ public class DriverLicenseDEValidatorTest {
     @Test
     public void testValid() {
         for (String f : validLeitwegFormat) {
-            System.out.println("   Testing Valid Code=[" + f + "]");
+            if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+                julLogger.getLogger().config("testValid() Code=[" + f + "]");
+            }
             assertTrue(VALIDATOR.isValid(f), f);
         }
     }
