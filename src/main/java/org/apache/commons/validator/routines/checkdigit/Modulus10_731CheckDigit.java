@@ -25,7 +25,7 @@ import org.apache.commons.validator.GenericValidator;
  * </p>
  * <p>
  * Check digit calculation is based on <em>modulus 10</em> with digits being weighted
- * based by their position, to left to right.
+ * based by their position, from left to right.
  * </p>
  * <p>
  * See International Civil Aviation Organization, Doc 9303: 
