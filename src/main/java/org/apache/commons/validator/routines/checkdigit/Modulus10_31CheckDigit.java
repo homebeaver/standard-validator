@@ -32,6 +32,7 @@ import org.apache.commons.validator.GenericValidator;
  *  <a href="https://franken-magazin.de/blog/00340-paket/">franken-magazin.de/blog</a>.
  * </p>
  *
+ * @author EUG https://github.com/homebeaver
  * @since 2.11.1
  */
 public class Modulus10_31CheckDigit extends ModulusCheckDigit implements IsoIecConstants {

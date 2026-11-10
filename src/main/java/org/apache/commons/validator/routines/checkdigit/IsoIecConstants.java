@@ -102,6 +102,12 @@ public interface IsoIecConstants {  // CHECKSTYLE IGNORE InterfaceIsType
     int MODULUS_1271 = 1271;
 
     /**
+     * The modulus used for 10-digit DHL Express tracking number.
+     * @see Modulus7CheckDigit
+     */
+    int MODULUS_7 = 7;
+
+    /**
      * The radix used for pure ISO/IEC 7064, MOD 11-2 and ISO/IEC 7064, MOD 37-2.
      * Also used for check digit length.
      */
