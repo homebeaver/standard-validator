@@ -62,7 +62,9 @@ public abstract class AbstractCommonTest {
      */
     protected void loadResources(final String file) throws IOException, SAXException {
         // Load resources
-        LOG.config("Load resources from "+file);
+        if (log instanceof org.apache.commons.logging.impl.Jdk14Logger julLogger) {
+            julLogger.getLogger().config("Load resources from "+file);
+        }
         try (InputStream in = this.getClass().getResourceAsStream(file)) {
             resources = new ValidatorResources(in);
         }
