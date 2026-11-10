@@ -36,7 +36,7 @@ public class Modulus31CheckDigitTest extends AbstractCheckDigitTest {
             , "131052308T"
             , "11" , "9999999999999999997"
             };
-        invalid = new String[] {"211271426U", "00", "9999999999999999999999942"};
+        invalid = new String[] {"211271426U", "00", "9999999999999999999999942", "", null};
     }
 
 }

@@ -74,21 +74,17 @@ public class Modulus31CheckDigit extends ModulusCheckDigit implements IsoIecCons
      */
     @Override
     protected int calculateModulus(final String code, final boolean includesCheckDigit) throws CheckDigitException {
-        try {
-            // Satisfy testZeroSum
-            final Long l = GenericTypeValidator.formatLong(code);
-            if (l == null) {
-                throw new CheckDigitException(CheckDigitException.invalidCode(code));
-            }
-            if (l == 0) {
-                throw new CheckDigitException(CheckDigitException.ZERO_SUM);
-            }
-            return (int) (l % getModulus()); // MODULUS reminder
-        } catch (final NumberFormatException ex) {
-            System.out.println("Expected exception for invalid high codes. " + ex.getMessage());
-            // Expected exception for high codes f.i. 99999999999999999999999
+        // Satisfy testZeroSum
+        final Long l = GenericTypeValidator.formatLong(code);
+        // formatLong returns null when NumberFormatException occurs
+        if (l == null) {
+            //System.out.println("Expected exception for invalid high codes. code="+code);
             throw new CheckDigitException(CheckDigitException.invalidCode(code));
         }
+        if (l == 0) {
+            throw new CheckDigitException(CheckDigitException.ZERO_SUM);
+        }
+        return (int) (l % getModulus()); // MODULUS reminder
     }
 
     /**
