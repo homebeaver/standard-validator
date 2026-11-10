@@ -40,7 +40,7 @@ public class IsoIecHybrid2726SystemTest extends AbstractIsoIec7064Test {
         assertFalse(routine.isValid(zeroSum), "isValid() Zero Sum");
         // throw exception "Invalid Character ... when calculated for "0000000000" because '0' is not alphabetic
         Exception e = assertThrows(Exception.class, () -> routine.calculate(zeroSum), "Zero Sum");
-        System.out.println("EUG testZeroSum calculate(\"" + zeroSum + "\") throws " + e.getMessage());
+        log.info("testZeroSum() calculate(\"" + zeroSum + "\") expected exception, throws " + e.getMessage());
         assertTrue(e.getMessage().startsWith("Invalid "), "message is " + e.getMessage());
     }
 
