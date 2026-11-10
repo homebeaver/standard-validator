@@ -79,6 +79,7 @@ public class Modulus511CheckDigitTest extends AbstractIsoIec7064Test {
                 assertNotNull(actual2);
             }
         } catch (CheckDigitException e) {
+        	log.debug("XXXXXXXXXXXXXXXXXXXXX");
         	System.out.println("calculateZeroLength for code \"\" threw " + e);
         }
     }
@@ -96,11 +97,11 @@ public class Modulus511CheckDigitTest extends AbstractIsoIec7064Test {
         assertEquals("Invalid code, sum is zero", e.getMessage());
         try {
             final String actual = routine.calculate(zeroSum);
-            System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual);
+            log.info("testZeroSum() for code \"" + zeroSum + "\" returns " + actual);
             assertNotNull(actual);
             if (routin2 != null) {
-                final String actual2 = routine.calculate(zeroSum);
-                System.out.println("EUG testZeroSum for code \"" + zeroSum + "\" returns " + actual2);
+                final String actual2 = routin2.calculate(zeroSum);
+                log.info("testZeroSum() (polynomial) for code \"" + zeroSum + "\" returns " + actual2);
                 assertNotNull(actual2);
             }
         } catch (CheckDigitException ex) {
