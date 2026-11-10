@@ -45,7 +45,7 @@ public abstract class AbstractIsoIec7064Test extends AbstractCommonTest {
 
     private static final String POSSIBLE_CHECK_DIGITS = "0123456789 ABCDEFHIJKLMNOPQRSTUVWXYZ\tabcdefghijklmnopqrstuvwxyz!@£$%^&*()_+";
 
-    /** Logging instance */
+    /** Logging instance is defined in super */
 //    protected Log log = LogFactory.getLog(getClass());
 
     /** Check digit routine being tested */
