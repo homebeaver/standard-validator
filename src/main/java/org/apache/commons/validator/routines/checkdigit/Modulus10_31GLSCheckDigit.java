@@ -28,7 +28,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author EUG https://github.com/homebeaver
  * @since 2.11.1
  */
-public class Modulus10_31GLSCheckDigit extends ModulusCheckDigit implements IsoIecConstants {
+public class Modulus10_31GLSCheckDigit extends Modulus10_31CheckDigit {
 
     private static final long serialVersionUID = -4036222648839185325L;
 
@@ -43,32 +43,7 @@ public class Modulus10_31GLSCheckDigit extends ModulusCheckDigit implements IsoI
         return INSTANCE;
     }
     Modulus10_31GLSCheckDigit() {
-        super(MODULUS_10);
-    }
-
-    /** Weighting given to digits depending on their right position */
-    private static final int[] POSITION_WEIGHT = {3, 1};
-
-    /**
-     * Calculates the <em>weighted</em> value of a character in the
-     * code at a specified position.
-     * <p>
-     * DHL numbers are weighted in the following manner:
-     * <pre>{@code
-     *     left position: 1  2  3  4  5  6  ...
-     *            weight: 3  1  3  1  3  1
-     * }</pre>
-     *
-     * @param charValue The numeric value of the character.
-     * @param leftPos The position of the character in the code, counting from left to right
-     * @param rightPos The position of the character in the code, counting from right to left
-     * @return The weighted value of the character.
-     */
-    @Override
-    protected int weightedValue(final int charValue, final int leftPos, final int rightPos) {
-        final int weight = POSITION_WEIGHT[(leftPos-1) % 2]; // CHECKSTYLE IGNORE MagicNumber
-        System.out.println(" <<< charValue="+charValue + " weight="+weight);
-        return charValue * weight;
+        super();
     }
 
     /**
@@ -86,22 +61,6 @@ public class Modulus10_31GLSCheckDigit extends ModulusCheckDigit implements IsoI
         final int modulusResult = calculateModulus(code, false) + 1;
         final int charValue = (10 - modulusResult) % 10;
         return toCheckDigit(charValue);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValid(final String code) {
-        if (GenericValidator.isBlankOrNull(code)) {
-            return false;
-        }
-        try {
-            final String cd = calculate(code.substring(0, code.length() - 1));
-            return code.endsWith(cd);
-        } catch (final CheckDigitException ex) {
-            return false;
-        }
     }
 
 }
